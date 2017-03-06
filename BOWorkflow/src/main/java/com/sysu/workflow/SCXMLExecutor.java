@@ -479,7 +479,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Add a new external event, which may be done concurrently, and even when the current SCInstance is detached.
-     * 添加一个外部事件，这个外部事件可能触发多个状态机的庄毅，设置当当前的SCInstance是被分离的，
+     * 添加一个外部事件，这个外部事件可能触发多个状态机的转移，设置当当前的SCInstance是被分离的，
      * <p>
      * <p/>
      * No processing of the vent will be done, until the next triggerEvent methods is invoked.

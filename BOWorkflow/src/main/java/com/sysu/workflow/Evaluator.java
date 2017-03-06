@@ -5,7 +5,7 @@ package com.sysu.workflow;
  * Interface for a component that may be used by the SCXML engines to
  * evaluate the expressions within the SCXML document.
  * <p/>
- * 一个可能被SCXML engine使用的组件的借口，这个组件被用来求职SCXML文档中的表达式
+ * 一个可能被SCXML engine使用的组件的接口，这个组件被用来求值SCXML文档中的表达式
  */
 public interface Evaluator {
 

@@ -21,7 +21,7 @@ public interface SCXMLListener {
 
     /**
      * Handle the entry into a EnterableState.
-     * 处理静茹一个状态
+     * 处理进入一个状态
      *
      * @param state The EnterableState entered
      */
