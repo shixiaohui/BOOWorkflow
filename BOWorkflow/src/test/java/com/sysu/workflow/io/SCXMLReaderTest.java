@@ -1,10 +1,7 @@
 
 package com.sysu.workflow.io;
 
-import com.sysu.workflow.Evaluator;
-import com.sysu.workflow.SCXMLExecutionContext;
-import com.sysu.workflow.SCXMLExecutor;
-import com.sysu.workflow.SCXMLTestHelper;
+import com.sysu.workflow.*;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.env.jexl.JexlEvaluator;
@@ -32,6 +29,9 @@ public class SCXMLReaderTest {
         SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
         executor.setStateMachine(scxml);
         executor.go();
+
+        TriggerEvent tEvt = new TriggerEvent("firststateToEnd", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
         Assert.assertNotNull(scxml);
     }
 

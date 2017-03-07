@@ -60,7 +60,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      */
     private final Map<String, Class<? extends Invoker>> invokerClasses = new HashMap<String, Class<? extends Invoker>>();
     /**
-     * 存储了唯一的invokeId对于一个调用者，
+     * 存储了唯一的invokeId对于一个调用
      * The map storing the unique invokeId for an Invoke with an active Invoker
      */
     private final Map<Invoke, String> invokeIds = new HashMap<Invoke, String>();

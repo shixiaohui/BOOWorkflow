@@ -1,6 +1,7 @@
 
 package com.sysu.workflow;
 
+import com.sun.xml.internal.ws.api.pipe.Engine;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.invoke.Invoker;
 import com.sysu.workflow.model.*;
@@ -100,7 +101,6 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      */
     public SCXMLExecutor(final Evaluator expEvaluator,
                          final EventDispatcher evtDisp, final ErrorReporter errRep, final SCXMLSemantics semantics, final SCXMLInstanceTree instanceTree) {
-
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep, instanceTree);
     }
@@ -479,7 +479,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Add a new external event, which may be done concurrently, and even when the current SCInstance is detached.
-     * 添加一个外部事件，这个外部事件可能触发多个状态机的庄毅，设置当当前的SCInstance是被分离的，
+     * 添加一个外部事件，这个外部事件可能触发多个状态机的转移，设置当当前的SCInstance是被分离的，
      * <p>
      * <p/>
      * No processing of the vent will be done, until the next triggerEvent methods is invoked.
