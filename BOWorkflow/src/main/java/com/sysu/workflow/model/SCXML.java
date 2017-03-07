@@ -1,6 +1,8 @@
 
 package com.sysu.workflow.model;
 
+import com.sysu.workflow.model.extend.Tasks;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +86,11 @@ public class SCXML implements Serializable, Observable,
      * (namesake) variables in the root context.
      */
     private Datamodel datamodel;
+
+    /**
+     * The tasks which is a container of task
+     */
+    private Tasks tasks;
 
     /**
      * Optional property holding the initial script for this SCXML document.
@@ -184,6 +191,20 @@ public class SCXML implements Serializable, Observable,
     public final void setDatamodel(final Datamodel datamodel) {
         this.datamodel = datamodel;
     }
+
+    /**
+     * Get the task list placed at document root.
+     *
+     * @return Returns the task list.
+     */
+    public final Tasks getTasks() { return tasks; }
+
+    /**
+     * Set the task list at document root.
+     *
+     * @param tasks The tasks object to set.
+     */
+    public final void setTasks(final Tasks tasks) { this.tasks = tasks; }
 
     /**
      * Get the immediate child targets of the SCXML root.

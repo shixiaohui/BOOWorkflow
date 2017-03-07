@@ -6,9 +6,7 @@ import com.sysu.workflow.PathResolver;
 import com.sysu.workflow.env.SimpleErrorHandler;
 import com.sysu.workflow.env.URLResolver;
 import com.sysu.workflow.model.*;
-import com.sysu.workflow.model.extend.Form;
-import com.sysu.workflow.model.extend.SubStateMachine;
-import com.sysu.workflow.model.extend.UserTask;
+import com.sysu.workflow.model.extend.*;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -282,12 +280,12 @@ public final class SCXMLReader {
     private static final String ATTR_DUEDATE = "dueDate";
     private static final String ATTR_INSTANCES = "instances";
     private static final String ATTR_INSTANCESEXPR = "instancesExpr";
-
     private static final String ATTR_MESSAGEMODE="messageMode";
-
     private static final String ATTR_TARGETNAME="targetName";
-
     private static final String ATTR_TARGETSTATE="targetState";
+
+    //---- BOO拓展 ----//
+    private static final String ATTR_ROLE = "role";
 
 
 
@@ -645,9 +643,8 @@ public final class SCXMLReader {
                             readFinal(reader, configuration, scxml, null);
                         } else if (ELEM_DATAMODEL.equals(name)) {
                             readDatamodel(reader, configuration, scxml, null);
-                        } else if (ELEM_BOO_TASK.equals(name)) {
-
-
+                        } else if (ELEM_BOO_TASKS.equals(name)) {
+                            readTasks(reader, configuration, scxml, null);
                         } else if (ELEM_SCRIPT.equals(name) && !hasGlobalScript) {
                             readGlobalScript(reader, configuration, scxml);
                             hasGlobalScript = true;
@@ -1064,33 +1061,26 @@ public final class SCXMLReader {
                 default:
             }
         }
-
-        if (parent == null) {
-            scxml.setDatamodel(dm);
-        } else {
-            parent.setDatamodel(dm);
-        }
+        scxml.setDatamodel(dm);
     }
 
 
     /**
-     * Read the contents of this &lt;task&gt; element.
+     * Read the contents of this &lt;tasks&gt; element.
      * Rinkako
      *
      * @param reader        The {@link XMLStreamReader} providing the SCXML document to parse.
      * @param configuration The {@link Configuration} to use while parsing.
      * @param scxml         The root of the object model being parsed.
-     * @param parent        The parent {@link TransitionalState} for this datamodel (null for top level).
+     * @param parent        The parent {@link TransitionalState} for this tasklist (null for top level).
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamReader}.
      * @throws ModelException     The Commons SCXML object model is incomplete or inconsistent (includes
      *                            errors in the SCXML document that may not be identified by the schema).
      */
-    private static void readTask(final XMLStreamReader reader, final Configuration configuration,
+    private static void readTasks(final XMLStreamReader reader, final Configuration configuration,
                                       final SCXML scxml, final TransitionalState parent)
             throws XMLStreamException, ModelException {
-
-        Datamodel dm = new Datamodel();
-
+        Tasks tks = new Tasks();
         loop:
         while (reader.hasNext()) {
             String name, nsURI;
@@ -1100,13 +1090,13 @@ public final class SCXMLReader {
                     nsURI = reader.getNamespaceURI();
                     name = reader.getLocalName();
                     if (XMLNS_SCXML.equals(nsURI)) {
-                        if (ELEM_DATA.equals(name)) {
-                            readData(reader, configuration, dm);
+                        if (ELEM_BOO_TASK.equals(name)) {
+                            readTask(reader, configuration, tks);
                         } else {
-                            reportIgnoredElement(reader, configuration, ELEM_DATAMODEL, nsURI, name);
+                            reportIgnoredElement(reader, configuration, ELEM_BOO_TASKS, nsURI, name);
                         }
                     } else {
-                        reportIgnoredElement(reader, configuration, ELEM_DATAMODEL, nsURI, name);
+                        reportIgnoredElement(reader, configuration, ELEM_BOO_TASKS, nsURI, name);
                     }
                     break;
                 case XMLStreamConstants.END_ELEMENT:
@@ -1115,14 +1105,8 @@ public final class SCXMLReader {
                 default:
             }
         }
-
-        if (parent == null) {
-            scxml.setDatamodel(dm);
-        } else {
-            parent.setDatamodel(dm);
-        }
+        scxml.setTasks(tks);
     }
-
 
     /**
      * Read the contents of this &lt;data&gt; element.
@@ -1141,6 +1125,39 @@ public final class SCXMLReader {
         readNamespaces(configuration, datum);
         datum.setNode(readNode(reader, configuration, XMLNS_SCXML, ELEM_DATA, new String[]{"id"}));
         dm.addData(datum);
+    }
+
+    /**
+     * Read the contents of this &lt;task&gt; element.
+     *
+     * @param reader        The {@link XMLStreamReader} providing the SCXML document to parse.
+     * @param configuration The {@link Configuration} to use while parsing.
+     * @param tasks         The parent {@link Tasks} for this task.
+     * @throws XMLStreamException An exception processing the underlying {@link XMLStreamReader}.
+     */
+    private static void readTask(final XMLStreamReader reader, final Configuration configuration, final Tasks tasks)
+            throws XMLStreamException, ModelException {
+        Task tk = new Task();
+        tk.setId(readRequiredAV(reader, ELEM_BOO_TASK, ATTR_ID));
+        tk.setName(readAV(reader, ATTR_NAME));
+        // role和assignee不能同时指定，但必须指定其中一个
+        String role = readAV(reader, ATTR_ROLE);
+        String assignee = readAV(reader, ATTR_ASSIGNEE);
+        if (assignee != null) {
+            if (role != null) {
+                reportConflictingAttribute(reader, configuration, ELEM_BOO_TASK, ATTR_ROLE, ATTR_ASSIGNEE);
+            } else {
+                tk.setAssignee(assignee);
+            }
+        } else if (role == null) {
+            // force error missing required location or expr: use location attr for this
+            tk.setRole(readRequiredAV(reader, ELEM_BOO_TASK, ATTR_ROLE));
+        } else {
+            tk.setRole(role);
+        }
+        tk.setInstanceExpr(readAV(reader, ATTR_INSTANCESEXPR));
+        tk.setEvent(readRequiredAV(reader, ELEM_BOO_TASK, ATTR_EVENT));
+        tasks.addTask(tk);
     }
 
     /**

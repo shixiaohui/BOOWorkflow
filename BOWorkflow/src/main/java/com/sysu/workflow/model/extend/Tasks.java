@@ -41,7 +41,7 @@ public class Tasks implements Serializable {
      *
      * @param taskObj The task child to be added.
      */
-    public final void addData(final Task taskObj) {
+    public final void addTask(final Task taskObj) {
         if (taskObj != null) {
             this.tasklist.add(taskObj);
         }

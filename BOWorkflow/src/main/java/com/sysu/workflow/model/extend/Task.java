@@ -64,6 +64,10 @@ public class Task extends Action implements Serializable {
         return id;
     }
 
+    /**
+     * 设置id的值
+     * @param id 任务的id
+     */
     public void setId(String id) {
         this.id = id;
     }

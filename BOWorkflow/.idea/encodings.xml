@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/engine/SCXMLInstanceManager.java" charset="GB2312" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/engine/SCXMLInstanceTree.java" charset="GB2312" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/extend/SubStateMachine.java" charset="GB2312" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/extend/UserTask.java" charset="GB2312" />
     <file url="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/engine/InstanceTreeTest.java" charset="GB2312" />
   </component>
