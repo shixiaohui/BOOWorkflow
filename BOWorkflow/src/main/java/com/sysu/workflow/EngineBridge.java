@@ -1,6 +1,5 @@
 package com.sysu.workflow;
 
-import com.sun.xml.internal.ws.api.pipe.Engine;
 import com.sysu.workflow.entity.BOMessage;
 import com.sysu.workflow.model.ModelException;
 
@@ -22,11 +21,30 @@ public class EngineBridge {
     }
 
     /**
-     * 为桥设置绑定的状态机处理器
+     * <p>初始化桥接器</p>
+     * <p>该方法在应用程序初始化时被调用</p>
+     * @param executor 根状态机的处理器
+     * @param handler 应用程序消息处理器
+     */
+    public void Init(SCXMLExecutor executor, EngineBridgeAppHandler handler) {
+        this.SetExecutorReference(executor);
+        this.SetAppHandler(handler);
+    }
+
+    /**
+     * 为桥绑定状态机处理器
      * @param executor 要绑定的状态机处理器
      */
     public void SetExecutorReference(SCXMLExecutor executor) {
         this.rootExecutor = executor;
+    }
+
+    /**
+     * 为桥绑定应用程序的消息处理器
+     * @param handler 要绑定的消息处理器
+     */
+    public void SetAppHandler(EngineBridgeAppHandler handler) {
+        this.appHandler = handler;
     }
 
     /**
@@ -59,9 +77,10 @@ public class EngineBridge {
      * 将一个要发送给应用程序的消息放入队列
      * @param msg 要发送的消息
      */
-    public static void EnqueueBOMessage(BOMessage msg) {
+    public void EnqueueBOMessage(BOMessage msg) {
         if (msg != null) {
-            EngineBridge.GetInstance().stateMachieMessageQueue.add(msg);
+            this.stateMachieMessageQueue.add(msg);
+            this.appHandler.WasNotified();
         }
         else {
             throw new IllegalArgumentException();
@@ -76,7 +95,7 @@ public class EngineBridge {
     public static void QuickEnqueueBOMessage(String taskName, String roleName) {
         BOMessage boMsg = new BOMessage();
         boMsg.AddMessageItem(taskName, roleName);
-        EngineBridge.EnqueueBOMessage(boMsg);
+        EngineBridge.GetInstance().EnqueueBOMessage(boMsg);
     }
 
     /**
@@ -104,6 +123,10 @@ public class EngineBridge {
      */
     private SCXMLExecutor rootExecutor;
 
+    /**
+     * 应用程序消息处理器的引用
+     */
+    private EngineBridgeAppHandler appHandler;
 
     /**
      * 桥的唯一实例

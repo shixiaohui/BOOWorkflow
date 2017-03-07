@@ -88,7 +88,6 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     public SCXMLExecutor(final Evaluator expEvaluator,
                          final EventDispatcher evtDisp, final ErrorReporter errRep,
                          final SCXMLSemantics semantics) {
-        EngineBridge.GetInstance().SetExecutorReference(this);
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep);
     }
@@ -102,7 +101,6 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      */
     public SCXMLExecutor(final Evaluator expEvaluator,
                          final EventDispatcher evtDisp, final ErrorReporter errRep, final SCXMLSemantics semantics, final SCXMLInstanceTree instanceTree) {
-        EngineBridge.GetInstance().SetExecutorReference(this);
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep, instanceTree);
     }
@@ -113,7 +111,6 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * @param parentSCXMLExecutor the parent SCXMLExecutor
      */
     public SCXMLExecutor(final SCXMLExecutor parentSCXMLExecutor) {
-        // 注意此处不要重新设置Bridge的Executor引用，因为是创建子状态机
         this.parentSCXMLExecutor = parentSCXMLExecutor;
         this.semantics = parentSCXMLExecutor.semantics;
         this.exctx = new SCXMLExecutionContext(this, parentSCXMLExecutor.getEvaluator(),

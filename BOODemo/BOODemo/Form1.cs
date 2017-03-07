@@ -23,27 +23,25 @@ namespace BOODemo
 
         SCXMLExecutor executor;
         EngineBridge eb;
+        StateMachineMessageHandler MsgHandler;
+
         public Form1()
         {
             InitializeComponent();
-
+            eb = EngineBridge.GetInstance();
+            MsgHandler = new StateMachineMessageHandler();
             OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", "", "helloworld.xml");
             SCXML scxml = SCXMLReader.read(url);
             Evaluator ev = new JexlEvaluator();
             executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
             executor.setStateMachine(scxml);
+            eb.Init(executor, MsgHandler);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             executor.go();
-            eb = EngineBridge.GetInstance();
-            Queue<BOMessage> msgQueue = new Queue<BOMessage>();
-            BOMessage bPtr;
-            while ((bPtr = eb.GetPendingMessage()) != null)
-            {
-                msgQueue.Enqueue(bPtr);
-            }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

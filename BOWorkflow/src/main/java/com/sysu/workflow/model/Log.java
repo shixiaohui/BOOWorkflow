@@ -81,7 +81,7 @@ public class Log extends Action {
         ctx.setLocal(getNamespacesKey(), null);
 
         // Debug test send Msg To App
-        //EngineBridge.QuickEnqueueBOMessage(logMsg);
+        EngineBridge.QuickEnqueueBOMessage(logMsg);
     }
 }
 
