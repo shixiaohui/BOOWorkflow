@@ -1,10 +1,7 @@
 
 package com.sysu.workflow.model;
 
-import com.sysu.workflow.ActionExecutionContext;
-import com.sysu.workflow.Context;
-import com.sysu.workflow.Evaluator;
-import com.sysu.workflow.SCXMLExpressionException;
+import com.sysu.workflow.*;
 
 /**
  * The class in this SCXML object model that corresponds to the
@@ -79,8 +76,12 @@ public class Log extends Action {
         Context ctx = exctx.getContext(getParentEnterableState());
         Evaluator eval = exctx.getEvaluator();
         ctx.setLocal(getNamespacesKey(), getNamespaces());
-        exctx.getAppLog().info(label + ": " + String.valueOf(getTextContentIfNodeResult(eval.eval(ctx, expr))));
+        String logMsg = String.valueOf(getTextContentIfNodeResult(eval.eval(ctx, expr)));
+        exctx.getAppLog().info(label + ": " + logMsg);
         ctx.setLocal(getNamespacesKey(), null);
+
+        // Debug test send Msg To App
+        //EngineBridge.QuickEnqueueBOMessage(logMsg);
     }
 }
 

@@ -40,12 +40,28 @@ public class EngineBridge {
     }
 
     /**
+     * 获取一个待处理的消息，若没有则返回null
+     * @return
+     */
+    public BOMessage GetPendingMessage() {
+        return this.stateMachieMessageQueue.poll();
+    }
+
+    /**
+     * 获取消息队列中剩余的消息数量
+     * @return
+     */
+    public int Count() {
+        return this.stateMachieMessageQueue.size();
+    }
+
+    /**
      * 将一个要发送给应用程序的消息放入队列
      * @param msg 要发送的消息
      */
     public static void EnqueueBOMessage(BOMessage msg) {
         if (msg != null) {
-            EngineBridge.syncObj.stateMachieMessageQueue.add(msg);
+            EngineBridge.GetInstance().stateMachieMessageQueue.add(msg);
         }
         else {
             throw new IllegalArgumentException();

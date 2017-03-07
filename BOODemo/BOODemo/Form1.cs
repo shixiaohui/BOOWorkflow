@@ -12,6 +12,7 @@ using com.sysu.workflow.io;
 using com.sysu.workflow.env;
 using com.sysu.workflow.model;
 using com.sysu.workflow.env.jexl;
+using com.sysu.workflow.entity;
 
 
 namespace BOODemo
@@ -21,7 +22,7 @@ namespace BOODemo
     {
 
         SCXMLExecutor executor;
-
+        EngineBridge eb;
         public Form1()
         {
             InitializeComponent();
@@ -36,6 +37,18 @@ namespace BOODemo
         private void button1_Click(object sender, EventArgs e)
         {
             executor.go();
+            eb = EngineBridge.GetInstance();
+            Queue<BOMessage> msgQueue = new Queue<BOMessage>();
+            BOMessage bPtr;
+            while ((bPtr = eb.GetPendingMessage()) != null)
+            {
+                msgQueue.Enqueue(bPtr);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            eb.SendEventAndTrigger("firststateToEnd");
         }
     }
 }
