@@ -2,7 +2,6 @@ package com.sysu.workflow;
 
 import com.sysu.workflow.entity.BOMessage;
 import com.sysu.workflow.model.ModelException;
-
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 

@@ -219,7 +219,7 @@ public final class SCXMLReader {
     private static final String ELEM_PARALLEL = "parallel";
     private static final String ELEM_PARAM = "param";
     private static final String ELEM_SCRIPT = "script";
-    private static final String ELEM_SCXML = "scxml";
+    private static final String ELEM_SCXML = "businessclass"; // rinkako: scxml replaced by businessclass
     private static final String ELEM_SEND = "send";
     private static final String ELEM_STATE = "state";
     private static final String ELEM_TRANSITION = "transition";
@@ -233,8 +233,10 @@ public final class SCXMLReader {
     private static final String ELEM_FORM = "form";
 
     //---- BOO拓展 ----//
-    private static final String ELEM_LAYOUT = "layout";
-
+    private static final String ELEM_BOO_LAYOUT = "layout";
+    private static final String ELEM_BOO_TASKS = "tasks";
+    private static final String ELEM_BOO_TASK = "task";
+    private static final String ELEM_BOO_CALL = "call";
 
 
     //---- 属性名 ----//
@@ -643,10 +645,13 @@ public final class SCXMLReader {
                             readFinal(reader, configuration, scxml, null);
                         } else if (ELEM_DATAMODEL.equals(name)) {
                             readDatamodel(reader, configuration, scxml, null);
+                        } else if (ELEM_BOO_TASK.equals(name)) {
+
+
                         } else if (ELEM_SCRIPT.equals(name) && !hasGlobalScript) {
                             readGlobalScript(reader, configuration, scxml);
                             hasGlobalScript = true;
-                        } else if (ELEM_LAYOUT.equals(name)) {
+                        } else if (ELEM_BOO_LAYOUT.equals(name)) {
                             // RINKAKO: ignore layout information
                             skipToEndElement(reader);
                         } else {
@@ -1066,6 +1071,58 @@ public final class SCXMLReader {
             parent.setDatamodel(dm);
         }
     }
+
+
+    /**
+     * Read the contents of this &lt;task&gt; element.
+     * Rinkako
+     *
+     * @param reader        The {@link XMLStreamReader} providing the SCXML document to parse.
+     * @param configuration The {@link Configuration} to use while parsing.
+     * @param scxml         The root of the object model being parsed.
+     * @param parent        The parent {@link TransitionalState} for this datamodel (null for top level).
+     * @throws XMLStreamException An exception processing the underlying {@link XMLStreamReader}.
+     * @throws ModelException     The Commons SCXML object model is incomplete or inconsistent (includes
+     *                            errors in the SCXML document that may not be identified by the schema).
+     */
+    private static void readTask(final XMLStreamReader reader, final Configuration configuration,
+                                      final SCXML scxml, final TransitionalState parent)
+            throws XMLStreamException, ModelException {
+
+        Datamodel dm = new Datamodel();
+
+        loop:
+        while (reader.hasNext()) {
+            String name, nsURI;
+            switch (reader.next()) {
+                case XMLStreamConstants.START_ELEMENT:
+                    pushNamespaces(reader, configuration);
+                    nsURI = reader.getNamespaceURI();
+                    name = reader.getLocalName();
+                    if (XMLNS_SCXML.equals(nsURI)) {
+                        if (ELEM_DATA.equals(name)) {
+                            readData(reader, configuration, dm);
+                        } else {
+                            reportIgnoredElement(reader, configuration, ELEM_DATAMODEL, nsURI, name);
+                        }
+                    } else {
+                        reportIgnoredElement(reader, configuration, ELEM_DATAMODEL, nsURI, name);
+                    }
+                    break;
+                case XMLStreamConstants.END_ELEMENT:
+                    popNamespaces(reader, configuration);
+                    break loop;
+                default:
+            }
+        }
+
+        if (parent == null) {
+            scxml.setDatamodel(dm);
+        } else {
+            parent.setDatamodel(dm);
+        }
+    }
+
 
     /**
      * Read the contents of this &lt;data&gt; element.
