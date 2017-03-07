@@ -80,7 +80,9 @@ public class EngineBridge {
     public void EnqueueBOMessage(BOMessage msg) {
         if (msg != null) {
             this.stateMachieMessageQueue.add(msg);
-            this.appHandler.WasNotified();
+            if (this.appHandler != null) {
+                this.appHandler.WasNotified();
+            }
         }
         else {
             throw new IllegalArgumentException();

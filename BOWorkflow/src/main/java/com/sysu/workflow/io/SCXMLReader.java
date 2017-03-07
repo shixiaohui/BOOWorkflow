@@ -232,6 +232,10 @@ public final class SCXMLReader {
     private static final String ELEM_SUBSTATEMACHINE = "subStateMachine";
     private static final String ELEM_FORM = "form";
 
+    //---- BOO拓展 ----//
+    private static final String ELEM_LAYOUT = "layout";
+
+
 
     //---- 属性名 ----//
     private static final String ATTR_ARRAY = "array";
@@ -642,6 +646,9 @@ public final class SCXMLReader {
                         } else if (ELEM_SCRIPT.equals(name) && !hasGlobalScript) {
                             readGlobalScript(reader, configuration, scxml);
                             hasGlobalScript = true;
+                        } else if (ELEM_LAYOUT.equals(name)) {
+                            // RINKAKO: ignore layout information
+                            skipToEndElement(reader);
                         } else {
                             reportIgnoredElement(reader, configuration, ELEM_SCXML, nsURI, name);
                         }
