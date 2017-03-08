@@ -3,7 +3,7 @@
        version="1.0"
        datamodel="jexl"
        initial="init"
-       nameExpr="crowdsourcing">
+       name="crowdsourcing">
 
     <!-- 请假单需要的数据-->
     <datamodel>
@@ -42,7 +42,7 @@
         </datamodel>
         <onentry>
             <log expr="'entry judging state'"/>
-            <userTask id="judge" nameExpr="JudgeTask" candidateGroups="Judger" instancesExpr="judgeCount">
+            <userTask id="judge" name="JudgeTask" candidateGroups="Judger" instancesExpr="judgeCount">
                 <form src="form/judge.jsp">
 
                 </form>
@@ -91,7 +91,7 @@
         </datamodel>
         <onentry>
             <log expr="'entry decomposing state'"/>
-            <userTask id="decompose" nameExpr="DecomposeTask" candidateGroups="Decomposer"
+            <userTask id="decompose" name="DecomposeTask" candidateGroups="Decomposer"
                       instancesExpr="decomposeCount">
                 <form src="form/decompose.jsp">
 
@@ -117,7 +117,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" nameExpr="DecomposeVoteTask" candidateGroups="DecomposeVoter"
+            <userTask id="decompose" name="DecomposeVoteTask" candidateGroups="DecomposeVoter"
                       instancesExpr="decomposeVoteCount">
                 <form src="form/decomposeVote.jsp">
 
@@ -143,7 +143,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solve" nameExpr="SolveTask" candidateGroups="Solver"
+            <userTask id="solve" name="SolveTask" candidateGroups="Solver"
                       instancesExpr="solveCount">
                 <form src="form/solve.jsp">
 
@@ -163,7 +163,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solveVoting" nameExpr="SolveVoteTask" candidateGroups="SolveVoter"
+            <userTask id="solveVoting" name="SolveVoteTask" candidateGroups="SolveVoter"
                       instancesExpr="solveVoteCount">
                 <form src="form/solveVote.jsp">
 

@@ -14,20 +14,20 @@
  </state>
  <state id="Producing">
   <onentry>
-   <call>roduceDishesTask</call>
+   <call expr="roduceDishesTask"></call>
   </onentry>
   <transition event="produced" target="QualityTesting"></transition>
  </state>
  <state id="QualityTesting">
   <onentry>
-   <call>testQualityTask</call>
+   <call expr="testQualityTask"></call>
   </onentry>
   <transition event="notPass" target="Producing"></transition>
   <transition event="allPassed" target="Delivering"></transition>
  </state>
  <state id="Delivering">
   <onentry>
-   <call>deliverTask</call>
+   <call expr="deliverTask"></call>
   </onentry>
   <transition event="delivered" target="Archiving">
   	<send event="delivered" target="GuestOrder"></send>
@@ -35,7 +35,7 @@
  </state>
  <state id="Archiving">
   <onentry>
-   <call>archiveTask</call>
+   <call expr="archiveTask"></call>
   </onentry>
   <transition event="archived" target="Final">
    <send event="finish" target="GuestOrder"></send>

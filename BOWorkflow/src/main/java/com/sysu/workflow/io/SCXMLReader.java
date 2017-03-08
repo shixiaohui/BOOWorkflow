@@ -1159,7 +1159,9 @@ public final class SCXMLReader {
         }
         tk.setInstanceExpr(readAV(reader, ATTR_INSTANCESEXPR));
         tk.setEvent(readRequiredAV(reader, ELEM_BOO_TASK, ATTR_EVENT));
+        readNamespaces(configuration, tk);
         tasks.addTask(tk);
+        skipToEndElement(reader);
     }
 
     /**
@@ -1549,7 +1551,7 @@ public final class SCXMLReader {
                         } else if (ELEM_BOO_NEWBO.equals(name)) {
                             //RINKAKO: 读取子状态机
                             readSubStateMachine(reader, configuration, executable, parent);
-                        } else if (ELEM_RAISE.equals(name)) {
+                        } else if (ELEM_BOO_CALL.equals(name)) {
                             //RINKAKO: 读取CALL
                             readCall(reader, configuration, executable, parent);
                         } else if (ELEM_RAISE.equals(name)) {
@@ -1778,8 +1780,7 @@ public final class SCXMLReader {
                                 final Executable executable, final ActionsContainer parent)
             throws XMLStreamException, ModelException {
         Call call = new Call();
-        call.setNameExpr(readRequiredAV(reader, ELEM_BOO_CALL, ATTR_EXPR));
-
+        call.setName(readRequiredAV(reader, ELEM_BOO_CALL, ATTR_NAME));
         readNamespaces(configuration, call);
         call.setParent(executable);
         if (parent != null) {

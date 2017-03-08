@@ -14,17 +14,17 @@
  </state>
  <state id="Dining" initial="in">
   <transition event="requestCheck" cond="fnishKOCount eq startKOCount" target="Paying">
-    <newBO>GuestCheck</newBO>
+    <newBO src="GuestCheck"></newBO>
   </transition>
   <state id="in">
    <transition target="Ordering"></transition>
   </state>
   <state id="Ordering">
    <onentry>
-    <call>addItemTask</call>
+    <call expr="addItemTask"></call>
   </onentry>
    <transition event="submit" target="Active">
-     <newBO>KitchenOrder</newBO>
+     <newBO src="KitchenOrder"></newBO>
      <assign location="startKOCount" expr="startKOCount + 1"></assign>
    </transition>
   </state>
@@ -32,7 +32,7 @@
    <transition event="addItem" target="Ordering"></transition>
    <transition target="fin"></transition>
    <transition event="KO.delivered">
-     <call>updateDeliTimeTask</call>
+     <call expr="updateDeliTimeTask"></call>
    </transition>
    <transition event="KO.finish">
      <assign location="finishKOCount" expr="finishKOCount + 1"></assign>

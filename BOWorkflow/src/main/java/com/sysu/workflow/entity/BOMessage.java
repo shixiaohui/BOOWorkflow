@@ -25,11 +25,11 @@ public class BOMessage {
     /**
      * 将一个要发送给应用程序的任务项和她的处理者添加到消息中
      * @param taskName 任务名称
-     * @param dealRole 任务处理者
      * @param paramStr 任务参数字符串
+     * @param dealRole 任务处理者
      * @param callbackEv 任务完成后要触发的事件名
      */
-    public void AddMessageItem(String taskName, String dealRole, String paramStr, String callbackEv) {
+    public void AddMessageItem(String taskName, String paramStr, String dealRole, String callbackEv) {
         if (taskName != null && dealRole != null) {
             this.tasksList.add(taskName);
             this.agentList.add(dealRole);

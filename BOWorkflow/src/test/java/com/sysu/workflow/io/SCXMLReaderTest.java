@@ -30,9 +30,21 @@ public class SCXMLReaderTest {
         executor.setStateMachine(scxml);
         executor.go();
 
-        TriggerEvent tEvt = new TriggerEvent("firststateToEnd", TriggerEvent.SIGNAL_EVENT, null);
+        EventDataPackage edp = new EventDataPackage();
+        edp.passedInt = 1;
+
+        TriggerEvent tEvt = new TriggerEvent("testCompleted", TriggerEvent.SIGNAL_EVENT, edp);
         executor.triggerEvent(tEvt);
+
+        TriggerEvent tEvt2 = new TriggerEvent("gotoEnd", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt2);
+
         Assert.assertNotNull(scxml);
+    }
+
+    public class EventDataPackage {
+        public String passedData;
+        public int passedInt;
     }
 
 

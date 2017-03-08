@@ -20,7 +20,7 @@
 
         </onentry>
         <transition event="fill.end" target="approving">
-            <assign location="applicant" expr="_event.data.nameExpr"></assign>
+            <assign location="applicant" expr="_event.data.name"></assign>
             <assign location="reason" expr="_event.data.reason"></assign>
             <assign location="from" expr="_event.data.from"></assign>
             <assign location="to" expr="_event.data.to"></assign>

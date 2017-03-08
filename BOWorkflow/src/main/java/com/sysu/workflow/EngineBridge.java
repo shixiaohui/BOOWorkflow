@@ -48,11 +48,12 @@ public class EngineBridge {
 
     /**
      * 向引擎发送一个外部事件并触发它
-     * @param eventName
+     * @param eventName 要触发的外部事件名
+     * @param payload 附加在事件上的包装
      * @throws ModelException
      */
-    public void SendEventAndTrigger(String eventName) throws ModelException {
-        TriggerEvent tevt = new TriggerEvent(eventName, TriggerEvent.SIGNAL_EVENT, null);
+    public void SendEventAndTrigger(String eventName, Object payload) throws ModelException {
+        TriggerEvent tevt = new TriggerEvent(eventName, TriggerEvent.SIGNAL_EVENT, payload);
         this.rootExecutor.triggerEvent(tevt);
     }
 

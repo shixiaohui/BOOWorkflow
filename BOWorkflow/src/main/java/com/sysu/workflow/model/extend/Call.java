@@ -18,9 +18,9 @@ public class Call extends Action implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The nameExpr of task to call
+     * The name of task to call
      */
-    private String nameExpr;
+    private String name;
 
     /**
      * The parameter string
@@ -28,19 +28,19 @@ public class Call extends Action implements Serializable {
     private String params;
 
     /**
-     * Get the value of nameExpr
-     * @return the task nameExpr to call
+     * Get the value of name
+     * @return the task name to call
      */
-    public String getNameExpr() {
-        return nameExpr;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Set the value of nameExpr
-     * @param nameExpr the task nameExpr to call
+     * Set the value of name
+     * @param name the task name to call
      */
-    public void setNameExpr(String nameExpr) {
-        this.nameExpr = nameExpr;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -67,31 +67,30 @@ public class Call extends Action implements Serializable {
      */
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
-        Context ctx = exctx.getContext(getParentEnterableState());
-        Evaluator eval = exctx.getEvaluator();
-        ctx.setLocal(getNamespacesKey(), getNamespaces());
-        String callingSign = String.valueOf(getTextContentIfNodeResult(eval.eval(ctx, this.nameExpr)));
-        ctx.setLocal(getNamespacesKey(), null);
         SCXMLExecutionContext scxmlExecContext = (SCXMLExecutionContext)exctx.getInternalIOProcessor();
         Tasks tasks = scxmlExecContext.getSCXMLExecutor().getStateMachine().getTasks();
-        List<Task> tLists = tasks.getTaskList();
-        boolean successFlag = false;
-        for (Task t : tLists) {
-            if (t.getName().equals(callingSign)) {
-                // Send Message to APP
-                String dasher = "";
-                if (t.getRole() != null) {
-                    dasher = t.getRole();
+        if (tasks != null) {
+            List<Task> tLists = tasks.getTaskList();
+            boolean successFlag = false;
+            for (Task t : tLists) {
+                if (t.getName().equals(this.name)) {
+                    // Send Message to APP
+                    String dasher = "";
+                    if (t.getRole() != null) {
+                        dasher = t.getRole();
+                    } else if (t.getAssignee() != null) {
+                        dasher = t.getAssignee();
+                    }
+                    EngineBridge.QuickEnqueueBOMessage(this.name, this.params, dasher, t.getEvent());
+                    successFlag = true;
+                    break;
                 }
-                else if (t.getAssignee() != null) {
-                    dasher = t.getAssignee();
-                }
-                EngineBridge.QuickEnqueueBOMessage(callingSign, this.params, dasher, t.getEvent());
-                successFlag = true;
-                break;
+            }
+            if (successFlag == false) {
+                throw new ModelException();
             }
         }
-        if (successFlag == false) {
+        else {
             throw new ModelException();
         }
     }

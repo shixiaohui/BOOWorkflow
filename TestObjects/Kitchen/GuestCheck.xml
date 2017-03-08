@@ -12,19 +12,19 @@
  </state>
  <state id="Preparing">
   <onentry>
-   <call>calculateTask</call>
+   <call expr="calculateTask"></call>
   </onentry>
   <transition event="calculated" target="Paying"></transition>
  </state>
  <state id="Paying">
   <onentry>
-   <call>PaymentTask</call>
+   <call expr="PaymentTask"></call>
   </onentry>
   <transition event="paid" target="Archiving"></transition>
  </state>
  <state id="Archiving">
   <onentry>
-   <call>archiveTask</call>
+   <call expr="archiveTask"></call>
   </onentry>
   <transition event="archived" target="Final">
   	<send event="finish" target="GuestOrder"></send>
