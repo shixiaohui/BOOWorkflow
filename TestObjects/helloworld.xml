@@ -1,12 +1,44 @@
-<scxml xmlns="http://www.w3.org/2005/07/scxml"
-       version="1.0" inital="end">
+<businessclass xmlns="http://www.w3.org/2005/07/scxml"
+       version="1.0" inital="firststate">
+
+    <tasks>
+        <task id="testQuality" name="testQualityTask" event="testCompleted" role="agent"></task>
+    </tasks>
+    
+    <state id="firststate">
+        <onentry>
+            <log expr=" 'entry firststate' " />
+            <call name="testQualityTask"></call>
+        </onentry>
+        <transition event="testCompleted" cond="_event.data.passedInt eq 0" target="Producing"></transition>
+        <transition event="testCompleted" cond="_event.data.passedInt eq 1" target="Delivering"></transition>
+        <onexit>
+            <log expr=" 'exit firststate ' " />
+        </onexit>
+    </state>
+    
+    <state id="Producing">
+        <onentry>
+            <log expr=" 'entry Producing' " />
+        </onentry>
+        <transition event="gotoEnd" target="end"></transition>
+    </state>
+    
+    <state id="Delivering">
+        <onentry>
+            <log expr=" 'entry Delivering' " />
+        </onentry>
+        <transition event="gotoEnd" target="end"></transition>
+    </state>
+       
     <final id="end">
         <onentry>
             <log expr=" 'entry  final state end ' " />
-            <log expr="'hello world'"/>
         </onentry>
         <onexit>
             <log expr=" 'exit  final state end ' " />
         </onexit>
     </final>
-</scxml>
+    
+    
+</businessclass>

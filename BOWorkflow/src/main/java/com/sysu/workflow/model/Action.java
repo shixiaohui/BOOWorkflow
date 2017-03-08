@@ -16,9 +16,7 @@ import java.util.Map;
  * An abstract base class for executable elements in SCXML,
  * such as &lt;assign&gt;, &lt;log&gt; etc.
  */
-public abstract class Action implements NamespacePrefixesHolder,
-        Serializable {
-
+public abstract class Action implements NamespacePrefixesHolder, Serializable {
     /**
      * 执行可执行内容是谓语  onentry，onexit,还是transition
      * Link to its parent or container.

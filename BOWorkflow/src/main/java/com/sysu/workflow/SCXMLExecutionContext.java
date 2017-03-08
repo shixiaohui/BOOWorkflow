@@ -664,7 +664,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
+    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
+
 }
