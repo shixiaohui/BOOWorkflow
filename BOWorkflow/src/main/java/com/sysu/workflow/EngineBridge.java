@@ -90,21 +90,24 @@ public class EngineBridge {
 
     /**
      * 将一个任务作为消息放入发送到应用程序的队列中
-     * @param taskName
-     * @param roleName
+     * @param taskName 任务名称
+     * @param paramStr 参数字符串
+     * @param roleName 角色名称
+     * @param callbackEv 处理完成的事件名
      */
-    public static void QuickEnqueueBOMessage(String taskName, String roleName) {
+    public static void QuickEnqueueBOMessage(String taskName, String paramStr, String roleName, String callbackEv) {
         BOMessage boMsg = new BOMessage();
-        boMsg.AddMessageItem(taskName, roleName);
+        boMsg.AddMessageItem(taskName, paramStr, roleName, callbackEv);
         EngineBridge.GetInstance().EnqueueBOMessage(boMsg);
     }
 
     /**
      * 将一个任务作为消息放入发送到应用程序的队列中，并且执行角色为空
-     * @param taskName
+     * @param taskName 任务名称
+     * @param callbackEv 处理完成的事件名
      */
-    public static void QuickEnqueueBOMessage(String taskName) {
-        EngineBridge.QuickEnqueueBOMessage(taskName, "");
+    public static void QuickEnqueueBOMessage(String taskName, String callbackEv) {
+        EngineBridge.QuickEnqueueBOMessage(taskName, "", "", callbackEv);
     }
 
     /**

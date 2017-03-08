@@ -22,7 +22,7 @@
           <log label="log lable" expr="str.taskName"></log>
           <log label="log lable" expr="str.taskDescription"></log>
           <subStateMachine src="foreach.xml" instances="1">
-              <param name="crowdSourcingTaskEntity" expr="tempCrowdSourcingTask"></param>
+              <param nameExpr="crowdSourcingTaskEntity" expr="tempCrowdSourcingTask"></param>
           </subStateMachine>
       </foreach>
     </onentry>

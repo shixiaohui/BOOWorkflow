@@ -25,10 +25,10 @@
             <data id="simpleCount" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="judge" name="判断任务" assignee="" cadidateUsers="" cadidateGroups="judge" dueDate=""
+            <userTask id="judge" nameExpr="判断任务" assignee="" cadidateUsers="" cadidateGroups="judge" dueDate=""
                       instances="judgeCount">
-                <param name="任务名字" expr="taskName"></param>
-                <param name="任务描述" expr="taskDescription"></param>
+                <param nameExpr="任务名字" expr="taskName"></param>
+                <param nameExpr="任务描述" expr="taskDescription"></param>
             </userTask>
 
         </onentry>
@@ -55,10 +55,10 @@
             <data id="step" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="decompose" nameExpr="分解任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
                       instances="decomposeCount">
-                <param name="任务名字" expr="taskName"></param>
-                <param name="任务描述" expr="taskDescription"></param>
+                <param nameExpr="任务名字" expr="taskName"></param>
+                <param nameExpr="任务描述" expr="taskDescription"></param>
             </userTask>
         </onentry>
 
@@ -75,7 +75,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="decompose" nameExpr="分解投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
                       instances="decomposeVoteCount">
 
             </userTask>
@@ -102,7 +102,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solve" name="解决任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="solve" nameExpr="解决任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
                       instances="solveCount">
 
             </userTask>
@@ -120,7 +120,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solveVoting" name="解决投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="solveVoting" nameExpr="解决投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
                       instances="solveVoteCount">
 
             </userTask>

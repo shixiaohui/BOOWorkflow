@@ -11,7 +11,7 @@
 
     <developers>
         <developer>
-            <name>Money Zheng</name>
+            <nameExpr>Money Zheng</nameExpr>
             <id>ThinerZQ</id>
             <email>a601097836@gmail.com</email>
             <organization>sysu workflow lab</organization>

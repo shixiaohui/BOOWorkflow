@@ -18,10 +18,10 @@ This worfklow engine adopt the idea of state machine. we use W3C's SCXML standar
 ## 4.1、任务派发支持(support task assignment)
 
 ```xml
- <userTask id="judge" name="JudgeTask" assiginee="" candidateGroups="Judger" instancesExpr="judgeCount">
-    <form name="" src="">
-        <param name="taskName" expr="taskNameValue" type="input"></param>
-        <param name="taskDescription" expr="taskDescriptionValue" type="input"></param>
+ <userTask id="judge" nameExpr="JudgeTask" assiginee="" candidateGroups="Judger" instancesExpr="judgeCount">
+    <form nameExpr="" src="">
+        <param nameExpr="taskName" expr="taskNameValue" type="input"></param>
+        <param nameExpr="taskDescription" expr="taskDescriptionValue" type="input"></param>
     </form>
 </userTask>
 ```
@@ -33,8 +33,8 @@ This worfklow engine adopt the idea of state machine. we use W3C's SCXML standar
 ## 4.2、添加了丰富的子状态机支持(Rich sub-state machine support)
 ```xml
 <subStateMachine src="subStateMachineProcessDefinePath" instances="numberOfSubStateMachine">
-	<param name="" value=""></param>
-	<param name="" value=""></param>
+	<param nameExpr="" value=""></param>
+	<param nameExpr="" value=""></param>
 </subStateMachine>
 ```
 ## 4.3、自定义了消息模式(The custom message schema)
@@ -83,7 +83,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
        version="1.0"
        datamodel="jexl"
        initial="init"
-       name="crowdsourcing">
+       nameExpr="crowdsourcing">
 
     <!-- some property needed -->
     <datamodel>
@@ -132,7 +132,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
         </datamodel>
         <onentry>
             <log label="judging" expr="'entry judging state'"/>
-            <userTask id="judge" name="JudgeTask" candidateGroups="Judger" instancesExpr="judgeCount">
+            <userTask id="judge" nameExpr="JudgeTask" candidateGroups="Judger" instancesExpr="judgeCount">
                 <form src="form/judge.jsp">
 
                 </form>
@@ -181,7 +181,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
         </datamodel>
         <onentry>
             <log label="decomposing" expr="'entry decomposing state'"/>
-            <userTask id="decompose" name="DecomposeTask" candidateGroups="Decomposer"
+            <userTask id="decompose" nameExpr="DecomposeTask" candidateGroups="Decomposer"
                       instancesExpr="decomposeCount">
                 <form src="form/decompose.jsp">
 
@@ -211,7 +211,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="DecomposeVoteTask" candidateGroups="DecomposeVoter"
+            <userTask id="decompose" nameExpr="DecomposeVoteTask" candidateGroups="DecomposeVoter"
                       instancesExpr="decomposeVoteCount">
                 <form src="form/decomposeVote.jsp">
 
@@ -231,7 +231,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
 
             <foreach array="crowdSourcingTaskArrayList" item="tempCrowdSourcingTask">
                 <subStateMachine src="crowdsourcingTest.xml" instances="1">
-                    <param name="crowdSourcingTask" expr="tempCrowdSourcingTask"></param>
+                    <param nameExpr="crowdSourcingTask" expr="tempCrowdSourcingTask"></param>
                 </subStateMachine>
                 <assign location="steps" expr="steps + 1"></assign>
                 <log label="decomposeVoting" expr="'startSubMachine '"/>
@@ -287,7 +287,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
         </datamodel>
         <onentry>
             <log label="solving" expr="'entry solving state '"/>
-            <userTask id="solve" name="SolveTask" candidateGroups="Solver"
+            <userTask id="solve" nameExpr="SolveTask" candidateGroups="Solver"
                       instancesExpr="solveCount">
                 <form src="form/solve.jsp">
 
@@ -310,7 +310,7 @@ filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing appli
         </datamodel>
         <onentry>
             <log label="solveVoting" expr="' entry solveVoting state '"/>
-            <userTask id="solveVoting" name="SolveVoteTask" candidateGroups="SolveVoter"
+            <userTask id="solveVoting" nameExpr="SolveVoteTask" candidateGroups="SolveVoter"
                       instancesExpr="solveVoteCount">
                 <form src="form/solveVote.jsp">
 

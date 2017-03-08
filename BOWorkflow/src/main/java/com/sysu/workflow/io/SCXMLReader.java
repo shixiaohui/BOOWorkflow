@@ -235,6 +235,8 @@ public final class SCXMLReader {
     private static final String ELEM_BOO_TASKS = "tasks";
     private static final String ELEM_BOO_TASK = "task";
     private static final String ELEM_BOO_CALL = "call";
+    private static final String ELEM_BOO_NEWBO = "newbo";
+
 
 
     //---- 属性名 ----//
@@ -1543,9 +1545,13 @@ public final class SCXMLReader {
                         } else if (ELEM_SERVICETASK.equals(name)) {
                             //读取服务任务
                             readServiceTask(reader, configuration, executable, parent);
-                        } else if (ELEM_SUBSTATEMACHINE.equals(name)) {
-                            //读取子状态机
+                        //} else if (ELEM_SUBSTATEMACHINE.equals(name)) {
+                        } else if (ELEM_BOO_NEWBO.equals(name)) {
+                            //RINKAKO: 读取子状态机
                             readSubStateMachine(reader, configuration, executable, parent);
+                        } else if (ELEM_RAISE.equals(name)) {
+                            //RINKAKO: 读取CALL
+                            readCall(reader, configuration, executable, parent);
                         } else if (ELEM_RAISE.equals(name)) {
                             //读取raise事件
                             readRaise(reader, configuration, executable, parent);
@@ -1755,6 +1761,31 @@ public final class SCXMLReader {
             parent.addAction(log);
         } else {
             executable.addAction(log);
+        }
+        skipToEndElement(reader);
+    }
+
+    /**
+     * Read the contents of this &lt;call&gt; element.
+     *
+     * @param reader        The {@link XMLStreamReader} providing the SCXML document to parse.
+     * @param configuration The {@link Configuration} to use while parsing.
+     * @param executable    The parent {@link Executable} for this action.
+     * @param parent        The optional parent {@link ActionsContainer} if this action is a child of one.
+     * @throws XMLStreamException An exception processing the underlying {@link XMLStreamReader}.
+     */
+    private static void readCall(final XMLStreamReader reader, final Configuration configuration,
+                                final Executable executable, final ActionsContainer parent)
+            throws XMLStreamException, ModelException {
+        Call call = new Call();
+        call.setNameExpr(readRequiredAV(reader, ELEM_BOO_CALL, ATTR_EXPR));
+
+        readNamespaces(configuration, call);
+        call.setParent(executable);
+        if (parent != null) {
+            parent.addAction(call);
+        } else {
+            executable.addAction(call);
         }
         skipToEndElement(reader);
     }
@@ -2297,16 +2328,13 @@ public final class SCXMLReader {
      * @param parent
      */
     private static void readSubStateMachine(XMLStreamReader reader, Configuration configuration, Executable executable, ActionsContainer parent) throws XMLStreamException, ModelException {
-
         SubStateMachine subStateMachine = new SubStateMachine();
         subStateMachine.setSrc(readAV(reader, ATTR_SRC));
         subStateMachine.setInstances(Integer.parseInt(readAV(reader, ATTR_INSTANCES)));
-
         subStateMachine.setPathResolver(configuration.pathResolver);
-
-        if (subStateMachine.getSrc() == null){
+        if (subStateMachine.getSrc() == null) {
             return;
-        }else{
+        } else {
             loop:
             while (reader.hasNext()) {
                 String name, nsURI;
@@ -2319,10 +2347,12 @@ public final class SCXMLReader {
                             if (ELEM_PARAM.equals(name)) {
                                 readParam(reader, configuration, subStateMachine);
                             } else {
-                                reportIgnoredElement(reader, configuration, ELEM_SUBSTATEMACHINE, nsURI, name);
+                                reportIgnoredElement(reader, configuration, ELEM_BOO_NEWBO, nsURI, name);
+                                //reportIgnoredElement(reader, configuration, ELEM_SUBSTATEMACHINE, nsURI, name);
                             }
                         } else {
-                            reportIgnoredElement(reader, configuration, ELEM_SUBSTATEMACHINE, nsURI, name);
+                            reportIgnoredElement(reader, configuration, ELEM_BOO_NEWBO, nsURI, name);
+                            //reportIgnoredElement(reader, configuration, ELEM_SUBSTATEMACHINE, nsURI, name);
                         }
                         break;
                     case XMLStreamConstants.END_ELEMENT:
@@ -2332,8 +2362,6 @@ public final class SCXMLReader {
                 }
             }
         }
-
-
         readNamespaces(configuration, subStateMachine);
         subStateMachine.setParent(executable);
         if (parent != null) {

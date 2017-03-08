@@ -14,113 +14,126 @@ import java.util.Map;
 
 /**
  * Created by zhengshouzi on 2016/1/2.
+ * Modified by Rinkako on 2017/3/7.
  */
 public class SubStateMachine extends NamelistHolder implements PathResolverHolder {
-
-
     /**
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
 
-
+    /**
+     * The file source of this state machine
+     */
     private String src;
-    private int instances = 1;
-
 
     /**
-     * 一个路径解析器
+     * How many sub state machine instance ought to be create
+     */
+    private int instances = 1;
+
+    /**
+     * Path Resolver for the file src
      * {@link PathResolver} for resolving the "src" or "srcexpr" result.
      */
     private PathResolver pathResolver;
 
-
+    /**
+     * Get the value of src
+     * @return value of src property
+     */
     public String getSrc() {
         return src;
     }
 
+    /**
+     * Set the value of src
+     * @param src the src value to set
+     */
     public void setSrc(String src) {
         this.src = src;
     }
 
+    /**
+     * Get the value of instance
+     * @return value of instance property
+     */
     public int getInstances() {
         return instances;
     }
 
+    /**
+     * Set the value of instance
+     * @param instances the instance value to set, represent how many sub instance ought to be created
+     */
     public void setInstances(int instances) {
         this.instances = instances;
     }
 
+    /**
+     * Get the value of pathResolver
+     * @return value of pathResolver property
+     */
+    public PathResolver getPathResolver() {
+        return pathResolver;
+    }
+
+    /**
+     * Set the value of pathResolver
+     * @param pathResolver The path resolver to use.
+     */
+    public void setPathResolver(PathResolver pathResolver) {
+        this.pathResolver = pathResolver;
+    }
+
+    /**
+     * Execution of encountering this label
+     * @param exctx The ActionExecutionContext for this execution instance
+     * @throws ModelException
+     * @throws SCXMLExpressionException
+     */
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
-
         try {
             EnterableState parentState = getParentEnterableState();
             Context ctx = exctx.getContext(parentState);
             ctx.setLocal(getNamespacesKey(), getNamespaces());
-            Evaluator eval = exctx.getEvaluator();
-
             Map<String, Object> payloadDataMap = new LinkedHashMap<String, Object>();
             addParamsToPayload(exctx, payloadDataMap);
-
-
-            //get resource file url
+            // get resource file url
             final URL url = this.getClass().getClassLoader().getResource(getSrc());
             SCXML scxml = null;
-            //根据src的值，启动状态机
+            // init sub state machine SCXML object
             try {
                 scxml = SCXMLReader.read(url);
             } catch (Exception e) {
                 System.out.println("couldn't find :" + getSrc());
                 e.printStackTrace();
             }
-
+            // launch sub state machine of the number of instances
             for (int i = 0; i < getInstances(); i++) {
-
                 Evaluator evaluator = EvaluatorFactory.getEvaluator(scxml);
-
                 SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
-
                 SCXMLInstanceTree instanceTree = currentExecutionContext.getInstanceTree();
                 SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null, instanceTree);
                 executor.setStateMachine(scxml);
-
-                //设置引擎执行的根上下文
+                // init execution context
                 Context rootContext = evaluator.newContext(null);
-                for (Map.Entry<String,Object> entry :payloadDataMap.entrySet()){
-                    rootContext.set(entry.getKey(),entry.getValue());
+                for (Map.Entry<String,Object> entry : payloadDataMap.entrySet()){
+                    rootContext.set(entry.getKey(), entry.getValue());
                 }
-
                 executor.setRootContext(rootContext);
-
-                //开始启动流程
+                // start dash sub state machine
                 executor.go();
-
-                //维护关系
+                // maintain the relation of this sub state machine on the instance tree
                 String currentSessionId = (String) currentExecutionContext.getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
-
                 String subStateMachineSessionId = (String) executor.getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
-
                 instanceTree.insert(currentSessionId, subStateMachineSessionId, executor.getStateMachine().getName());
-
-                //将当前的Executor加入到  实例管理器里面
-
+                // add this new executor to the instance manager
                 SCXMLInstanceManager.setSCXMLInstance(executor);
-
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    }
-
-    public PathResolver getPathResolver() {
-        return pathResolver;
-    }
-
-    public void setPathResolver(PathResolver pathResolver) {
-        this.pathResolver = pathResolver;
     }
 }
