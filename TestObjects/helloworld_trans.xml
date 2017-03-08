@@ -1,0 +1,44 @@
+<businessclass xmlns="http://www.w3.org/2005/07/scxml"
+       version="1.0" inital="firststate">
+
+    <tasks>
+        <task id="ConsoleLog" name="ConsoleLogTask" event="logCompleted" role="agent"></task>
+    </tasks>
+    
+    <state id="firststate">
+        <onentry>
+            <log expr=" 'entry firststate' " />
+             <call name="ConsoleLogTask"></call>
+        </onentry>
+        <transition event="logCompleted" cond="_event.data eq 0" target="firststate"></transition>
+        <transition event="logCompleted" cond="_event.data eq 1" target="Delivering"></transition>
+        <onexit>
+            <log expr=" 'exit firststate' " />
+        </onexit>
+    </state>
+    
+    <state id="Producing">
+        <onentry>
+            <log expr=" 'entry Producing' " />
+        </onentry>
+        <transition event="gotoEnd" target="end"></transition>
+    </state>
+    
+    <state id="Delivering">
+        <onentry>
+            <log expr=" 'entry Delivering' " />
+        </onentry>
+        <transition event="gotoEnd" target="end"></transition>
+    </state>
+       
+    <final id="end">
+        <onentry>
+            <log expr=" 'entry  final state end' " />
+        </onentry>
+        <onexit>
+            <log expr=" 'exit  final state end' " />
+        </onexit>
+    </final>
+    
+    
+</businessclass>
