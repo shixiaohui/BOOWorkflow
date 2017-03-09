@@ -15,5 +15,10 @@ namespace BOODemo.Core
         /// 全局控制台显示互斥量
         /// </summary>
         public static Mutex ConsolePrintMutex = new Mutex();
+
+        /// <summary>
+        /// 任务解决器命名空间
+        /// </summary>
+        public static readonly string TaskHandlerWarehouseNamespace = "BOODemo.TaskWarehouse.";
     }
 }

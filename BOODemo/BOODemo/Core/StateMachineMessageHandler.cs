@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
+using System.Collections.Generic;
 using com.sysu.workflow;
 using com.sysu.workflow.entity;
 using BOODemo.TaskUtils;
@@ -69,20 +69,24 @@ namespace BOODemo.Core
                         paraDict[pairItems[0]] = pairItems[1];
                     }
                 }
+                // 初始化人任务处理器
                 if (tHandler.Init(paraDict) == false)
                 {
                     throw new Exception(String.Format("Init handler for {0} failed.", dealingItem.TaskName));
                 }
+                // 执行任务
                 // TODO: 异步执行
                 if (tHandler.Begin() == false)
                 {
                     throw new Exception(String.Format("Process {0} failed.", dealingItem.TaskName));
                 }
+                // 获取解决的结果包装
                 object resultPackage;
                 if (tHandler.GetResult(out resultPackage) == false)
                 {
                     throw new Exception(String.Format("Get result package of {0} failed.", dealingItem.TaskName));
                 }
+                // 反馈给状态机
                 if (tHandler.IsFinished())
                 {
                     this.engineBridge.SendEventAndTrigger(dealingItem.CallbackEvent, resultPackage);
