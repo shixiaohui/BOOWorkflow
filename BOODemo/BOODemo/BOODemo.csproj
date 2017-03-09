@@ -161,10 +161,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CasherEntity.cs" />
     <Compile Include="Model\KitchenOrderEntity.cs" />
     <Compile Include="GlobalDataContext.cs" />
     <Compile Include="Model\DishEntity.cs" />
     <Compile Include="Model\GuestOrderEntity.cs" />
+    <Compile Include="Model\Restaurant.cs" />
+    <Compile Include="TaskWarehouse\AddItemTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\ArchiveTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\CalculateTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\DeliverTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\PaymentTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\ProduceDishesTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\TestQualityTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\UpdateDeliTimeTaskHandler.cs" />
     <Compile Include="View\OrderingForm.cs">
       <SubType>Form</SubType>
     </Compile>

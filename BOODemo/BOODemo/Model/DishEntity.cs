@@ -8,6 +8,7 @@ namespace BOODemo.Model
     /// <summary>
     /// 实体类：一种料理
     /// </summary>
+    [Serializable]
     internal sealed class DishEntity
     {
         /// <summary>
