@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BOODemo.Forms
+namespace BOODemo.View
 {
-    public partial class GuestCheckForm : Form
+    public partial class OrderingForm : Form
     {
-        public GuestCheckForm()
+        public OrderingForm()
         {
             InitializeComponent();
         }

@@ -9,7 +9,7 @@ using com.sysu.workflow.env.jexl;
 
 using BOODemo.Core;
 
-namespace BOODemo.Forms
+namespace BOODemo.View
 {
     extern alias OpenJDKCore;
     public partial class MainForm : Form

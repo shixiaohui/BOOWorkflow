@@ -1,4 +1,4 @@
-﻿namespace BOODemo.Forms
+﻿namespace BOODemo.View
 {
     partial class OrderingForm
     {

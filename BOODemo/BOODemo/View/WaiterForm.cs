@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BOODemo.Forms
+namespace BOODemo.View
 {
-    public partial class KitchenForm : Form
+    public partial class WaiterForm : Form
     {
-        public KitchenForm()
+        public WaiterForm()
         {
             InitializeComponent();
         }

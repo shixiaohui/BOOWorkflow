@@ -161,38 +161,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\KitchenOrderEntity.cs" />
+    <Compile Include="Model\KitchenOrderEntity.cs" />
     <Compile Include="GlobalDataContext.cs" />
-    <Compile Include="Entity\DishEntity.cs" />
-    <Compile Include="Entity\GuestOrderEntity.cs" />
-    <Compile Include="Forms\OrderingForm.cs">
+    <Compile Include="Model\DishEntity.cs" />
+    <Compile Include="Model\GuestOrderEntity.cs" />
+    <Compile Include="View\OrderingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\OrderingForm.Designer.cs">
+    <Compile Include="View\OrderingForm.Designer.cs">
       <DependentUpon>OrderingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\GuestCheckForm.cs">
+    <Compile Include="View\GuestCheckForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\GuestCheckForm.Designer.cs">
+    <Compile Include="View\GuestCheckForm.Designer.cs">
       <DependentUpon>GuestCheckForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\KitchenForm.cs">
+    <Compile Include="View\KitchenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\KitchenForm.Designer.cs">
+    <Compile Include="View\KitchenForm.Designer.cs">
       <DependentUpon>KitchenForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="View\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="View\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\WaiterForm.cs">
+    <Compile Include="View\WaiterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\WaiterForm.Designer.cs">
+    <Compile Include="View\WaiterForm.Designer.cs">
       <DependentUpon>WaiterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -203,19 +203,19 @@
     <Compile Include="TaskWarehouse\ConsoleLogTaskHandler.cs" />
     <Compile Include="TaskUtils\TaskFactory.cs" />
     <Compile Include="TaskUtils\ITaskHandler.cs" />
-    <EmbeddedResource Include="Forms\OrderingForm.resx">
+    <EmbeddedResource Include="View\OrderingForm.resx">
       <DependentUpon>OrderingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\GuestCheckForm.resx">
+    <EmbeddedResource Include="View\GuestCheckForm.resx">
       <DependentUpon>GuestCheckForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\KitchenForm.resx">
+    <EmbeddedResource Include="View\KitchenForm.resx">
       <DependentUpon>KitchenForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\WaiterForm.resx">
+    <EmbeddedResource Include="View\WaiterForm.resx">
       <DependentUpon>WaiterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
