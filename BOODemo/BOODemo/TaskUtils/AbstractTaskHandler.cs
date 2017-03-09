@@ -41,8 +41,22 @@ namespace BOODemo.TaskUtils
         abstract public bool Terminate();
 
         /// <summary>
+        /// 获取该处理器绑定的状态机ID
+        /// </summary>
+        /// <returns>状态机的唯一编号</returns>
+        public int GetBindingExecutorId()
+        {
+            return this.BindingExecutorID;
+        }
+
+        /// <summary>
         /// 任务是否已经结束的标记
         /// </summary>
         protected bool isFinished = false;
+
+        /// <summary>
+        /// 获取或设置绑定的状态机处理器ID
+        /// </summary>
+        protected int BindingExecutorID = 0;
     }
 }

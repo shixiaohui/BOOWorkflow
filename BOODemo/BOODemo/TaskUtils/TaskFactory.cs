@@ -19,6 +19,7 @@ namespace BOODemo.TaskUtils
         {
             var findHandlerName = String.Format("{0}Handler", taskName);
             var findType = TaskFactory.TypeVector.Find((x) => String.Compare(x.Name, findHandlerName, true) == 0);
+            // 反射创建任务处理器
             if (findType != null)
             {
                 return (ITaskHandler)Activator.CreateInstance(findType);
@@ -36,7 +37,7 @@ namespace BOODemo.TaskUtils
         {
             var TypeArr = Assembly.GetExecutingAssembly().GetTypes();
             var HandlerTypeArr = from h in TypeArr
-                                 where h.FullName.StartsWith("BOODemo.TaskWarehouse.", StringComparison.CurrentCultureIgnoreCase)
+                                 where h.FullName.StartsWith(GlobalDataContext.TaskHandlerWarehouseNamespace, StringComparison.CurrentCultureIgnoreCase)
                                  select h;
             TaskFactory.TypeVector = new List<Type>(HandlerTypeArr);
         }

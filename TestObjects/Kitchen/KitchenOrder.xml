@@ -1,12 +1,12 @@
 <businessclass name="KitchenOrder" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
  <tasks>
-    <task id="roduceDishes" name="roduceDishesTask">
+    <task id="produceDishes" name="produceDishesTask" event="produced">
     </task>
-    <task id="testQuality" name="testQualityTask">
+    <task id="testQuality" name="testQualityTask" event="testCompleted">
     </task>
-    <task id="deliver" name="deliverTask">
+    <task id="deliver" name="deliverTask" event="delivered">
     </task>
-    <task id="archive" name="archiveTask">
+    <task id="archive" name="archiveTask" event="archived">
     </task>
  </tasks>
  <state id="Initial">
@@ -14,7 +14,7 @@
  </state>
  <state id="Producing">
   <onentry>
-   <call expr="roduceDishesTask"></call>
+   <call expr="produceDishesTask"></call>
   </onentry>
   <transition event="produced" target="QualityTesting"></transition>
  </state>
@@ -22,8 +22,8 @@
   <onentry>
    <call expr="testQualityTask"></call>
   </onentry>
-  <transition event="notPass" target="Producing"></transition>
-  <transition event="allPassed" target="Delivering"></transition>
+  <transition event="testCompleted" cond="_event.data.passed eq 0" target="Producing"></transition>
+  <transition event="testCompleted" cond="_event.data.passed eq 1" target="Delivering"></transition>
  </state>
  <state id="Delivering">
   <onentry>

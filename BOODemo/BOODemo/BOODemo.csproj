@@ -35,9 +35,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BOWorkFlow, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\BOWorkFlow.dll</HintPath>
+    <Reference Include="BOWorkFlow">
+      <HintPath>..\ReferenceDLLs\BOWorkFlow.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.AWT.WinForms, Version=7.2.4630.5, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -161,12 +160,50 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\GlobalDataContext.cs" />
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="Model\CasherEntity.cs" />
+    <Compile Include="Model\KitchenOrderEntity.cs" />
+    <Compile Include="GlobalDataContext.cs" />
+    <Compile Include="Model\DishEntity.cs" />
+    <Compile Include="Model\GuestOrderEntity.cs" />
+    <Compile Include="Model\Restaurant.cs" />
+    <Compile Include="TaskWarehouse\AddItemTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\ArchiveTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\CalculateTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\DeliverTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\PaymentTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\ProduceDishesTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\TestQualityTaskHandler.cs" />
+    <Compile Include="TaskWarehouse\UpdateDeliTimeTaskHandler.cs" />
+    <Compile Include="ViewModel\RestaurantViewModel.cs" />
+    <Compile Include="View\OrderingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="View\OrderingForm.Designer.cs">
+      <DependentUpon>OrderingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\GuestCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\GuestCheckForm.Designer.cs">
+      <DependentUpon>GuestCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\KitchenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\KitchenForm.Designer.cs">
+      <DependentUpon>KitchenForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaiterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\WaiterForm.Designer.cs">
+      <DependentUpon>WaiterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -176,8 +213,20 @@
     <Compile Include="TaskWarehouse\ConsoleLogTaskHandler.cs" />
     <Compile Include="TaskUtils\TaskFactory.cs" />
     <Compile Include="TaskUtils\ITaskHandler.cs" />
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="View\OrderingForm.resx">
+      <DependentUpon>OrderingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\GuestCheckForm.resx">
+      <DependentUpon>GuestCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\KitchenForm.resx">
+      <DependentUpon>KitchenForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\WaiterForm.resx">
+      <DependentUpon>WaiterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

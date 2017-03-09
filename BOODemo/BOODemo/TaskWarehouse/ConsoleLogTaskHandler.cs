@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BOODemo.Core;
 
 namespace BOODemo.TaskWarehouse
 {
@@ -37,7 +36,7 @@ namespace BOODemo.TaskWarehouse
         {
             lock (GlobalDataContext.ConsolePrintMutex)
             {
-                Console.WriteLine(String.Format("[APPLOG {0}] {1}:{2}", DateTime.Now, this.label, this.message));
+                Console.WriteLine(String.Format("[APPLOG {0}] {1} : {2}", DateTime.Now, this.label, this.message));
             }
             return this.isFinished = true;
         }

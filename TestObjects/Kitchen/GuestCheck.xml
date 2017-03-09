@@ -1,10 +1,10 @@
 <businessclass initial="Initial" name="GuestCheck" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
  <tasks>
-    <task id="calculate" name="calculateTask">
+    <task id="calculate" name="calculateTask" event="calculated">
     </task>
-    <task id="Payment" name="PaymentTask">
+    <task id="Payment" name="PaymentTask" event="paid">
     </task>
-    <task id="archive" name="archiveTask">
+    <task id="archive" name="archiveTask" event="archived">
     </task>
  </tasks>
  <state id="Initial">
