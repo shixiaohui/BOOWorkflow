@@ -8,6 +8,7 @@ namespace BOODemo.Model
     /// <summary>
     /// 实体类：用户订单
     /// </summary>
+    [Serializable]
     internal sealed class GuestOrderEntity
     {
         /// <summary>
@@ -19,6 +20,7 @@ namespace BOODemo.Model
             {
                 this.OrderId = GlobalDataContext.OrderIdCounter++;
             }
+            this.IsRequestPayment = false;
             this.CreateTimeStamp = DateTime.Now;
             this.PaidTimeStamp = null;
             this.orderedList = new List<DishEntity>();
@@ -92,6 +94,15 @@ namespace BOODemo.Model
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// 获取或设置订单是否要求付款
+        /// </summary>
+        public bool IsRequestPayment
+        {
+            get;
+            set;
         }
 
         /// <summary>
