@@ -69,7 +69,7 @@ namespace BOODemo.Core
                         paraDict[pairItems[0]] = pairItems[1];
                     }
                 }
-                // 初始化人任务处理器
+                // 初始化任务处理器
                 if (tHandler.Init(paraDict) == false)
                 {
                     throw new Exception(String.Format("Init handler for {0} failed.", dealingItem.TaskName));
@@ -89,7 +89,8 @@ namespace BOODemo.Core
                 // 反馈给状态机
                 if (tHandler.IsFinished())
                 {
-                    this.engineBridge.SendEventAndTrigger(dealingItem.CallbackEvent, resultPackage);
+                    this.engineBridge.SendEventAndTrigger(tHandler.GetBindingExecutorId(),
+                        dealingItem.CallbackEvent, resultPackage);
                 }
             }
         }

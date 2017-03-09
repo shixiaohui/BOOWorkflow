@@ -29,7 +29,8 @@ namespace BOODemo.View
             Evaluator ev = new JexlEvaluator();
             executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
             executor.setStateMachine(scxml);
-            eb.Init(executor, MsgHandler);
+            eb.SetExecutorReference(0, executor);
+            eb.Init(MsgHandler);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -40,7 +41,7 @@ namespace BOODemo.View
 
         private void button2_Click(object sender, EventArgs e)
         {
-            eb.SendEventAndTrigger("gotoEnd", null);
+            eb.SendEventAndTrigger(0, "gotoEnd", null);
         }
     }
 }

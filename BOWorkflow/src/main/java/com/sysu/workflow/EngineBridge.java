@@ -2,7 +2,12 @@ package com.sysu.workflow;
 
 import com.sysu.workflow.entity.BOMessage;
 import com.sysu.workflow.model.ModelException;
+import javassist.NotFoundException;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.Exchanger;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
@@ -22,11 +27,9 @@ public class EngineBridge {
     /**
      * <p>初始化桥接器</p>
      * <p>该方法在应用程序初始化时被调用</p>
-     * @param executor 根状态机的处理器
      * @param handler 应用程序消息处理器
      */
-    public void Init(SCXMLExecutor executor, EngineBridgeAppHandler handler) {
-        this.SetExecutorReference(executor);
+    public void Init(EngineBridgeAppHandler handler) {
         this.SetAppHandler(handler);
     }
 
@@ -34,8 +37,9 @@ public class EngineBridge {
      * 为桥绑定状态机处理器
      * @param executor 要绑定的状态机处理器
      */
-    public void SetExecutorReference(SCXMLExecutor executor) {
-        this.rootExecutor = executor;
+    public void SetExecutorReference(int executorId, SCXMLExecutor executor) {
+        Integer intPackage = Integer.valueOf(executorId);
+        this.executorMap.put(intPackage, executor);
     }
 
     /**
@@ -52,9 +56,15 @@ public class EngineBridge {
      * @param payload 附加在事件上的包装
      * @throws ModelException
      */
-    public void SendEventAndTrigger(String eventName, Object payload) throws ModelException {
+    public void SendEventAndTrigger(int executorId, String eventName, Object payload) throws ModelException {
         TriggerEvent tevt = new TriggerEvent(eventName, TriggerEvent.SIGNAL_EVENT, payload);
-        this.rootExecutor.triggerEvent(tevt);
+        Integer intPackage = Integer.valueOf(executorId);
+        try {
+            this.executorMap.get(intPackage).triggerEvent(tevt);
+        }
+        catch (Exception ex) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
@@ -121,12 +131,13 @@ public class EngineBridge {
      */
     private EngineBridge() {
         this.stateMachieMessageQueue = new LinkedBlockingDeque<BOMessage>();
+        this.executorMap = new HashMap<Integer, SCXMLExecutor>();
     }
 
     /**
      * 引擎处理器的引用，她是整个状态机树上的根
      */
-    private SCXMLExecutor rootExecutor;
+    private Map<Integer, SCXMLExecutor> executorMap;
 
     /**
      * 应用程序消息处理器的引用

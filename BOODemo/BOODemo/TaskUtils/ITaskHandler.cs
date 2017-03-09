@@ -39,5 +39,11 @@ namespace BOODemo.TaskUtils
         /// <param name="result">[out] 返回结果的包装</param>
         /// <returns>是否成功获取到了要返回的执行结果</returns>
         bool GetResult(out object result);
+
+        /// <summary>
+        /// 获取该处理器绑定的状态机ID
+        /// </summary>
+        /// <returns>状态机的唯一编号</returns>
+        int GetBindingExecutorId();
     }
 }
