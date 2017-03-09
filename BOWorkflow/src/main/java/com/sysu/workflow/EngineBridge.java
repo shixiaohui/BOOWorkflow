@@ -34,12 +34,22 @@ public class EngineBridge {
     }
 
     /**
-     * 为桥绑定状态机处理器
+     * 为桥设置一个状态机处理器
      * @param executor 要绑定的状态机处理器
      */
     public void SetExecutorReference(int executorId, SCXMLExecutor executor) {
         Integer intPackage = Integer.valueOf(executorId);
         this.executorMap.put(intPackage, executor);
+    }
+
+    /**
+     * 获取一个状态机处理器的引用
+     * @param executorId 状态机的编号
+     * @return 状态机处理器的引用
+     */
+    public SCXMLExecutor GetExecutorReference(int executorId) {
+        Integer intPackage = Integer.valueOf(executorId);
+        return this.executorMap.get(intPackage);
     }
 
     /**

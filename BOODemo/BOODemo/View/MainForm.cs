@@ -24,7 +24,7 @@ namespace BOODemo.View
             InitializeComponent();
             eb = EngineBridge.GetInstance();
             MsgHandler = new StateMachineMessageHandler();
-            OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", "", "helloworld.xml");
+            OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", String.Empty, "helloworld.xml");
             SCXML scxml = SCXMLReader.read(url);
             Evaluator ev = new JexlEvaluator();
             executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());

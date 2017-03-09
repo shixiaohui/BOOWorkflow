@@ -1,12 +1,12 @@
 <businessclass initial="Initial" name="GuestOrder" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
  <datamodel>
-  <data expr="" id="startKOCount"></data>
-  <data expr="" id="finishKOCount"></data>
+  <data expr="0" id="startKOCount"></data>
+  <data expr="0" id="finishKOCount"></data>
  </datamodel>
  <tasks>
-    <task id="addItem" name="Task">
+    <task id="addItem" name="addItemTask" event="submit">
     </task>
-    <task id="updateDeliTime" name="updateDeliTimeTask">
+    <task id="updateDeliTime" name="updateDeliTimeTask" event="addItem">
     </task>
  </tasks>
  <state id="Initial">
@@ -14,7 +14,7 @@
  </state>
  <state id="Dining" initial="in">
   <transition event="requestCheck" cond="fnishKOCount eq startKOCount" target="Paying">
-    <newBO src="GuestCheck"></newBO>
+    <newbo src="GuestCheck"></newbo>
   </transition>
   <state id="in">
    <transition target="Ordering"></transition>
@@ -24,7 +24,7 @@
     <call expr="addItemTask"></call>
   </onentry>
    <transition event="submit" target="Active">
-     <newBO src="KitchenOrder"></newBO>
+     <newbo src="KitchenOrder"></newbo>
      <assign location="startKOCount" expr="startKOCount + 1"></assign>
    </transition>
   </state>
