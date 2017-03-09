@@ -37,7 +37,7 @@ namespace BOODemo.TaskUtils
         {
             var TypeArr = Assembly.GetExecutingAssembly().GetTypes();
             var HandlerTypeArr = from h in TypeArr
-                                 where h.FullName.StartsWith(Core.GlobalDataContext.TaskHandlerWarehouseNamespace,
+                                 where h.FullName.StartsWith(GlobalDataContext.TaskHandlerWarehouseNamespace,
                                                              StringComparison.CurrentCultureIgnoreCase)
                                  select h;
             TaskFactory.TypeVector = new List<Type>(HandlerTypeArr);

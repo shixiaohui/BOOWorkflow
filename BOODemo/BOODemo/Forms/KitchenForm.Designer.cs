@@ -41,6 +41,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.listBox5 = new System.Windows.Forms.ListBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -77,6 +78,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.button5);
             this.groupBox2.Controls.Add(this.listBox5);
             this.groupBox2.Controls.Add(this.button4);
@@ -167,12 +169,21 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(82, 459);
+            this.button5.Location = new System.Drawing.Point(89, 459);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(229, 23);
+            this.button5.Size = new System.Drawing.Size(95, 23);
             this.button5.TabIndex = 10;
-            this.button5.Text = "Delivered And Finish Kitchen Order";
+            this.button5.Text = "Delivered";
             this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(199, 459);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(95, 23);
+            this.button6.TabIndex = 11;
+            this.button6.Text = "Finish KO";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // KitchenForm
             // 
@@ -210,5 +221,6 @@
         private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Button button6;
     }
 }
