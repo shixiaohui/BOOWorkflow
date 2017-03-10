@@ -15,6 +15,7 @@ public class BOMessage {
      */
     public BOMessage() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.triggerExecutorIndex = 0;
         this.messageCreateTimestampString = sdf.format(new Date());
         this.agentList = new ArrayList<String>();
         this.tasksList = new ArrayList<String>();
@@ -29,8 +30,9 @@ public class BOMessage {
      * @param dealRole 任务处理者
      * @param callbackEv 任务完成后要触发的事件名
      */
-    public void AddMessageItem(String taskName, String paramStr, String dealRole, String callbackEv) {
+    public void AddMessageItem(int triggerExecIdx, String taskName, String paramStr, String dealRole, String callbackEv) {
         if (taskName != null && dealRole != null) {
+            this.triggerExecutorIndex = triggerExecIdx;
             this.tasksList.add(taskName);
             this.agentList.add(dealRole);
             this.paramsList.add(paramStr);
@@ -69,6 +71,10 @@ public class BOMessage {
      */
     public List<String> GetCallbackList() { return this.callbackEventList; }
 
+    /**
+     * 触发这个消息的执行器在应用程序里的索引号
+     */
+    private int triggerExecutorIndex;
 
     /**
      * 这个消息要传递给应用程序的任务向量
