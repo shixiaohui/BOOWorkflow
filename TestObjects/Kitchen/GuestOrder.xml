@@ -13,7 +13,7 @@
   <transition target="Dining"></transition>
  </state>
  <state id="Dining" initial="in">
-  <transition event="requestCheck" cond="fnishKOCount eq startKOCount" target="Paying">
+  <transition event="requestCheck" cond="finishKOCount eq startKOCount" target="Paying">
     <newbo src="GuestCheck"></newbo>
   </transition>
   <state id="in">

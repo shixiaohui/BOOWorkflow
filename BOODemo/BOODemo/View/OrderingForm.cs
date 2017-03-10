@@ -11,6 +11,11 @@ namespace BOODemo.View
 {
     public partial class OrderingForm : Form
     {
+        /// <summary>
+        /// 点餐窗口所绑定的单号
+        /// </summary>
+        public int BindingGuestOrderId { get; set; }
+
         public OrderingForm()
         {
             InitializeComponent();

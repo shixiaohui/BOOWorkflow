@@ -8,12 +8,38 @@ namespace BOODemo.TaskWarehouse
     internal sealed class AddItemTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>
+        /// 初始化任务处理器
+        /// </summary>
+        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
+        /// <returns>初始化任务是否成功</returns>
+        public override bool Init(Dictionary<string, object> paraDict)
+        {
+            try
+            {
+                this.guestOrderId = (int)paraDict["guestOrderId"];
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// 开始处理任务
         /// </summary>
         /// <returns>任务是否成功结束</returns>
         public override bool Begin()
         {
-            throw new NotImplementedException();
+            try
+            {
+                ViewModel.RestaurantViewModel.OrderingFormDict[this.guestOrderId].BindingGuestOrderId = this.guestOrderId;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -23,35 +49,13 @@ namespace BOODemo.TaskWarehouse
         /// <returns>是否成功获取到了要返回的执行结果</returns>
         public override bool GetResult(out object result)
         {
-            throw new NotImplementedException();
+            result = null;
+            return true;
         }
 
         /// <summary>
-        /// 初始化任务处理器
+        /// 客户订单号
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
-        public override bool Init(Dictionary<string, object> paraDict)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 查询任务是否已经完成
-        /// </summary>
-        /// <returns>任务是否已经完成</returns>
-        public override bool IsFinished()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 强制结束任务
-        /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
-        public override bool Terminate()
-        {
-            throw new NotImplementedException();
-        }
+        private int guestOrderId;
     }
 }

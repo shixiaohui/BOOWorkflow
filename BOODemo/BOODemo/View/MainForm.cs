@@ -22,26 +22,29 @@ namespace BOODemo.View
         public MainForm()
         {
             InitializeComponent();
-            eb = EngineBridge.GetInstance();
-            MsgHandler = new StateMachineMessageHandler();
-            OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", String.Empty, "helloworld.xml");
-            SCXML scxml = SCXMLReader.read(url);
-            Evaluator ev = new JexlEvaluator();
-            executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
-            executor.setStateMachine(scxml);
-            eb.SetExecutorReference(0, executor);
-            eb.Init(MsgHandler);
+
+
+
+            //eb = EngineBridge.GetInstance();
+            //MsgHandler = new StateMachineMessageHandler();
+            //OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", String.Empty, "helloworld.xml");
+            //SCXML scxml = SCXMLReader.read(url);
+            //Evaluator ev = new JexlEvaluator();
+            //executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
+            //executor.setStateMachine(scxml);
+            //eb.SetExecutorReference(0, executor);
+            //eb.Init(MsgHandler);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            executor.go();
+            //executor.go();
             
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            eb.SendEventAndTrigger(0, "gotoEnd", null);
+            //eb.SendEventAndTrigger(0, "gotoEnd", null);
         }
     }
 }

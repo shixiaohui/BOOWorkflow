@@ -29,24 +29,39 @@ namespace BOODemo.TaskUtils
         abstract public bool Init(Dictionary<string, object> paraDict);
 
         /// <summary>
-        /// 查询任务是否已经完成
-        /// </summary>
-        /// <returns>任务是否已经完成</returns>
-        abstract public bool IsFinished();
-
-        /// <summary>
         /// 强制结束任务
         /// </summary>
         /// <returns>是否已经成功强制结束了任务</returns>
-        abstract public bool Terminate();
+        virtual public bool Terminate()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// 查询任务是否已经完成
+        /// </summary>
+        /// <returns>任务是否已经完成</returns>
+        virtual public bool IsFinished()
+        {
+            return this.isFinished;
+        }
 
         /// <summary>
         /// 获取该处理器绑定的状态机ID
         /// </summary>
         /// <returns>状态机的唯一编号</returns>
-        public int GetBindingExecutorId()
+        virtual public int GetBindingExecutorId()
         {
-            return this.BindingExecutorID;
+            return this.bindingExecutorID;
+        }
+
+        /// <summary>
+        /// 设置该处理器绑定的状态机ID
+        /// </summary>
+        /// <param name="execId">要绑定的状态机的ID</param>
+        virtual public void Binding(int execId)
+        {
+            this.bindingExecutorID = execId;
         }
 
         /// <summary>
@@ -57,6 +72,6 @@ namespace BOODemo.TaskUtils
         /// <summary>
         /// 获取或设置绑定的状态机处理器ID
         /// </summary>
-        protected int BindingExecutorID = 0;
+        protected int bindingExecutorID = 0;
     }
 }

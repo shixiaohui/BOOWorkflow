@@ -18,7 +18,7 @@ namespace BOODemo.TaskUtils
         /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否启动成功</returns>
         bool Begin();
 
         /// <summary>

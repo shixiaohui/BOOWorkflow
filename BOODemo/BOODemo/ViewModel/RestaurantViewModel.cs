@@ -26,21 +26,33 @@ namespace BOODemo.ViewModel
             RestaurantViewModel.messageHandler = new StateMachineMessageHandler();
             RestaurantViewModel.engineBridge.Init(messageHandler);
             RestaurantViewModel.executorDict = new Dictionary<int, SCXMLExecutor>();
+            RestaurantViewModel.OrderingFormDict = new Dictionary<int, View.OrderingForm>();
         }
 
         /// <summary>
         /// 开始一个新的业务对象实例
         /// </summary>
-        public static void CreateNewBussinessObjectInstance()
+        public static void CreateBussinessObjectInstance()
         {
             StateMachineMessageHandler MsgHandler = new StateMachineMessageHandler();
-            OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", "", "GuestOrder.xml");
+            var url = new OpenJDKCore.java.net.URL(
+                GlobalDataContext.EntryPointXMLDescriptorURLProtocol, String.Empty,
+                GlobalDataContext.EntryPointXMLDescriptorFileName);
             SCXML scxml = SCXMLReader.read(url);
             Evaluator ev = new JexlEvaluator();
             SCXMLExecutor executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
             executor.setStateMachine(scxml);
             RestaurantViewModel.engineBridge.SetExecutorReference(RestaurantViewModel.executorCounter, executor);
             RestaurantViewModel.executorDict[RestaurantViewModel.executorCounter++] = executor;
+        }
+
+        /// <summary>
+        /// 获取点餐窗体引用字典
+        /// </summary>
+        public static Dictionary<int, View.OrderingForm> OrderingFormDict
+        {
+            get;
+            private set;
         }
 
         /// <summary>

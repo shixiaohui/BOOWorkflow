@@ -44,6 +44,14 @@ public class BOMessage {
     }
 
     /**
+     * 获取发出这条信息的状态机执行器的id
+     * @return 状态机执行器id
+     */
+    public int GetExecutorIndex() {
+        return this.triggerExecutorIndex;
+    }
+
+    /**
      * 获取应用程序要处理的任务向量
      * @return 任务向量的引用
      */

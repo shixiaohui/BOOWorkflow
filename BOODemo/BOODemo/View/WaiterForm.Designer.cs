@@ -30,12 +30,13 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,23 +64,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Orders";
             // 
-            // listBox1
+            // button2
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(7, 20);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(179, 280);
-            this.listBox1.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(193, 21);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(158, 206);
-            this.textBox1.TabIndex = 2;
+            this.button2.Location = new System.Drawing.Point(220, 269);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(104, 31);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Make Payment";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -90,14 +82,23 @@
             this.button1.Text = "Add Item";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // textBox1
             // 
-            this.button2.Location = new System.Drawing.Point(220, 269);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(104, 31);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Make Payment";
-            this.button2.UseVisualStyleBackColor = true;
+            this.textBox1.Location = new System.Drawing.Point(193, 21);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(158, 206);
+            this.textBox1.TabIndex = 2;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(7, 20);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(179, 280);
+            this.listBox1.TabIndex = 1;
             // 
             // button3
             // 
@@ -124,11 +125,21 @@
     "h is able to have multi-instance to simulate several waiters making up order in " +
     "the same time";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(393, 302);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(104, 31);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Exit System";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // WaiterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(518, 349);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);
@@ -156,5 +167,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button4;
     }
 }
