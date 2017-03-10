@@ -18,7 +18,7 @@ namespace BOODemo.TaskWarehouse
             {
                 Console.WriteLine(String.Format("[{0}] Archive task called. Archive successfully.", DateTime.Now));
             }
-            return true;
+            return this.isFinished = true;
         }
         
         /// <summary>

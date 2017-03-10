@@ -135,7 +135,7 @@ namespace BOODemo.Model
                 return this.PaidTimeStamp != null;
             }
         }
-
+        
         /// <summary>
         /// 客户已点餐品
         /// </summary>

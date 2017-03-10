@@ -20,12 +20,12 @@ namespace BOODemo.TaskWarehouse
             try
             {
                 this.guestOrderId = (int)paraDict["guestOrderId"];
+                return true;
             }
             catch
             {
                 return false;
             }
-            return true;
         }
 
         /// <summary>
