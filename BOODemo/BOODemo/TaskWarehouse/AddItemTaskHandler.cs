@@ -5,27 +5,11 @@ using System.Text;
 
 namespace BOODemo.TaskWarehouse
 {
+    /// <summary>
+    /// 任务解决器：添加客户订单
+    /// </summary>
     internal sealed class AddItemTaskHandler : TaskUtils.AbstractTaskHandler
     {
-        /// <summary>
-        /// 开始处理任务
-        /// </summary>
-        /// <returns>任务是否成功结束</returns>
-        public override bool Begin()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 获取任务处理的返回结果
-        /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
-        public override bool GetResult(out object result)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// 初始化任务处理器
         /// </summary>
@@ -33,25 +17,37 @@ namespace BOODemo.TaskWarehouse
         /// <returns>初始化任务是否成功</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.guestOrderId = (int)paraDict["guestOrderId"];
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
-        /// 查询任务是否已经完成
+        /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否已经完成</returns>
-        public override bool IsFinished()
+        /// <returns>任务是否成功开始</returns>
+        public override bool Begin()
         {
-            throw new NotImplementedException();
+            try
+            {
+                ViewModel.RestaurantViewModel.OrderingFormDict[this.guestOrderId].BindingGuestOrderId = this.guestOrderId;
+                return this.isFinished = true;
+            }
+            catch
+            {
+                return false;
+            }
         }
-
+        
         /// <summary>
-        /// 强制结束任务
+        /// 客户订单号
         /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
-        public override bool Terminate()
-        {
-            throw new NotImplementedException();
-        }
+        private int guestOrderId;
     }
 }

@@ -24,7 +24,6 @@ namespace BOODemo.Model
             this.FinishedTimeStamp = null;
             this.PendingList = new List<DishEntity>();
             this.QTList = new List<DishEntity>();
-            this.WaitForDeliverList = new List<DishEntity>();
             this.DeliveringList = new List<DishEntity>();
             this.ArrivedList = new List<DishEntity>();
         }
@@ -33,10 +32,9 @@ namespace BOODemo.Model
         /// 将一道料理准备好并等待品测
         /// </summary>
         /// <param name="pendingIdx">该料理在待处理向量的位置</param>
-        public void ProduceDish(int pendingIdx)
+        public void ProducedDish(int pendingIdx)
         {
             var rObj = this.PendingList[pendingIdx];
-            this.PendingList.RemoveAt(pendingIdx);
             this.QTList.Add(rObj);
         }
 
@@ -47,7 +45,6 @@ namespace BOODemo.Model
         public void NotpassQTDish(int qtIdx)
         {
             var rObj = this.QTList[qtIdx];
-            this.QTList.RemoveAt(qtIdx);
             this.PendingList.Add(rObj);
         }
 
@@ -58,21 +55,9 @@ namespace BOODemo.Model
         public void PassQTDish(int qtIdx)
         {
             var rObj = this.QTList[qtIdx];
-            this.QTList.RemoveAt(qtIdx);
-            this.WaitForDeliverList.Add(rObj);
-        }
-
-        /// <summary>
-        /// 将一道菜递出
-        /// </summary>
-        /// <param name="wdIdx">该料理在待递送向量的位置</param>
-        public void DeliverDish(int wdIdx)
-        {
-            var rObj = this.WaitForDeliverList[wdIdx];
-            this.WaitForDeliverList.RemoveAt(wdIdx);
             this.DeliveringList.Add(rObj);
         }
-
+        
         /// <summary>
         /// 一道菜已经递送完毕
         /// </summary>
@@ -80,7 +65,6 @@ namespace BOODemo.Model
         public void ArriveDish(int dIdx)
         {
             var rObj = this.DeliveringList[dIdx];
-            this.DeliveringList.RemoveAt(dIdx);
             this.ArrivedList.Add(rObj);
         }
 
@@ -156,16 +140,7 @@ namespace BOODemo.Model
             get;
             private set;
         }
-
-        /// <summary>
-        /// 获取待递送向量
-        /// </summary>
-        public List<DishEntity> WaitForDeliverList
-        {
-            get;
-            private set;
-        }
-
+        
         /// <summary>
         /// 获取递送途中向量
         /// </summary>

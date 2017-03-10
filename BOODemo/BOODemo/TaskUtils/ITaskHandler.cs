@@ -18,7 +18,7 @@ namespace BOODemo.TaskUtils
         /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否启动成功</returns>
         bool Begin();
 
         /// <summary>
@@ -45,5 +45,11 @@ namespace BOODemo.TaskUtils
         /// </summary>
         /// <returns>状态机的唯一编号</returns>
         int GetBindingExecutorId();
+
+        /// <summary>
+        /// 获取该处理器是否已经被强制终止
+        /// </summary>
+        /// <returns>处理器是否停机</returns>
+        bool IsAbort();
     }
 }

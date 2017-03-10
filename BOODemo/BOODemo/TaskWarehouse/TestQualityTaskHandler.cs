@@ -1,19 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using BOODemo.ViewModel;
 
 namespace BOODemo.TaskWarehouse
 {
+    /// <summary>
+    /// 任务解决器：厨房餐单品测
+    /// </summary>
     internal sealed class TestQualityTaskHandler : TaskUtils.AbstractTaskHandler  
     {
         /// <summary>
+        /// 初始化任务处理器
+        /// </summary>
+        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
+        /// <returns>初始化任务是否成功</returns>
+        public override bool Init(Dictionary<string, object> paraDict)
+        {
+            try
+            {
+                this.kitchenOrderId = (int)paraDict["kitchenOrderId"];
+                this.bindingGuestOrderId = (int)paraDict["guestOrderId"];
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
-            throw new NotImplementedException();
+            var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+            for (int i = 0; i < kOrder.PendingList.Count; i++)
+            {
+                kOrder.ProducedDish(i);
+            }
+            kOrder.PendingList.Clear();
+            return true;
         }
 
         /// <summary>
@@ -23,35 +50,78 @@ namespace BOODemo.TaskWarehouse
         /// <returns>是否成功获取到了要返回的执行结果</returns>
         public override bool GetResult(out object result)
         {
-            throw new NotImplementedException();
+            if (this.isPass == null)
+            {
+                result = null;
+                return false;
+            }
+            var resPack = new TestQualityTaskResultPackage();
+            resPack.passed = (bool)this.isPass ? "1" : "0";
+            result = resPack;
+            return true;
         }
 
         /// <summary>
-        /// 初始化任务处理器
+        /// 设置是否品测通过
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
-        public override bool Init(Dictionary<string, object> paraDict)
+        public bool IsQualityTestPass
         {
-            throw new NotImplementedException();
+            get
+            {
+                if (this.isPass == null)
+                {
+                    throw new FieldAccessException();
+                }
+                return (bool)this.isPass;
+            }
+            set
+            {
+                this.isPass = value;
+                var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+                if ((bool)this.isPass)
+                {
+                    for (int i = 0; i < ko.QTList.Count; i++)
+                    {
+                        ko.QTList[i].PassedQT = true;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ko.QTList.Count; i++)
+                    {
+                        ko.NotpassQTDish(i);
+                    }
+                    ko.QTList.Clear();
+                }
+                this.isFinished = true;
+            }
         }
 
         /// <summary>
-        /// 查询任务是否已经完成
+        /// 厨房餐单id
         /// </summary>
-        /// <returns>任务是否已经完成</returns>
-        public override bool IsFinished()
-        {
-            throw new NotImplementedException();
-        }
+        private int kitchenOrderId = -1;
 
         /// <summary>
-        /// 强制结束任务
+        /// 绑定的客户订单id
         /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
-        public override bool Terminate()
-        {
-            throw new NotImplementedException();
-        }
+        private int bindingGuestOrderId = -1;
+
+        /// <summary>
+        /// 品测是否通过标记位
+        /// </summary>
+        private bool? isPass = null;
+
+    }
+
+    /// <summary>
+    /// 品测结果包装
+    /// </summary>
+    public class TestQualityTaskResultPackage
+    {
+        /// <summary>
+        /// 品测是否通过标记，0为失败，1为成功
+        /// </summary>
+        public string passed;
     }
 }
