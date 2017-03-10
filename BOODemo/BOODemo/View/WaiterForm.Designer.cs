@@ -72,6 +72,7 @@
             this.button2.TabIndex = 4;
             this.button2.Text = "Make Payment";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -81,6 +82,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Add Item";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
@@ -108,6 +110,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "Create Order";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // textBox2
             // 
@@ -133,12 +136,14 @@
             this.button4.TabIndex = 7;
             this.button4.Text = "Exit System";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // WaiterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(518, 349);
+            this.ControlBox = false;
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button3);
