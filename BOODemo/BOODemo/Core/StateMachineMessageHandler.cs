@@ -45,6 +45,7 @@ namespace BOODemo.Core
                         StateMachineMessage smm = new StateMachineMessage()
                         {
                             TaskName = taskList.get(i).ToString(),
+                            BindingExecutorId = bom.GetExecutorIndex(),
                             CallbackEvent = callbackList.get(i).ToString(),
                             Paras = tParas != null ? tParas.ToString() : String.Empty,
                             AgentName = tAgent != null ? tAgent.ToString() : String.Empty

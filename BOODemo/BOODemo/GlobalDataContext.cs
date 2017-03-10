@@ -40,5 +40,15 @@ namespace BOODemo
         /// 任务解决器命名空间
         /// </summary>
         public static readonly string TaskHandlerWarehouseNamespace = "BOODemo.TaskWarehouse.";
+
+        /// <summary>
+        /// 入口XML描述文件获取URL的协议名
+        /// </summary>
+        public static readonly string EntryPointXMLDescriptorURLProtocol = "file";
+
+        /// <summary>
+        /// 入口XML描述文件的文件名
+        /// </summary>
+        public static readonly string EntryPointXMLDescriptorFileName = "GuestOrder.xml";
     }
 }

@@ -52,6 +52,12 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     private SCXMLExecutionContext exctx;
 
     /**
+     * The index of this executor in application
+     * 该状态机执行器在应用程序的索引
+     */
+    private int executorIndex = 0;
+
+    /**
      * The external event queue
      * 外部事件队列
      */
@@ -589,6 +595,23 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
             log.debug(sb.toString());
         }
     }
+
+    /**
+     * 获取当前执行器在应用程序的索引
+     * @return 索引号
+     */
+    public int getExecutorIndex() {
+        return executorIndex;
+    }
+
+    /**
+     * 设置当前执行器在应用程序的索引
+     * @param executorIndex 索引号
+     */
+    public void setExecutorIndex(int executorIndex) {
+        this.executorIndex = executorIndex;
+    }
+
     /**
      * 得到当前状态机的实例树
      */

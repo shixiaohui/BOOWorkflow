@@ -81,7 +81,8 @@ public class Call extends Action implements Serializable {
                     } else if (t.getAssignee() != null) {
                         dasher = t.getAssignee();
                     }
-                    EngineBridge.QuickEnqueueBOMessage(this.name, this.params, dasher, t.getEvent());
+                    EngineBridge.QuickEnqueueBOMessage(scxmlExecContext.getSCXMLExecutor().getExecutorIndex(),
+                            this.name, this.params, dasher, t.getEvent());
                     successFlag = true;
                     break;
                 }

@@ -39,6 +39,7 @@ public class EngineBridge {
      */
     public void SetExecutorReference(int executorId, SCXMLExecutor executor) {
         Integer intPackage = Integer.valueOf(executorId);
+        executor.setExecutorIndex(executorId);
         this.executorMap.put(intPackage, executor);
     }
 
@@ -111,24 +112,16 @@ public class EngineBridge {
 
     /**
      * 将一个任务作为消息放入发送到应用程序的队列中
+     * @param execIdx 触发消息的执行器id
      * @param taskName 任务名称
      * @param paramStr 参数字符串
      * @param roleName 角色名称
      * @param callbackEv 处理完成的事件名
      */
-    public static void QuickEnqueueBOMessage(String taskName, String paramStr, String roleName, String callbackEv) {
+    public static void QuickEnqueueBOMessage(int execIdx, String taskName, String paramStr, String roleName, String callbackEv) {
         BOMessage boMsg = new BOMessage();
-        boMsg.AddMessageItem(taskName, paramStr, roleName, callbackEv);
+        boMsg.AddMessageItem(execIdx, taskName, paramStr, roleName, callbackEv);
         EngineBridge.GetInstance().EnqueueBOMessage(boMsg);
-    }
-
-    /**
-     * 将一个任务作为消息放入发送到应用程序的队列中，并且执行角色为空
-     * @param taskName 任务名称
-     * @param callbackEv 处理完成的事件名
-     */
-    public static void QuickEnqueueBOMessage(String taskName, String callbackEv) {
-        EngineBridge.QuickEnqueueBOMessage(taskName, "", "", callbackEv);
     }
 
     /**
