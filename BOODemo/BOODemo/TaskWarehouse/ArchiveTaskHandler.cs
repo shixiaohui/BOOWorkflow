@@ -10,22 +10,17 @@ namespace BOODemo.TaskWarehouse
         /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
-            throw new NotImplementedException();
+            // simulate archived
+            lock (GlobalDataContext.ConsolePrintMutex)
+            {
+                Console.WriteLine(String.Format("[{0}] Archive task called. Archive successfully.", DateTime.Now));
+            }
+            return true;
         }
-
-        /// <summary>
-        /// 获取任务处理的返回结果
-        /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
-        public override bool GetResult(out object result)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /// <summary>
         /// 初始化任务处理器
         /// </summary>
@@ -33,25 +28,7 @@ namespace BOODemo.TaskWarehouse
         /// <returns>初始化任务是否成功</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 查询任务是否已经完成
-        /// </summary>
-        /// <returns>任务是否已经完成</returns>
-        public override bool IsFinished()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 强制结束任务
-        /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
-        public override bool Terminate()
-        {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

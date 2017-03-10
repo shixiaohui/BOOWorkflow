@@ -11,15 +11,8 @@ namespace BOODemo.TaskUtils
         /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否成功开始</returns>
         abstract public bool Begin();
-
-        /// <summary>
-        /// 获取任务处理的返回结果
-        /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
-        abstract public bool GetResult(out object result);
 
         /// <summary>
         /// 初始化任务处理器
@@ -34,7 +27,7 @@ namespace BOODemo.TaskUtils
         /// <returns>是否已经成功强制结束了任务</returns>
         virtual public bool Terminate()
         {
-            return false;
+            return this.isAborted = true;
         }
 
         /// <summary>
@@ -44,6 +37,17 @@ namespace BOODemo.TaskUtils
         virtual public bool IsFinished()
         {
             return this.isFinished;
+        }
+
+        /// <summary>
+        /// 获取任务处理的返回结果
+        /// </summary>
+        /// <param name="result">[out] 返回结果的包装</param>
+        /// <returns>是否成功获取到了要返回的执行结果</returns>
+        virtual public bool GetResult(out object result)
+        {
+            result = null;
+            return true;
         }
 
         /// <summary>
@@ -65,6 +69,15 @@ namespace BOODemo.TaskUtils
         }
 
         /// <summary>
+        /// 获取该处理器是否已经被强制终止
+        /// </summary>
+        /// <returns>处理器是否停机</returns>
+        virtual public bool IsAbort()
+        {
+            return this.isAborted;
+        }
+
+        /// <summary>
         /// 任务是否已经结束的标记
         /// </summary>
         protected bool isFinished = false;
@@ -73,5 +86,10 @@ namespace BOODemo.TaskUtils
         /// 获取或设置绑定的状态机处理器ID
         /// </summary>
         protected int bindingExecutorID = 0;
+
+        /// <summary>
+        /// 任务是否已经被强制终止
+        /// </summary>
+        protected bool isAborted = false;
     }
 }

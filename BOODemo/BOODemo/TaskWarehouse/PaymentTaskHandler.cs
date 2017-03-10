@@ -10,7 +10,7 @@ namespace BOODemo.TaskWarehouse
         /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
             throw new NotImplementedException();

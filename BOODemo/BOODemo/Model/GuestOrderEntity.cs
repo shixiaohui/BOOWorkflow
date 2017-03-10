@@ -45,6 +45,15 @@ namespace BOODemo.Model
         }
 
         /// <summary>
+        /// 获取客户订单中所有已点餐品
+        /// </summary>
+        /// <returns>已点餐品向量</returns>
+        public List<DishEntity> GetOrderedList()
+        {
+            return this.orderedList;
+        }
+
+        /// <summary>
         /// 订单已完成支付
         /// </summary>
         public void FinishPayment()

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using com.sysu.workflow;
 using com.sysu.workflow.entity;
+using BOODemo.ViewModel;
 using BOODemo.TaskUtils;
 
 namespace BOODemo.Core
@@ -75,6 +76,11 @@ namespace BOODemo.Core
                 {
                     throw new Exception(String.Format("Init handler for {0} failed.", dealingItem.TaskName));
                 }
+                // 加入活跃处理器向量
+                lock (RestaurantViewModel.ActiveTaskHandlerList)
+                {
+                    RestaurantViewModel.ActiveTaskHandlerList.Add(tHandler);
+                }
                 // 执行任务
                 // TODO: 异步执行
                 if (tHandler.Begin() == false)
@@ -87,11 +93,21 @@ namespace BOODemo.Core
                 {
                     throw new Exception(String.Format("Get result package of {0} failed.", dealingItem.TaskName));
                 }
+                // 等待任务完成
+                while (tHandler.IsFinished() == false || tHandler.IsAbort())
+                {
+                    Thread.Sleep(TimeSpan.FromTicks(100));
+                }
                 // 反馈给状态机
                 if (tHandler.IsFinished())
                 {
                     this.engineBridge.SendEventAndTrigger(tHandler.GetBindingExecutorId(),
                         dealingItem.CallbackEvent, resultPackage);
+                }
+                // 从活跃处理器向量中移除
+                lock (RestaurantViewModel.ActiveTaskHandlerList)
+                {
+                    RestaurantViewModel.ActiveTaskHandlerList.Remove(tHandler);
                 }
             }
         }

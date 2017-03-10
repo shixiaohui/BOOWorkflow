@@ -8,6 +8,8 @@ using com.sysu.workflow.env;
 using com.sysu.workflow.model;
 using com.sysu.workflow.env.jexl;
 using BOODemo.Core;
+using BOODemo.Model;
+using BOODemo.TaskUtils;
 
 namespace BOODemo.ViewModel
 {
@@ -27,6 +29,8 @@ namespace BOODemo.ViewModel
             RestaurantViewModel.engineBridge.Init(messageHandler);
             RestaurantViewModel.executorDict = new Dictionary<int, SCXMLExecutor>();
             RestaurantViewModel.OrderingFormDict = new Dictionary<int, View.OrderingForm>();
+            RestaurantViewModel.RestaurantEntity = new Restaurant();
+            RestaurantViewModel.ActiveTaskHandlerList = new List<ITaskHandler>();
         }
 
         /// <summary>
@@ -56,6 +60,24 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
+        /// 获取餐厅实体
+        /// </summary>
+        public static Restaurant RestaurantEntity
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// 获取当前活跃的任务处理器向量
+        /// </summary>
+        public static List<ITaskHandler> ActiveTaskHandlerList
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// 状态机执行器字典
         /// </summary>
         private static Dictionary<int, SCXMLExecutor> executorDict;
@@ -64,7 +86,7 @@ namespace BOODemo.ViewModel
         /// 状态机执行器计数
         /// </summary>
         private static int executorCounter = 0;
-
+        
         /// <summary>
         /// 桥接器
         /// </summary>

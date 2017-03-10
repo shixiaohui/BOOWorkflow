@@ -5,6 +5,9 @@ using System.Text;
 
 namespace BOODemo.TaskWarehouse
 {
+    /// <summary>
+    /// 任务解决器：添加客户订单
+    /// </summary>
     internal sealed class AddItemTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>
@@ -28,31 +31,20 @@ namespace BOODemo.TaskWarehouse
         /// <summary>
         /// 开始处理任务
         /// </summary>
-        /// <returns>任务是否成功结束</returns>
+        /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
             try
             {
                 ViewModel.RestaurantViewModel.OrderingFormDict[this.guestOrderId].BindingGuestOrderId = this.guestOrderId;
-                return true;
+                return this.isFinished = true;
             }
             catch
             {
                 return false;
             }
         }
-
-        /// <summary>
-        /// 获取任务处理的返回结果
-        /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
-        public override bool GetResult(out object result)
-        {
-            result = null;
-            return true;
-        }
-
+        
         /// <summary>
         /// 客户订单号
         /// </summary>
