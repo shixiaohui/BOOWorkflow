@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BOODemo.Model
 {
@@ -45,6 +42,22 @@ namespace BOODemo.Model
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// 克隆对象
+        /// </summary>
+        /// <returns>该实体的一份克隆</returns>
+        public DishEntity Clone()
+        {
+            var DishClone = new DishEntity()
+            {
+                Name = this.Name,
+                Price = this.Price,
+                KitchenOrderId = this.KitchenOrderId,
+                PassedQT = this.PassedQT
+            };
+            return DishClone;
         }
     }
 }

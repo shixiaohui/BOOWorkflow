@@ -121,7 +121,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "GuestCheckForm";
-            this.Text = "GuestCheckForm";
+            this.Text = "Casher Client";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

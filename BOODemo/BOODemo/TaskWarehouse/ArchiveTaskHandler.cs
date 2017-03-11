@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BOODemo.TaskWarehouse
 {
@@ -13,7 +11,7 @@ namespace BOODemo.TaskWarehouse
         /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
-            // simulate archived
+            // simulate archived, in producing environment this handler always saves data to DB
             lock (GlobalDataContext.ConsolePrintMutex)
             {
                 Console.WriteLine(String.Format("[{0}] Archive task called. Archive successfully.", DateTime.Now));

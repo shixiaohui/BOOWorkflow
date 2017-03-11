@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using BOODemo.View;
 
 namespace BOODemo.TaskWarehouse
 {
@@ -36,7 +34,9 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                ViewModel.RestaurantViewModel.OrderingFormDict[this.guestOrderId].BindingGuestOrderId = this.guestOrderId;
+                OrderingForm of = new OrderingForm();
+                of.BindingGuestOrderId = this.bindingExecutorID;
+                of.Show();
                 return this.isFinished = true;
             }
             catch
