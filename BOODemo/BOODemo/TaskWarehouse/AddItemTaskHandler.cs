@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BOODemo.View;
 
 namespace BOODemo.TaskWarehouse
@@ -17,7 +18,7 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                this.guestOrderId = (int)paraDict["guestOrderId"];
+                this.GuestOrderId = (int)paraDict["guestOrderId"];
                 return true;
             }
             catch
@@ -32,22 +33,20 @@ namespace BOODemo.TaskWarehouse
         /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
-            try
-            {
-                OrderingForm of = new OrderingForm();
-                of.BindingGuestOrderId = this.bindingExecutorID;
-                of.Show();
-                return this.isFinished = true;
-            }
-            catch
-            {
-                return false;
-            }
+            return true;
         }
         
         /// <summary>
+        /// 完成点餐
+        /// </summary>
+        public void Submit()
+        {
+            this.isFinished = true;
+        }
+
+        /// <summary>
         /// 客户订单号
         /// </summary>
-        private int guestOrderId;
+        public int GuestOrderId;
     }
 }

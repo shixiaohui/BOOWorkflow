@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BOODemo.ViewModel;
 
 namespace BOODemo.TaskWarehouse
@@ -47,11 +48,15 @@ namespace BOODemo.TaskWarehouse
                 {
                     kOrder.PendingList.Add(gOrderListExceptInKO[i]);
                 }
-                RestaurantViewModel.KitchenFormReference.Refresh();
+                RestaurantViewModel.KitchenFormReference.RefreshKitchenOrder();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                lock (GlobalDataContext.ConsolePrintMutex)
+                {
+                    Console.WriteLine(e.ToString());
+                }
                 return false;
             }
         }

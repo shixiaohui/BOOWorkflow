@@ -121,6 +121,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      */
     private String sessionId;
 
+    public String Tid;
+
 
     /**
      * 实例树 的扩展
@@ -160,6 +162,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         registerInvokerClass(SCXML_INVOKER_TYPE, SimpleSCXMLInvoker.class);
 
         //当由用户创建的时候初始化业务对象实例树
+        this.InitInstanceTree();
 
 
     }
@@ -645,6 +648,13 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      */
     public boolean hasPendingInternalEvent() {
         return !internalEventQueue.isEmpty();
+    }
+
+    public void InitInstanceTree() {
+        if (instanceTree == null) {
+            instanceTree = new SCXMLInstanceTree((String)this.getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), "");
+            //instanceTree = new SCXMLInstanceTree((String)this.getScInstance().getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), getScInstance().getStateMachine().getName());
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ namespace BOODemo.View
         {
             InitializeComponent();
             buttonTip.ShowAlways = true;
+            this.button1.Enabled = this.button2.Enabled = false;
         }
 
         /// <summary>
@@ -57,6 +58,10 @@ namespace BOODemo.View
             var execId = RestaurantViewModel.CreateBussinessObjectInstance();
             GuestOrderEntity gOrder = new GuestOrderEntity(execId);
             RestaurantViewModel.RestaurantEntity.GuestOrderList.Add(gOrder);
+            RestaurantViewModel.executorDict[execId].go();
+            OrderingForm of = new OrderingForm();
+            of.BindingGuestOrderId = gOrder.OrderId;
+            of.Show();
         }
 
         /// <summary>
@@ -80,17 +85,20 @@ namespace BOODemo.View
         {
             if (this.listBox1.SelectedIndex != -1)
             {
-                this.button1.Enabled = true;
+                this.button1.Enabled = this.button2.Enabled = true;
                 buttonTip.SetToolTip(this.button1, "Add dishes for this order.");
 
                 var kOrderList = RestaurantViewModel.RestaurantEntity.KitchenOrderList.FindAll(
                     (t) => t.GuestOrderId.ToString() == this.listBox1.SelectedItem.ToString());
                 if (kOrderList.Count != 0 && kOrderList.TrueForAll((t) => t.IsFinish) == false)
                 {
-                    this.button1.Enabled = false;
+                    this.button1.Enabled = this.button2.Enabled = false;
                     buttonTip.SetToolTip(this.button1, "Now dishes are producing, please add item after all ordered dishes are deliverd.");
-                    return;
                 }
+
+                var orderObj = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find(
+                    (t) => t.OrderId.ToString() == this.listBox1.SelectedIndex.ToString());
+                this.textBox1.Text = orderObj.ToString();
             }
         }
 

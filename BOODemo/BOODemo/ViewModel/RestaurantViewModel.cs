@@ -52,8 +52,12 @@ namespace BOODemo.ViewModel
                 RestaurantViewModel.executorDict[RestaurantViewModel.executorCounter] = executor;
                 return RestaurantViewModel.executorCounter++;
             }
-            catch
+            catch (Exception e)
             {
+                lock (GlobalDataContext.ConsolePrintMutex)
+                {
+                    Console.WriteLine(e.ToString());
+                }
                 throw new ModelException();
             }
         }
@@ -124,9 +128,13 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 状态机执行器字典
+        /// 获取状态机执行器字典
         /// </summary>
-        private static Dictionary<int, SCXMLExecutor> executorDict;
+        public static Dictionary<int, SCXMLExecutor> executorDict
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// 状态机执行器计数

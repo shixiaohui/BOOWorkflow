@@ -75,15 +75,15 @@ namespace BOODemo.Core
                 // 来自应用程序的参数
                 switch (dealingItem.TaskName)
                 {
-                    case "AddItemTask":
-                    case "CalculateTask":
-                    case "PaymentTask":
-                    case "UpdateDeliTimeTask":
+                    case "addItemTask":
+                    case "calculateTask":
+                    case "paymentTask":
+                    case "updateDeliTimeTask":
                         paraDict["guestOrderId"] = dealingItem.BindingExecutorId;
                         break;
-                    case "DeliverTask":
-                    case "ProduceDishesTask":
-                    case "TestQualityTask":
+                    case "deliverTask":
+                    case "produceDishesTask":
+                    case "testQualityTask":
                         paraDict["guestOrderId"] = dealingItem.BindingExecutorId;
                         paraDict["kitchenOrderId"] = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find(
                             (t) => t.GuestOrderId == dealingItem.BindingExecutorId && t.IsFinish == false).Id;

@@ -1,8 +1,10 @@
 package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
+import com.sysu.workflow.engine.InstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
+import com.sysu.workflow.engine.TimeTreeNode;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.io.SCXMLReader;
@@ -101,7 +103,15 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
             Map<String, Object> payloadDataMap = new LinkedHashMap<String, Object>();
             addParamsToPayload(exctx, payloadDataMap);
             // get resource file url
-            final URL url = this.getClass().getClassLoader().getResource(getSrc());
+            //final URL url = this.getClass().getClassLoader().getResource(getSrc());
+
+            // RINKAKO: get file by passing URL
+            //URL url = new URL("file", "", getSrc());
+            //if (url == null)
+            //{
+                URL url = this.getClass().getClassLoader().getResource(getSrc());
+            //}
+
             SCXML scxml = null;
             // init sub state machine SCXML object
             try {
@@ -111,12 +121,14 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
                 e.printStackTrace();
             }
             // launch sub state machine of the number of instances
+            SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
+            TimeTreeNode curNode = InstanceManager.InstanceTree.GetNodeById(currentExecutionContext.Tid);
             for (int i = 0; i < getInstances(); i++) {
                 Evaluator evaluator = EvaluatorFactory.getEvaluator(scxml);
-                SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
                 SCXMLInstanceTree instanceTree = currentExecutionContext.getInstanceTree();
                 SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null, instanceTree);
                 executor.setStateMachine(scxml);
+                System.out.println("Create sub state machine from: " + url.getFile());
                 // init execution context
                 Context rootContext = evaluator.newContext(null);
                 for (Map.Entry<String,Object> entry : payloadDataMap.entrySet()){
@@ -126,11 +138,15 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
                 // start dash sub state machine
                 executor.go();
                 // maintain the relation of this sub state machine on the instance tree
-                String currentSessionId = (String) currentExecutionContext.getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
-                String subStateMachineSessionId = (String) executor.getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
-                instanceTree.insert(currentSessionId, subStateMachineSessionId, executor.getStateMachine().getName());
+
+                TimeTreeNode subNode = new TimeTreeNode(executor.getExctx().getStateMachine().getName(), executor.Tid, executor.getExctx(), curNode);
+                curNode.AddChild(subNode);
+
+                //String currentSessionId = (String) currentExecutionContext.getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
+                //String subStateMachineSessionId = (String) executor.getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
+                //instanceTree.insert(currentSessionId, subStateMachineSessionId, executor.getStateMachine().getName());
                 // add this new executor to the instance manager
-                SCXMLInstanceManager.setSCXMLInstance(executor);
+                //SCXMLInstanceManager.setSCXMLInstance(executor);
             }
         } catch (Exception e) {
             e.printStackTrace();

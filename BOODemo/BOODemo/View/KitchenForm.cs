@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using BOODemo.ViewModel;
 using BOODemo.TaskWarehouse;
@@ -23,14 +24,37 @@ namespace BOODemo.View
         /// </summary>
         public void RefreshKitchenOrder()
         {
-            var kOrderProcessingList = RestaurantViewModel.RestaurantEntity.KitchenOrderList.FindAll((t) => t.IsFinish == false);
-            this.listBox1.Items.Clear();
-            foreach (var ko in kOrderProcessingList)
+            Thread t = new Thread(new ThreadStart(this.RefreshKitchenOrderHandler));
+            t.Start();
+        }
+
+        private void RefreshKitchenOrderHandler()
+        {
+            this.RefreshHandler();
+        }
+
+        private delegate void RefreshOrderCallBack();
+
+        /// <summary>
+        /// 处理跨线程刷新
+        /// </summary>
+        private void RefreshHandler()
+        {
+            if (this.listBox1.InvokeRequired)
             {
-                this.listBox1.Items.Add(String.Format("Guest {0}:{1}", ko.GuestOrderId, ko.Id));
+                this.Invoke(new RefreshOrderCallBack(RefreshKitchenOrderHandler));
             }
-            this.listBox1.SelectedIndex = -1;
-            this.groupBox2.Enabled = false;
+            else
+            {
+                var kOrderProcessingList = RestaurantViewModel.RestaurantEntity.KitchenOrderList.FindAll((t) => t.IsFinish == false);
+                this.listBox1.Items.Clear();
+                foreach (var ko in kOrderProcessingList)
+                {
+                    this.listBox1.Items.Add(String.Format("Guest {0}:{1}", ko.GuestOrderId, ko.Id));
+                }
+                this.listBox1.SelectedIndex = -1;
+                this.groupBox2.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -73,7 +97,7 @@ namespace BOODemo.View
             if (this.listBox1.SelectedIndex != -1 && this.listBox2.Items.Count != 0)
             {
                 var handler = (ProduceDishesTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is ProduceDishesTaskHandler) &&
-                    ((ProduceDishesTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                    ((ProduceDishesTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.Produced();
             }
         }
@@ -86,7 +110,7 @@ namespace BOODemo.View
             if (this.listBox1.SelectedIndex != -1 && this.listBox3.Items.Count != 0)
             {
                 var handler = (TestQualityTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is TestQualityTaskHandler) &&
-                    ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                    ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.IsQualityTestPass = false;
             }
         }
@@ -99,7 +123,7 @@ namespace BOODemo.View
             if (this.listBox1.SelectedIndex != -1 && this.listBox3.Items.Count != 0)
             {
                 var handler = (TestQualityTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is TestQualityTaskHandler) &&
-                    ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                    ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.IsQualityTestPass = true;
             }
         }
@@ -112,7 +136,7 @@ namespace BOODemo.View
             if (this.listBox1.SelectedIndex != -1 && this.listBox4.Items.Count != 0)
             {
                 var handler = (DeliverTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is DeliverTaskHandler) &&
-                    ((DeliverTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                    ((DeliverTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.Arrived();
             }
         }

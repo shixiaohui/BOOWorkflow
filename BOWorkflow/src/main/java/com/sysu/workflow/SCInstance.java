@@ -364,6 +364,11 @@ public class SCInstance implements Serializable {
         return currentStatus;
     }
 
+
+    public String getExecContextSessionId() {
+        return ((SCXMLExecutionContext)this.internalIOProcessor).getSessionId();
+    }
+
     /**
      * 返回是否在运行中
      *

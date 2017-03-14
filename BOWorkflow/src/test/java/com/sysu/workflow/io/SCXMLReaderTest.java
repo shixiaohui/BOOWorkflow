@@ -23,28 +23,48 @@ public class SCXMLReaderTest {
 
     @Test
     public void testSCXMLReader() throws Exception {
-        URL url = SCXMLTestHelper.getResource("helloworld.xml");
+        //URL url = SCXMLTestHelper.getResource("helloworld.xml");
+        URL url = new URL("file", "", "D:\\Documents\\GitProject\\BOOWorkflow\\BOWorkflow\\target\\classes\\GuestOrder.xml");
         SCXML scxml = new SCXMLReader().read(url);
         Evaluator evaluator = new JexlEvaluator();
         SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
         executor.setStateMachine(scxml);
         executor.go();
 
-        EventDataPackage edp = new EventDataPackage();
-        edp.passedInt = 1;
-
-        TriggerEvent tEvt = new TriggerEvent("testCompleted", TriggerEvent.SIGNAL_EVENT, edp);
+        TriggerEvent tEvt = new TriggerEvent("submit", TriggerEvent.SIGNAL_EVENT, null);
         executor.triggerEvent(tEvt);
 
-        TriggerEvent tEvt2 = new TriggerEvent("gotoEnd", TriggerEvent.SIGNAL_EVENT, null);
-        executor.triggerEvent(tEvt2);
+        tEvt = new TriggerEvent("produced", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
+
+        EventDataPackage edp = new EventDataPackage();
+        edp.passed = "1";
+        tEvt = new TriggerEvent("testCompleted", TriggerEvent.SIGNAL_EVENT, edp);
+        executor.triggerEvent(tEvt);
+
+        tEvt = new TriggerEvent("delivered", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
+
+        tEvt = new TriggerEvent("archived", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
+
+        tEvt = new TriggerEvent("requestCheck", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
+
+        tEvt = new TriggerEvent("calculated", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
+
+        tEvt = new TriggerEvent("paid", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
+
+        tEvt = new TriggerEvent("archived", TriggerEvent.SIGNAL_EVENT, null);
+        executor.triggerEvent(tEvt);
 
         Assert.assertNotNull(scxml);
     }
 
     public class EventDataPackage {
-        public String passedData;
-        public int passedInt;
+        public String passed;
     }
 
 

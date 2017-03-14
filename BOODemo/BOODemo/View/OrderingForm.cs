@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using BOODemo.Model;
 using BOODemo.ViewModel;
+using BOODemo.TaskWarehouse;
 
 namespace BOODemo.View
 {
@@ -118,7 +119,9 @@ namespace BOODemo.View
             KitchenOrderEntity kOrder = new KitchenOrderEntity(this.BindingGuestOrderId);
             RestaurantViewModel.RestaurantEntity.KitchenOrderList.Add(kOrder);
             // 状态转移
-            RestaurantViewModel.Send(this.BindingGuestOrderId, "submit", null);
+            var handler = RestaurantViewModel.ActiveTaskHandlerList.Find(
+                (x) => ((AddItemTaskHandler)x).GuestOrderId == gOrder.OrderId && (x is AddItemTaskHandler)) as AddItemTaskHandler;
+            handler.Submit();
             // 刷新前端
             RestaurantViewModel.WaiterFormReference.RefreshOrderList();
             this.Close();
