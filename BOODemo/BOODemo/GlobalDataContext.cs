@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 
 namespace BOODemo
 {
@@ -15,17 +11,7 @@ namespace BOODemo
         /// 全局控制台显示互斥量
         /// </summary>
         public static Mutex ConsolePrintMutex = new Mutex();
-
-        /// <summary>
-        /// 订单计数器互斥量
-        /// </summary>
-        public static Mutex OrderCounterMutex = new Mutex();
-
-        /// <summary>
-        /// 订单ID计数器
-        /// </summary>
-        public static int OrderIdCounter = 0;
-
+        
         /// <summary>
         /// 厨房餐单计数器互斥量
         /// </summary>

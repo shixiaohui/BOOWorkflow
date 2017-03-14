@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using BOODemo.Model;
+using BOODemo.ViewModel;
 
 namespace BOODemo.View
 {
@@ -20,9 +16,8 @@ namespace BOODemo.View
         public WaiterForm()
         {
             InitializeComponent();
-            this.listBox1.DataSource = ViewModel.RestaurantViewModel.RestaurantEntity.GuestOrderList;
-            this.listBox1.DisplayMember = "OrderId";
-            
+            buttonTip.ShowAlways = true;
+            this.button1.Enabled = this.button2.Enabled = false;
         }
 
         /// <summary>
@@ -38,7 +33,10 @@ namespace BOODemo.View
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
-
+            if (this.listBox1.SelectedIndex != -1)
+            {
+                RestaurantViewModel.Send(Convert.ToInt32(this.listBox1.SelectedItem.ToString()), "addItem", null);
+            }
         }
 
         /// <summary>
@@ -46,7 +44,10 @@ namespace BOODemo.View
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
-
+            if (this.listBox1.SelectedIndex != -1)
+            {
+                RestaurantViewModel.Send(Convert.ToInt32(this.listBox1.SelectedItem.ToString()), "requestCheck", null);
+            }
         }
 
         /// <summary>
@@ -54,7 +55,56 @@ namespace BOODemo.View
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
-
+            var execId = RestaurantViewModel.CreateBussinessObjectInstance();
+            GuestOrderEntity gOrder = new GuestOrderEntity(execId);
+            RestaurantViewModel.RestaurantEntity.GuestOrderList.Add(gOrder);
+            RestaurantViewModel.executorDict[execId].go();
+            OrderingForm of = new OrderingForm();
+            of.BindingGuestOrderId = gOrder.OrderId;
+            of.Show();
         }
+
+        /// <summary>
+        /// 刷新客户订单Listbox
+        /// </summary>
+        public void RefreshOrderList()
+        {
+            this.listBox1.Items.Clear();
+            var gOrderList = RestaurantViewModel.RestaurantEntity.GuestOrderList;
+            for (int i = 0; i < gOrderList.Count; i++)
+            {
+                this.listBox1.Items.Add(gOrderList[i].OrderId.ToString());
+            }
+            this.listBox1.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// 事件：列表点选项目改变
+        /// </summary>
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.listBox1.SelectedIndex != -1)
+            {
+                this.button1.Enabled = this.button2.Enabled = true;
+                buttonTip.SetToolTip(this.button1, "Add dishes for this order.");
+
+                var kOrderList = RestaurantViewModel.RestaurantEntity.KitchenOrderList.FindAll(
+                    (t) => t.GuestOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                if (kOrderList.Count != 0 && kOrderList.TrueForAll((t) => t.IsFinish) == false)
+                {
+                    this.button1.Enabled = this.button2.Enabled = false;
+                    buttonTip.SetToolTip(this.button1, "Now dishes are producing, please add item after all ordered dishes are deliverd.");
+                }
+
+                var orderObj = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find(
+                    (t) => t.OrderId.ToString() == this.listBox1.SelectedIndex.ToString());
+                this.textBox1.Text = orderObj.ToString();
+            }
+        }
+
+        /// <summary>
+        /// 按钮提示语
+        /// </summary>
+        ToolTip buttonTip = new ToolTip();
     }
 }

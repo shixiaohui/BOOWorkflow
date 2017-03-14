@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using BOODemo.Model;
+using BOODemo.ViewModel;
+using BOODemo.TaskWarehouse;
 
 namespace BOODemo.View
 {
@@ -103,6 +100,31 @@ namespace BOODemo.View
                 this.listBox1.Items.RemoveAt(this.listBox1.SelectedIndex);
                 this.listBox1.SelectedIndex = -1;
             }
+        }
+
+        /// <summary>
+        /// 按钮：Submit
+        /// </summary>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // 将菜品加入客户订单
+            GuestOrderEntity gOrder = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((t) => t.OrderId == this.BindingGuestOrderId);
+            for (int i = 0; i < this.listBox1.Items.Count; i++)
+            {
+                var cDish = RestaurantViewModel.RestaurantEntity.Menu.Find(
+                    (t) => String.Compare(t.Name, this.listBox1.Items[i].ToString(), true) == 0);
+                gOrder.AddDish(cDish.Clone());
+            }
+            // 生成餐单
+            KitchenOrderEntity kOrder = new KitchenOrderEntity(this.BindingGuestOrderId);
+            RestaurantViewModel.RestaurantEntity.KitchenOrderList.Add(kOrder);
+            // 状态转移
+            var handler = RestaurantViewModel.ActiveTaskHandlerList.Find(
+                (x) => ((AddItemTaskHandler)x).GuestOrderId == gOrder.OrderId && (x is AddItemTaskHandler)) as AddItemTaskHandler;
+            handler.Submit();
+            // 刷新前端
+            RestaurantViewModel.WaiterFormReference.RefreshOrderList();
+            this.Close();
         }
     }
 }

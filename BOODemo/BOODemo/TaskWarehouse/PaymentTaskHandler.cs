@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BOODemo.Model;
 using BOODemo.ViewModel;
 
@@ -17,8 +16,8 @@ namespace BOODemo.TaskWarehouse
             try
             {
                 var orderId = (int)paraDict["guestOrderId"];
-                this.guestOrder = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((x) => x.OrderId == orderId);
-                if (this.guestOrder == null)
+                this.GuestOrder = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((x) => x.OrderId == orderId);
+                if (this.GuestOrder == null)
                 {
                     return false;
                 }
@@ -47,7 +46,7 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                this.guestOrder.FinishPayment();
+                this.GuestOrder.FinishPayment();
                 return this.isFinished = true;
             }
             catch
@@ -59,6 +58,6 @@ namespace BOODemo.TaskWarehouse
         /// <summary>
         /// 客户订单
         /// </summary>
-        private GuestOrderEntity guestOrder;
+        public GuestOrderEntity GuestOrder;
     }
 }

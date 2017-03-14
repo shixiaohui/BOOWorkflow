@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BOODemo.ViewModel;
 
 namespace BOODemo.TaskWarehouse
@@ -34,6 +33,7 @@ namespace BOODemo.TaskWarehouse
             {
                 var gOrder = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((x) => x.OrderId == this.guestOrderId);
                 gOrder.IsRequestPayment = true;
+                
                 return this.isFinished = true;
             }
             catch

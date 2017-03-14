@@ -4,8 +4,10 @@ import com.sysu.workflow.EventDispatcher;
 import com.sysu.workflow.SCXMLExecutor;
 import com.sysu.workflow.SCXMLIOProcessor;
 import com.sysu.workflow.TriggerEvent;
+import com.sysu.workflow.engine.InstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
+import com.sysu.workflow.engine.TimeTreeNode;
 import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.model.extend.MessageMode;
 import org.apache.commons.logging.Log;
@@ -126,10 +128,12 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             boolean internal = false;
 
 
-            SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+            //SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
 
-            SCXMLIOProcessor ioProcessor = SCXMLInstanceManager.getSCXMLInstanceExecutor(currentSessionId);
+            //SCXMLIOProcessor ioProcessor = SCXMLInstanceManager.getSCXMLInstanceExecutor(currentSessionId);
 
+            //TimeTreeNode currentNode = InstanceManager.InstanceTree.GetNodeById(currentSessionId);
+            SCXMLIOProcessor ioProcessor = InstanceManager.GetExecutor(currentSessionId);
 
             if (event == null) {
                 if (log.isWarnEnabled()) {
@@ -156,28 +160,25 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
 
             switch (messageMode) {
                 case BROADCAST:
-                    sendBroadCast(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    sendBroadCast(currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case MULTICAST:
-                    //??????target????
-
-                    // sendMulticast(scxmlInstanceTree,currentSessionId,target,targetName)
                     // TODO:
                     break;
                 case TO_ANCESTOR:
                     // TODO:
-                    sendToAncestor(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    //sendToAncestor(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_CHILD:
                     // TODO:
-                    sendToChild(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    sendToChild(currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_OFFSPRING:
                     // TODO:
-                    sendToOffSpring(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    sendToOffSpring(currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_PARENT:
-                    sendToParent(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    sendToParent(currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_SIBLING:
                     //????????target????????
@@ -198,93 +199,85 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         }
     }
 
-    private boolean sendToParent(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
-        SCXMLInstanceTree.TreeNode treeNode;
-        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
-
-        treeNode = scxmlInstanceTree.getParentTreeNode(currentTreeNode);
-        if(treeNode == null){
+    private boolean sendToParent(String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
+        TimeTreeNode currentNode = InstanceManager.InstanceTree.GetNodeById(currentSessionId);
+        TimeTreeNode parentNode = currentNode.Parent;
+        if(parentNode == null) {
             System.out.println("it is root , no parent.");
             return true;
         }
-        sendToTarget(treeNode, targetState, event, data);
-
+        String eventPrefix = currentNode != InstanceManager.InstanceTree.Root ? currentNode.getFilename() + "." : "";
+        sendToTarget(parentNode, targetState, eventPrefix + event, data);
         return true;
     }
 
-    private boolean sendToOffSpring(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
-
-        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
-        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+    private boolean sendToOffSpring(String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
+        ArrayList<TimeTreeNode> treeNodeArrayList;
         if (targetName != null && !"".equals(targetName)) {
-            treeNodeArrayList = scxmlInstanceTree.getOffSpringTreeNodeByTargetName(currentTreeNode, targetName);
-
+            treeNodeArrayList = InstanceManager.InstanceTree.GetOffspringsVectorByTarget(currentSessionId, targetName);
         } else {
-            treeNodeArrayList = scxmlInstanceTree.getOffspringTreeNode(currentTreeNode);
-
+            treeNodeArrayList = InstanceManager.InstanceTree.GetOffspringsVector(currentSessionId);
         }
-        sendToTarget(treeNodeArrayList, targetState, event, data);
-
+        TimeTreeNode curNode = InstanceManager.InstanceTree.GetNodeById(currentSessionId);
+        String eventPrefix = curNode != InstanceManager.InstanceTree.Root ? curNode.getFilename() + "." : "";
+        sendToTarget(treeNodeArrayList, targetState, eventPrefix + event, data);
         return true;
     }
 
-    private boolean sendToChild(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
-
-
-        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
-        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+    private boolean sendToChild(String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
+        ArrayList<TimeTreeNode> treeNodeArrayList;
+        TimeTreeNode currentTreeNode = InstanceManager.InstanceTree.GetNodeById(currentSessionId);
         if (targetName != null && !"".equals(targetName)) {
-            treeNodeArrayList = scxmlInstanceTree.getChildTreeNodeByTargetName(currentTreeNode, targetName);
-
+            treeNodeArrayList = InstanceManager.InstanceTree.GetChildrenVectorByTarget(currentSessionId, targetName);
         } else {
-            treeNodeArrayList = scxmlInstanceTree.getChildTreeNode(currentTreeNode);
-
+            treeNodeArrayList = currentTreeNode.Children;
         }
-        sendToTarget(treeNodeArrayList, targetState, event, data);
+        String eventPrefix = currentTreeNode != InstanceManager.InstanceTree.Root ? currentTreeNode.getFilename() + "." : "";
+        sendToTarget(treeNodeArrayList, targetState, eventPrefix + event, data);
 
         return true;
     }
 
-    private boolean sendToAncestor(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
+//    private boolean sendToAncestor(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
+//
+//        //?????????????????????????????
+//        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+//        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+//        if (targetName != null && !"".equals(targetName)) {
+//            treeNodeArrayList = scxmlInstanceTree.getAllAncestorTreeNodeByTargetName(currentTreeNode, targetName);
+//
+//        } else {
+//            treeNodeArrayList = scxmlInstanceTree.getAllAncestorTreeNode(currentTreeNode);
+//
+//        }
+//        sendToTarget(treeNodeArrayList, targetState, event, data);
+//
+//        return true;
+//    }
 
-        //?????????????????????????????
-        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
-        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+    private boolean sendBroadCast(String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
+
+        ArrayList<TimeTreeNode> treeNodeArrayList;
         if (targetName != null && !"".equals(targetName)) {
-            treeNodeArrayList = scxmlInstanceTree.getAllAncestorTreeNodeByTargetName(currentTreeNode, targetName);
-
+            //treeNodeArrayList = scxmlInstanceTree.getAllTreeNodeByTargetName(scxmlInstanceTree.getRoot(), targetName);
+            treeNodeArrayList = InstanceManager.InstanceTree.GetNodeVectorByTarget(targetName);
         } else {
-            treeNodeArrayList = scxmlInstanceTree.getAllAncestorTreeNode(currentTreeNode);
-
+            //treeNodeArrayList = scxmlInstanceTree.getAllTreeNode(scxmlInstanceTree.getRoot());
+            treeNodeArrayList = InstanceManager.InstanceTree.GetAllNodeVector();
         }
-        sendToTarget(treeNodeArrayList, targetState, event, data);
+        TimeTreeNode curNode = InstanceManager.InstanceTree.GetNodeById(currentSessionId);
+        String eventPrefix = curNode != InstanceManager.InstanceTree.Root ? curNode.getFilename() + "." : "";
+        sendToTarget(treeNodeArrayList, targetState, eventPrefix + event, data);
 
         return true;
     }
 
-    private boolean sendBroadCast(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
-
-        //??????????????
-        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
-        if (targetName != null && !"".equals(targetName)) {
-            treeNodeArrayList = scxmlInstanceTree.getAllTreeNodeByTargetName(scxmlInstanceTree.getRoot(), targetName);
-
-        } else {
-            treeNodeArrayList = scxmlInstanceTree.getAllTreeNode(scxmlInstanceTree.getRoot());
-
-        }
-
-        sendToTarget(treeNodeArrayList, targetState, event, data);
-
-        return true;
-    }
-
-    private void sendToTarget(ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList, String targetState, String event, Object data) {
+    private void sendToTarget(ArrayList<TimeTreeNode> treeNodeArrayList, String targetState, String event, Object data) {
         if (targetState != null && !"".equals(targetState)) {
             //?????????????
-            for (SCXMLInstanceTree.TreeNode treeNode : treeNodeArrayList) {
+            for (TimeTreeNode treeNode : treeNodeArrayList) {
                 //?????????sessionId???????????????
-                SCXMLExecutor scxmlExecutor = SCXMLInstanceManager.getSCXMLInstanceExecutor(treeNode.getSessionId());
+                SCXMLExecutor scxmlExecutor = treeNode.getExect().getSCXMLExecutor();
                 if (scxmlExecutor != null) {
                     if (scxmlExecutor.getStatus().isInState(targetState)) {
                         try {
@@ -294,13 +287,13 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                         }
                     }
                 } else {
-                    System.out.println("no this  scxml executor");
+                    System.out.println("no this scxml executor");
                 }
 
             }
         } else {
-            for (SCXMLInstanceTree.TreeNode treeNode : treeNodeArrayList) {
-                SCXMLExecutor scxmlExecutor = SCXMLInstanceManager.getSCXMLInstanceExecutor(treeNode.getSessionId());
+            for (TimeTreeNode treeNode : treeNodeArrayList) {
+                SCXMLExecutor scxmlExecutor = treeNode.getExect().getSCXMLExecutor();
                 if (scxmlExecutor != null) {
                     try {
                         scxmlExecutor.triggerEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
@@ -313,10 +306,12 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             }
         }
     }
-    private void sendToTarget(SCXMLInstanceTree.TreeNode treeNode, String targetState, String event, Object data) {
-        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList = new ArrayList<SCXMLInstanceTree.TreeNode>();
+
+
+    private void sendToTarget(TimeTreeNode treeNode, String targetState, String event, Object data) {
+        ArrayList<TimeTreeNode> treeNodeArrayList = new ArrayList<TimeTreeNode>();
         treeNodeArrayList.add(treeNode);
-        sendToTarget(treeNodeArrayList, targetState, event,data);
+        sendToTarget(treeNodeArrayList, targetState, event, data);
     }
 
     /**

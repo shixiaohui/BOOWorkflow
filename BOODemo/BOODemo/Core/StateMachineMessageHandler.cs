@@ -61,6 +61,7 @@ namespace BOODemo.Core
                 var dealingItem = dealingQueue.Dequeue();
                 var tHandler = TaskFactory.GetTaskHandlerByTaskName(dealingItem.TaskName);
                 Dictionary<string, object> paraDict = new Dictionary<string, object>();
+                // 来自状态机的参数
                 if (dealingItem.Paras != String.Empty)
                 {
                     var paraItems = dealingItem.Paras.Split(',');
@@ -70,6 +71,24 @@ namespace BOODemo.Core
                         var pairItems = paraPairs.Split(':');
                         paraDict[pairItems[0]] = pairItems[1];
                     }
+                }
+                // 来自应用程序的参数
+                switch (dealingItem.TaskName)
+                {
+                    case "addItemTask":
+                    case "calculateTask":
+                    case "paymentTask":
+                    case "updateDeliTimeTask":
+                        paraDict["guestOrderId"] = dealingItem.BindingExecutorId;
+                        break;
+                    case "deliverTask":
+                    case "produceDishesTask":
+                    case "testQualityTask":
+                        paraDict["guestOrderId"] = dealingItem.BindingExecutorId;
+                        paraDict["kitchenOrderId"] = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find(
+                            (t) => t.GuestOrderId == dealingItem.BindingExecutorId && t.IsFinish == false).Id;
+                        break;
+                        
                 }
                 // 初始化任务处理器
                 if (tHandler.Init(paraDict) == false)

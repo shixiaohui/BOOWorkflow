@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BOODemo.ViewModel;
 
 namespace BOODemo.TaskWarehouse
@@ -18,7 +17,7 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                this.kitchenOrderId = (int)paraDict["kitchenOrderId"];
+                this.KitchenOrderId = (int)paraDict["kitchenOrderId"];
                 this.bindingGuestOrderId = (int)paraDict["guestOrderId"];
                 return true;
             }
@@ -36,7 +35,7 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+                var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
                 for (int i = 0; i < ko.QTList.Count; i++)
                 {
                     if (ko.QTList[i].PassedQT)
@@ -45,6 +44,7 @@ namespace BOODemo.TaskWarehouse
                     }
                     ko.QTList.RemoveAll((x) => x.PassedQT);
                 }
+                RestaurantViewModel.KitchenFormReference.Refresh();
                 return true;
             }
             catch
@@ -58,19 +58,21 @@ namespace BOODemo.TaskWarehouse
         /// </summary>
         public void Arrived()
         {
-            var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+            var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
             for (int i = 0; i < ko.DeliveringList.Count; i++)
             {
                 ko.ArriveDish(i);
             }
             ko.DeliveringList.Clear();
+            ko.Finish();
+            RestaurantViewModel.KitchenFormReference.RefreshKitchenOrder();
             this.isFinished = true;
         }
 
         /// <summary>
         /// 厨房餐单id
         /// </summary>
-        private int kitchenOrderId = -1;
+        public int KitchenOrderId = -1;
 
         /// <summary>
         /// 绑定的客户订单id

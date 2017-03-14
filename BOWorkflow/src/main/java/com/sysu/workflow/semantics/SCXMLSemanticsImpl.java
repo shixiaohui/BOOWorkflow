@@ -227,6 +227,13 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
         //进入进入状态集合
         enterStates(exctx, step, statesToInvoke);
 
+
+        System.out.print("Now Enter:");
+        for (EnterableState s : step.getEntrySet()) {
+            System.out.print(" " + s.getId());
+        }
+        System.out.println();
+
         //清除这一步的即时转移
         step.clearIntermediateState();
     }

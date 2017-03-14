@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BOODemo.Model
 {
@@ -20,6 +18,7 @@ namespace BOODemo.Model
             {
                 this.Id = GlobalDataContext.KitchenOrderIdCounter++;
             }
+            this.GuestOrderId = bindingGuestOrderId;
             this.CreateTimeStamp = DateTime.Now;
             this.FinishedTimeStamp = null;
             this.PendingList = new List<DishEntity>();

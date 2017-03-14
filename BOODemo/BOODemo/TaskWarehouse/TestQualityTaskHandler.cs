@@ -18,7 +18,7 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                this.kitchenOrderId = (int)paraDict["kitchenOrderId"];
+                this.KitchenOrderId = (int)paraDict["kitchenOrderId"];
                 this.bindingGuestOrderId = (int)paraDict["guestOrderId"];
                 return true;
             }
@@ -34,12 +34,13 @@ namespace BOODemo.TaskWarehouse
         /// <returns>任务是否成功开始</returns>
         public override bool Begin()
         {
-            var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+            var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
             for (int i = 0; i < kOrder.PendingList.Count; i++)
             {
                 kOrder.ProducedDish(i);
             }
             kOrder.PendingList.Clear();
+            RestaurantViewModel.KitchenFormReference.Refresh();
             return true;
         }
 
@@ -77,7 +78,7 @@ namespace BOODemo.TaskWarehouse
             set
             {
                 this.isPass = value;
-                var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+                var ko = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
                 if ((bool)this.isPass)
                 {
                     for (int i = 0; i < ko.QTList.Count; i++)
@@ -93,6 +94,7 @@ namespace BOODemo.TaskWarehouse
                     }
                     ko.QTList.Clear();
                 }
+                RestaurantViewModel.KitchenFormReference.Refresh();
                 this.isFinished = true;
             }
         }
@@ -100,7 +102,7 @@ namespace BOODemo.TaskWarehouse
         /// <summary>
         /// 厨房餐单id
         /// </summary>
-        private int kitchenOrderId = -1;
+        public int KitchenOrderId = -1;
 
         /// <summary>
         /// 绑定的客户订单id

@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-
-using com.sysu.workflow;
-using com.sysu.workflow.io;
-using com.sysu.workflow.env;
-using com.sysu.workflow.model;
-using com.sysu.workflow.env.jexl;
-
-using BOODemo.Core;
+using BOODemo.ViewModel;
 
 namespace BOODemo.View
 {
@@ -15,9 +8,9 @@ namespace BOODemo.View
     public partial class MainForm : Form
     {
 
-        SCXMLExecutor executor;
-        EngineBridge eb;
-        StateMachineMessageHandler MsgHandler;
+        //SCXMLExecutor executor;
+        //EngineBridge eb;
+        //StateMachineMessageHandler MsgHandler;
 
         public MainForm()
         {
@@ -28,6 +21,9 @@ namespace BOODemo.View
             wf.Show();
             kf.Show();
             gcf.Show();
+            RestaurantViewModel.WaiterFormReference = wf;
+            RestaurantViewModel.KitchenFormReference = kf;
+            RestaurantViewModel.GuestCheckFormReference = gcf;
             
             //eb = EngineBridge.GetInstance();
             //MsgHandler = new StateMachineMessageHandler();

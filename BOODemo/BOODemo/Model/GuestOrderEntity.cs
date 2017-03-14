@@ -14,12 +14,10 @@ namespace BOODemo.Model
         /// <summary>
         /// 构造器
         /// </summary>
-        public GuestOrderEntity()
+        /// <param name="id">订单id</param>
+        public GuestOrderEntity(int id)
         {
-            lock (GlobalDataContext.OrderCounterMutex)
-            {
-                this.OrderId = GlobalDataContext.OrderIdCounter++;
-            }
+            this.OrderId = id;
             this.IsRequestPayment = false;
             this.CreateTimeStamp = DateTime.Now;
             this.PaidTimeStamp = null;

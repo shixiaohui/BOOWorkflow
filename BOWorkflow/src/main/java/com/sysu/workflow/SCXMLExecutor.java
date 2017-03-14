@@ -2,18 +2,21 @@
 package com.sysu.workflow;
 
 import com.sun.xml.internal.ws.api.pipe.Engine;
-import com.sysu.workflow.engine.SCXMLInstanceTree;
+import com.sysu.workflow.engine.*;
 import com.sysu.workflow.invoke.Invoker;
 import com.sysu.workflow.model.*;
+import com.sysu.workflow.model.Observable;
 import com.sysu.workflow.semantics.SCXMLSemanticsImpl;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
 
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import javax.print.DocFlavor;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static com.sysu.workflow.engine.InstanceManager.InstanceTree;
 
 /**
  * 执行SCXML文档的 SCXML 引擎
@@ -57,6 +60,8 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      */
     private int executorIndex = 0;
 
+    public String Tid = UUID.randomUUID().toString();
+
     /**
      * The external event queue
      * 外部事件队列
@@ -96,6 +101,8 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
                          final SCXMLSemantics semantics) {
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep);
+        SCXMLInstanceManager.setSCXMLInstance(this);
+        this.exctx.Tid = this.Tid;
     }
 
     /**
@@ -109,6 +116,8 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
                          final EventDispatcher evtDisp, final ErrorReporter errRep, final SCXMLSemantics semantics, final SCXMLInstanceTree instanceTree) {
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep, instanceTree);
+        SCXMLInstanceManager.setSCXMLInstance(this);
+        this.exctx.Tid = this.Tid;
     }
 
     /**
@@ -121,6 +130,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         this.semantics = parentSCXMLExecutor.semantics;
         this.exctx = new SCXMLExecutionContext(this, parentSCXMLExecutor.getEvaluator(),
                 parentSCXMLExecutor.getEventdispatcher(), parentSCXMLExecutor.getErrorReporter());
+        this.exctx.Tid = this.Tid;
     }
 
     /**
@@ -146,7 +156,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * status, and clones the SCXML root datamodel into the root context.
      * </p>
      * 使用指定的active 的configuration 初始化状态机
-     * 这将会初始化或者再次初始化当前的状态，清楚所有的变量和上下文，历史和上下文，并且赋值原来的数据模型到新的根上下文
+     * 这将会初始化或者再次初始化当前的状态，清除所有的变量和上下文，历史和上下文，并且赋值原来的数据模型到新的根上下文
      *
      * @param atomicStateIds The set of atomic state ids for the state machine
      * @throws ModelException when the state machine hasn't been properly configured yet, when an unknown or illegal
@@ -465,6 +475,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      *                        model problem.
      */
     public void go() throws ModelException {
+        if (InstanceTree.Root == null) {
+            TimeTreeNode nRoot = new TimeTreeNode(this.exctx.getStateMachine().getName(), this.Tid, this.exctx, null);
+            InstanceTree.SetRoot(nRoot);
+        }
         // same as reset
         this.reset();
     }
@@ -554,6 +568,18 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * @throws ModelException in case there is a fatal SCXML object model problem.
      */
     public void triggerEvents() throws ModelException {
+        ArrayList<TimeTreeNode> childrenList = InstanceManager.InstanceTree.GetNodeById(this.Tid).Children;
+        ArrayList<TriggerEvent> childrenTriggerList = new ArrayList<TriggerEvent>();
+        Object[] eqArr = this.externalEventQueue.toArray();
+        for (Object te : eqArr) {
+            childrenTriggerList.add((TriggerEvent)te);
+        }
+        for (TimeTreeNode cNode : childrenList) {
+            SCXMLExecutor tExecutor = cNode.getExect().getSCXMLExecutor();
+            for (int i = 0; tExecutor.isRunning() && i < childrenTriggerList.size(); i++) {
+                tExecutor.triggerEvent(childrenTriggerList.get(i));
+            }
+        }
         TriggerEvent evt;
         while (exctx.isRunning() && (evt = externalEventQueue.poll()) != null) {
             eventStep(evt);
@@ -610,6 +636,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      */
     public void setExecutorIndex(int executorIndex) {
         this.executorIndex = executorIndex;
+    }
+
+    public SCXMLExecutionContext getExctx() {
+        return exctx;
     }
 
     /**
