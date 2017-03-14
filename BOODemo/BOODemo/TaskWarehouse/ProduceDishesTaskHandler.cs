@@ -17,7 +17,7 @@ namespace BOODemo.TaskWarehouse
         {
             try
             {
-                this.kitchenOrderId = (int)paraDict["kitchenOrderId"];
+                this.KitchenOrderId = (int)paraDict["kitchenOrderId"];
                 this.bindingGuestOrderId = (int)paraDict["guestOrderId"];
                 return true;
             }
@@ -36,8 +36,8 @@ namespace BOODemo.TaskWarehouse
             try
             {
                 var gOrderList = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((x) => x.OrderId == this.bindingGuestOrderId).GetOrderedList();
-                var gOrderListBelongThis = gOrderList.FindAll((x) => x.KitchenOrderId == this.kitchenOrderId);
-                var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.kitchenOrderId);
+                var gOrderListBelongThis = gOrderList.FindAll((x) => x.KitchenOrderId == this.KitchenOrderId);
+                var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
                 var gOrderListExceptInKO = gOrderListBelongThis.FindAll(
                     (x) => kOrder.QTList.Contains(x) == false &&
                     kOrder.DeliveringList.Contains(x) == false &&
@@ -47,18 +47,27 @@ namespace BOODemo.TaskWarehouse
                 {
                     kOrder.PendingList.Add(gOrderListExceptInKO[i]);
                 }
-                return this.isFinished = true;
+                RestaurantViewModel.KitchenFormReference.Refresh();
+                return true;
             }
             catch
             {
                 return false;
             }
         }
+
+        /// <summary>
+        /// 设置生产菜品完毕
+        /// </summary>
+        public void Produced()
+        {
+            this.isFinished = true;
+        }
         
         /// <summary>
         /// 厨房餐单id
         /// </summary>
-        private int kitchenOrderId = -1;
+        public int KitchenOrderId = -1;
 
         /// <summary>
         /// 绑定的客户订单id

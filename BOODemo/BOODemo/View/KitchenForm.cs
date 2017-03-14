@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using BOODemo.ViewModel;
+using BOODemo.TaskWarehouse;
 
 namespace BOODemo.View
 {
@@ -15,7 +16,6 @@ namespace BOODemo.View
         public KitchenForm()
         {
             InitializeComponent();
-            this.button6.Enabled = false;
         }
 
         /// <summary>
@@ -46,7 +46,6 @@ namespace BOODemo.View
                 this.listBox2.Items.Clear();
                 this.listBox3.Items.Clear();
                 this.listBox4.Items.Clear();
-                this.listBox5.Items.Clear();
                 foreach (var obj in kOrder.PendingList)
                 {
                     this.listBox2.Items.Add(obj.Name);
@@ -59,16 +58,64 @@ namespace BOODemo.View
                 {
                     this.listBox4.Items.Add(obj.Name);
                 }
-                foreach (var obj in kOrder.ArrivedList)
-                {
-                    this.listBox5.Items.Add(obj.Name);
-                }
-                this.button6.Enabled = (kOrder.PendingList.Count + kOrder.QTList.Count + kOrder.DeliveringList.Count == 0);
             }
             else
             {
                 this.groupBox2.Enabled = false;
             }
         }
+
+        /// <summary>
+        /// 按钮：Produced
+        /// </summary>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (this.listBox1.SelectedIndex != -1 && this.listBox2.Items.Count != 0)
+            {
+                var handler = (ProduceDishesTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is ProduceDishesTaskHandler) &&
+                    ((ProduceDishesTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                handler.Produced();
+            }
+        }
+
+        /// <summary>
+        /// 按钮：NotPass
+        /// </summary>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (this.listBox1.SelectedIndex != -1 && this.listBox3.Items.Count != 0)
+            {
+                var handler = (TestQualityTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is TestQualityTaskHandler) &&
+                    ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                handler.IsQualityTestPass = false;
+            }
+        }
+
+        /// <summary>
+        /// 按钮：Pass
+        /// </summary>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (this.listBox1.SelectedIndex != -1 && this.listBox3.Items.Count != 0)
+            {
+                var handler = (TestQualityTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is TestQualityTaskHandler) &&
+                    ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                handler.IsQualityTestPass = true;
+            }
+        }
+
+        /// <summary>
+        /// 按钮：Deliver
+        /// </summary>
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (this.listBox1.SelectedIndex != -1 && this.listBox4.Items.Count != 0)
+            {
+                var handler = (DeliverTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is DeliverTaskHandler) &&
+                    ((DeliverTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                handler.Arrived();
+            }
+        }
+        
     }
 }

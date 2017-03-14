@@ -16,6 +16,7 @@ namespace BOODemo.View
         public WaiterForm()
         {
             InitializeComponent();
+            buttonTip.ShowAlways = true;
         }
 
         /// <summary>
@@ -71,5 +72,31 @@ namespace BOODemo.View
             }
             this.listBox1.SelectedIndex = -1;
         }
+
+        /// <summary>
+        /// 事件：列表点选项目改变
+        /// </summary>
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.listBox1.SelectedIndex != -1)
+            {
+                this.button1.Enabled = true;
+                buttonTip.SetToolTip(this.button1, "Add dishes for this order.");
+
+                var kOrderList = RestaurantViewModel.RestaurantEntity.KitchenOrderList.FindAll(
+                    (t) => t.GuestOrderId.ToString() == this.listBox1.SelectedItem.ToString());
+                if (kOrderList.Count != 0 && kOrderList.TrueForAll((t) => t.IsFinish) == false)
+                {
+                    this.button1.Enabled = false;
+                    buttonTip.SetToolTip(this.button1, "Now dishes are producing, please add item after all ordered dishes are deliverd.");
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 按钮提示语
+        /// </summary>
+        ToolTip buttonTip = new ToolTip();
     }
 }
