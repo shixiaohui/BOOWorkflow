@@ -40,7 +40,6 @@ namespace BOODemo.TaskWarehouse
                 kOrder.ProducedDish(i);
             }
             kOrder.PendingList.Clear();
-            RestaurantViewModel.KitchenFormReference.Refresh();
             return true;
         }
 
@@ -94,7 +93,6 @@ namespace BOODemo.TaskWarehouse
                     }
                     ko.QTList.Clear();
                 }
-                RestaurantViewModel.KitchenFormReference.Refresh();
                 this.isFinished = true;
             }
         }

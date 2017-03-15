@@ -14,7 +14,7 @@ namespace BOODemo.ViewModel
 {
     extern alias OpenJDKCore;
     /// <summary>
-    /// ViewModel类
+    /// ViewModel类：提供前端与后台的交互逻辑
     /// </summary>
     internal static class RestaurantViewModel
     {
@@ -40,15 +40,11 @@ namespace BOODemo.ViewModel
         {
             try
             {
-                StateMachineMessageHandler MsgHandler = new StateMachineMessageHandler();
-                var url = new OpenJDKCore.java.net.URL(
-                    GlobalDataContext.EntryPointXMLDescriptorURLProtocol, String.Empty,
-                    GlobalDataContext.EntryPointXMLDescriptorFileName);
-                SCXML scxml = SCXMLReader.read(url);
-                Evaluator ev = new JexlEvaluator();
+                var scxml = RestaurantViewModel.GetEntryPointSCXML();
+                Evaluator ev = EvaluatorFactory.getEvaluator(scxml);
                 SCXMLExecutor executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
                 executor.setStateMachine(scxml);
-                RestaurantViewModel.engineBridge.SetExecutorReference(RestaurantViewModel.executorCounter, executor);
+                RestaurantViewModel.engineBridge.SetExecutorReference(RestaurantViewModel.executorCounter.ToString(), executor);
                 RestaurantViewModel.executorDict[RestaurantViewModel.executorCounter] = executor;
                 return RestaurantViewModel.executorCounter++;
             }
@@ -68,11 +64,35 @@ namespace BOODemo.ViewModel
         /// <param name="execId">状态机编号</param>
         /// <param name="eventName">事件名称</param>
         /// <param name="payload">事件附加值的包装</param>
-        public static void Send(int execId, string eventName, object payload = null)
+        public static void Send(string execId, string eventName, object payload = null)
         {
             RestaurantViewModel.engineBridge.SendEventAndTrigger(execId, eventName, payload);
         }
 
+        /// <summary>
+        /// 获取入口SCXML对象，如果从未载入过就载入她
+        /// </summary>
+        /// <returns>SCXML对象的引用</returns>
+        private static SCXML GetEntryPointSCXML()
+        {
+            if (RestaurantViewModel.EntryPointSCXML == null)
+            {
+                try
+                {
+                    var url = new OpenJDKCore.java.net.URL(
+                       GlobalDataContext.EntryPointXMLDescriptorURLProtocol, String.Empty,
+                       GlobalDataContext.EntryPointXMLDescriptorFileName);
+                    RestaurantViewModel.EntryPointSCXML = SCXMLReader.read(url);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    throw new Exception(e.ToString());
+                }
+            }
+            return RestaurantViewModel.EntryPointSCXML;
+        }
+        
         /// <summary>
         /// 获取点餐窗体引用字典
         /// </summary>
@@ -135,6 +155,11 @@ namespace BOODemo.ViewModel
             get;
             private set;
         }
+
+        /// <summary>
+        /// 入口SCXML对象的引用
+        /// </summary>
+        private static SCXML EntryPointSCXML = null;
 
         /// <summary>
         /// 状态机执行器计数

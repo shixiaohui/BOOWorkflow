@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using BOODemo.Model;
 using BOODemo.ViewModel;
@@ -21,6 +22,15 @@ namespace BOODemo.View
         }
 
         /// <summary>
+        /// 刷新客户未完成订单
+        /// </summary>
+        public void RefreshOrderList()
+        {
+            Thread t = new Thread(new ThreadStart(this.RefreshActiveOrderHandler));
+            t.Start();
+        }
+
+        /// <summary>
         /// 按钮：Exit System
         /// </summary>
         private void button4_Click(object sender, EventArgs e)
@@ -35,7 +45,10 @@ namespace BOODemo.View
         {
             if (this.listBox1.SelectedIndex != -1)
             {
-                RestaurantViewModel.Send(Convert.ToInt32(this.listBox1.SelectedItem.ToString()), "addItem", null);
+                RestaurantViewModel.Send(this.listBox1.SelectedItem.ToString(), "addItem", null);
+                OrderingForm of = new OrderingForm(false);
+                of.BindingGuestOrderId = Convert.ToInt32(this.listBox1.SelectedItem.ToString());
+                of.ShowDialog(this);
             }
         }
 
@@ -46,7 +59,12 @@ namespace BOODemo.View
         {
             if (this.listBox1.SelectedIndex != -1)
             {
-                RestaurantViewModel.Send(Convert.ToInt32(this.listBox1.SelectedItem.ToString()), "requestCheck", null);
+                if (MessageBox.Show("Sure?", "Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    MessageBox.Show("Please make payment at Casher.");
+                    this.button1.Enabled = false;
+                    RestaurantViewModel.Send(this.listBox1.SelectedItem.ToString(), "requestCheck", null);
+                }
             }
         }
 
@@ -59,23 +77,9 @@ namespace BOODemo.View
             GuestOrderEntity gOrder = new GuestOrderEntity(execId);
             RestaurantViewModel.RestaurantEntity.GuestOrderList.Add(gOrder);
             RestaurantViewModel.executorDict[execId].go();
-            OrderingForm of = new OrderingForm();
+            OrderingForm of = new OrderingForm(true);
             of.BindingGuestOrderId = gOrder.OrderId;
-            of.Show();
-        }
-
-        /// <summary>
-        /// 刷新客户订单Listbox
-        /// </summary>
-        public void RefreshOrderList()
-        {
-            this.listBox1.Items.Clear();
-            var gOrderList = RestaurantViewModel.RestaurantEntity.GuestOrderList;
-            for (int i = 0; i < gOrderList.Count; i++)
-            {
-                this.listBox1.Items.Add(gOrderList[i].OrderId.ToString());
-            }
-            this.listBox1.SelectedIndex = -1;
+            of.ShowDialog(this);
         }
 
         /// <summary>
@@ -85,6 +89,8 @@ namespace BOODemo.View
         {
             if (this.listBox1.SelectedIndex != -1)
             {
+                var orderObj = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find(
+                    (t) => t.OrderId.ToString() == this.listBox1.SelectedItem.ToString());
                 this.button1.Enabled = this.button2.Enabled = true;
                 buttonTip.SetToolTip(this.button1, "Add dishes for this order.");
 
@@ -95,16 +101,53 @@ namespace BOODemo.View
                     this.button1.Enabled = this.button2.Enabled = false;
                     buttonTip.SetToolTip(this.button1, "Now dishes are producing, please add item after all ordered dishes are deliverd.");
                 }
-
-                var orderObj = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find(
-                    (t) => t.OrderId.ToString() == this.listBox1.SelectedIndex.ToString());
                 this.textBox1.Text = orderObj.ToString();
+                if (orderObj.IsRequestPayment == true)
+                {
+                    this.button1.Enabled = false;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 处理跨线程刷新
+        /// </summary>
+        private void RefreshHandler()
+        {
+            if (this.listBox1.InvokeRequired)
+            {
+                this.Invoke(new RefreshCallBack(this.RefreshActiveOrderHandler));
+            }
+            else
+            {
+                this.listBox1.Items.Clear();
+                var gOrderList = RestaurantViewModel.RestaurantEntity.GuestOrderList.FindAll((x) => x.IsPaid == false);
+                for (int i = 0; i < gOrderList.Count; i++)
+                {
+                    this.listBox1.Items.Add(gOrderList[i].OrderId.ToString());
+                }
+                this.textBox1.Text = String.Empty;
+                this.button1.Enabled = this.button2.Enabled = false;
+                this.listBox1.SelectedIndex = -1;
             }
         }
 
         /// <summary>
+        /// 处理异步刷新
+        /// </summary>
+        private void RefreshActiveOrderHandler()
+        {
+            this.RefreshHandler();
+        }
+
+        /// <summary>
+        /// 异步刷新委托
+        /// </summary>
+        private delegate void RefreshCallBack();
+
+        /// <summary>
         /// 按钮提示语
         /// </summary>
-        ToolTip buttonTip = new ToolTip();
+        private ToolTip buttonTip = new ToolTip();
     }
 }

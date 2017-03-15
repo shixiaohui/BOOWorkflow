@@ -42,9 +42,8 @@ namespace BOODemo.TaskWarehouse
                     {
                         ko.PassQTDish(i);
                     }
-                    ko.QTList.RemoveAll((x) => x.PassedQT);
                 }
-                RestaurantViewModel.KitchenFormReference.Refresh();
+                ko.QTList.RemoveAll((x) => x.PassedQT);
                 return true;
             }
             catch

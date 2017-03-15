@@ -11,12 +11,38 @@ namespace BOODemo.View
         /// <summary>
         /// 点餐窗口所绑定的单号
         /// </summary>
-        public int BindingGuestOrderId { get; set; }
+        private int guestId;
 
-        public OrderingForm()
+        /// <summary>
+        /// 该窗体绑定的用户订单
+        /// </summary>
+        public int BindingGuestOrderId
+        {
+            get
+            {
+                return this.guestId;
+            }
+            set
+            {
+                this.guestId = value;
+                this.Text = "Ordering [" + guestId + "]";
+            }
+        }
+
+        /// <summary>
+        /// 构造器
+        /// </summary>
+        /// <param name="newGuest">是否为新客人创建订单</param>
+        public OrderingForm(bool newGuest)
         {
             InitializeComponent();
+            this.isNewGuest = newGuest;
         }
+
+        /// <summary>
+        /// 是否为新客人
+        /// </summary>
+        private bool isNewGuest;
 
         /// <summary>
         /// 按钮：Bean Milk
@@ -120,7 +146,7 @@ namespace BOODemo.View
             RestaurantViewModel.RestaurantEntity.KitchenOrderList.Add(kOrder);
             // 状态转移
             var handler = RestaurantViewModel.ActiveTaskHandlerList.Find(
-                (x) => ((AddItemTaskHandler)x).GuestOrderId == gOrder.OrderId && (x is AddItemTaskHandler)) as AddItemTaskHandler;
+                (x) => ((x is AddItemTaskHandler) && ((AddItemTaskHandler)x).GuestOrderId == gOrder.OrderId)) as AddItemTaskHandler;
             handler.Submit();
             // 刷新前端
             RestaurantViewModel.WaiterFormReference.RefreshOrderList();

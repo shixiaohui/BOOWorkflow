@@ -44,7 +44,7 @@ namespace BOODemo.TaskUtils
         /// 获取该处理器绑定的状态机ID
         /// </summary>
         /// <returns>状态机的唯一编号</returns>
-        int GetBindingExecutorId();
+        string GetBindingExecutorId();
 
         /// <summary>
         /// 获取该处理器是否已经被强制终止

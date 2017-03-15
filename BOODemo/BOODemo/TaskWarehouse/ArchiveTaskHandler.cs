@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace BOODemo.TaskWarehouse
 {
+    /// <summary>
+    /// 任务解决器：归档
+    /// </summary>
     internal sealed class ArchiveTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>

@@ -17,7 +17,7 @@
         /// <summary>
         /// 获取或设置发出该消息的状态机执行器id
         /// </summary>
-        public int BindingExecutorId
+        public string BindingExecutorId
         {
             get;
             set;

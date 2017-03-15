@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace BOODemo.TaskWarehouse
 {
+    /// <summary>
+    /// 任务解决器：更新递送完毕时间
+    /// </summary>
     internal sealed class UpdateDeliTimeTaskHandler : TaskUtils.AbstractTaskHandler  
     {
         /// <summary>

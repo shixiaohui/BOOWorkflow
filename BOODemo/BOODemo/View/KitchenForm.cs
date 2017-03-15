@@ -27,13 +27,14 @@ namespace BOODemo.View
             Thread t = new Thread(new ThreadStart(this.RefreshKitchenOrderHandler));
             t.Start();
         }
-
+        
+        /// <summary>
+        /// 处理异步刷新
+        /// </summary>
         private void RefreshKitchenOrderHandler()
         {
             this.RefreshHandler();
         }
-
-        private delegate void RefreshOrderCallBack();
 
         /// <summary>
         /// 处理跨线程刷新
@@ -52,8 +53,7 @@ namespace BOODemo.View
                 {
                     this.listBox1.Items.Add(String.Format("Guest {0}:{1}", ko.GuestOrderId, ko.Id));
                 }
-                this.listBox1.SelectedIndex = -1;
-                this.groupBox2.Enabled = false;
+                this.listBox1_SelectedIndexChanged(null, null);
             }
         }
 
@@ -99,6 +99,12 @@ namespace BOODemo.View
                 var handler = (ProduceDishesTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is ProduceDishesTaskHandler) &&
                     ((ProduceDishesTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.Produced();
+                this.listBox3.Items.Clear();
+                for (int i = 0; i < this.listBox2.Items.Count; i++)
+                {
+                    this.listBox3.Items.Add(this.listBox2.Items[i]);
+                }
+                this.listBox2.Items.Clear();
             }
         }
 
@@ -112,6 +118,12 @@ namespace BOODemo.View
                 var handler = (TestQualityTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is TestQualityTaskHandler) &&
                     ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.IsQualityTestPass = false;
+                this.listBox2.Items.Clear();
+                for (int i = 0; i < this.listBox3.Items.Count; i++)
+                {
+                    this.listBox2.Items.Add(this.listBox3.Items[i]);
+                }
+                this.listBox3.Items.Clear();
             }
         }
 
@@ -125,6 +137,12 @@ namespace BOODemo.View
                 var handler = (TestQualityTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is TestQualityTaskHandler) &&
                     ((TestQualityTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.IsQualityTestPass = true;
+                this.listBox4.Items.Clear();
+                for (int i = 0; i < this.listBox3.Items.Count; i++)
+                {
+                    this.listBox4.Items.Add(this.listBox3.Items[i]);
+                }
+                this.listBox3.Items.Clear();
             }
         }
 
@@ -138,8 +156,15 @@ namespace BOODemo.View
                 var handler = (DeliverTaskHandler)RestaurantViewModel.ActiveTaskHandlerList.Find((t) => (t is DeliverTaskHandler) &&
                     ((DeliverTaskHandler)t).KitchenOrderId.ToString() == this.listBox1.SelectedItem.ToString().Split(':')[1]);
                 handler.Arrived();
+                this.listBox4.Items.Clear();
+                this.listBox1.SelectedIndex = -1;
+                RestaurantViewModel.WaiterFormReference.RefreshOrderList();
             }
         }
-        
+
+        /// <summary>
+        /// 异步刷新委托
+        /// </summary>
+        private delegate void RefreshOrderCallBack();
     }
 }

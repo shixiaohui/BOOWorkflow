@@ -4,7 +4,6 @@ package com.sysu.workflow.env;
 import com.sysu.workflow.EventDispatcher;
 import com.sysu.workflow.SCXMLIOProcessor;
 import com.sysu.workflow.TriggerEvent;
-import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.model.extend.MessageMode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -155,7 +154,7 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
         }
     }
 
-    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
+    public void send(String treeId, String currentSessionId, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
         // Do nothing
     }
 

@@ -1,12 +1,12 @@
 <businessclass name="KitchenOrder" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
  <tasks>
-    <task id="produceDishes" name="produceDishesTask" event="produced">
+    <task id="produceDishes" role="agent" name="produceDishesTask" event="produced">
     </task>
-    <task id="testQuality" name="testQualityTask" event="testCompleted">
+    <task id="testQuality" role="agent" name="testQualityTask" event="testCompleted">
     </task>
-    <task id="deliver" name="deliverTask" event="delivered">
+    <task id="deliver" role="agent" name="deliverTask" event="delivered">
     </task>
-    <task id="archive" name="archiveTask" event="archived">
+    <task id="archive" role="agent" name="archiveTask" event="archived">
     </task>
  </tasks>
  <state id="Initial">
@@ -14,34 +14,34 @@
  </state>
  <state id="Producing">
   <onentry>
-   <call expr="produceDishesTask"></call>
+   <call name="produceDishesTask"></call>
   </onentry>
   <transition event="produced" target="QualityTesting"></transition>
  </state>
  <state id="QualityTesting">
   <onentry>
-   <call expr="testQualityTask"></call>
+   <call name="testQualityTask"></call>
   </onentry>
   <transition event="testCompleted" cond="_event.data.passed eq 0" target="Producing"></transition>
   <transition event="testCompleted" cond="_event.data.passed eq 1" target="Delivering"></transition>
  </state>
  <state id="Delivering">
   <onentry>
-   <call expr="deliverTask"></call>
+   <call name="deliverTask"></call>
   </onentry>
   <transition event="delivered" target="Archiving">
-  	<send event="delivered" target="GuestOrder"></send>
+  	<send event="delivered" type="scxml" messageMode="TO_PARENT"></send>
   </transition>
  </state>
  <state id="Archiving">
   <onentry>
-   <call expr="archiveTask"></call>
+   <call name="archiveTask"></call>
   </onentry>
-  <transition event="archived" target="Final">
-   <send event="finish" target="GuestOrder"></send>
+  <transition event="archived" target="KOFinal">
+   <send event="finish" type="scxml" messageMode="TO_PARENT"></send>
   </transition>
  </state>
- <final id="Final"></final>
+ <final id="KOFinal"></final>
  <layout h="816" w="1186" x="0" y="0">
   <workflowNode h="75" id="Initial" w="75" x="362" y="342">
    <workflowEdge event="" source="Initial" target="Producing"></workflowEdge>

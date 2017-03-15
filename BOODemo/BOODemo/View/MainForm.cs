@@ -5,48 +5,31 @@ using BOODemo.ViewModel;
 namespace BOODemo.View
 {
     extern alias OpenJDKCore;
+    /// <summary>
+    /// 窗体：初始窗体，配置控制器对其余窗体的引用
+    /// </summary>
     public partial class MainForm : Form
     {
-
-        //SCXMLExecutor executor;
-        //EngineBridge eb;
-        //StateMachineMessageHandler MsgHandler;
-
+        /// <summary>
+        /// 构造器
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
             WaiterForm wf = new WaiterForm();
             KitchenForm kf = new KitchenForm();
             GuestCheckForm gcf = new GuestCheckForm();
-            wf.Show();
-            kf.Show();
-            gcf.Show();
             RestaurantViewModel.WaiterFormReference = wf;
             RestaurantViewModel.KitchenFormReference = kf;
             RestaurantViewModel.GuestCheckFormReference = gcf;
-            
-            //eb = EngineBridge.GetInstance();
-            //MsgHandler = new StateMachineMessageHandler();
-            //OpenJDKCore.java.net.URL url = new OpenJDKCore.java.net.URL("file", String.Empty, "helloworld.xml");
-            //SCXML scxml = SCXMLReader.read(url);
-            //Evaluator ev = new JexlEvaluator();
-            //executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
-            //executor.setStateMachine(scxml);
-            //eb.SetExecutorReference(0, executor);
-            //eb.Init(MsgHandler);
+            wf.Show();
+            kf.Show();
+            gcf.Show();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //executor.go();
-            
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //eb.SendEventAndTrigger(0, "gotoEnd", null);
-        }
-
+        
+        /// <summary>
+        /// 事件：窗体载入后
+        /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.Hide();

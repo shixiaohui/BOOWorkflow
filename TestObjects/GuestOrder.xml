@@ -4,46 +4,46 @@
   <data expr="0" id="finishKOCount"></data>
  </datamodel>
  <tasks>
-    <task id="addItem" name="addItemTask" event="submit">
+    <task id="addItem" role="agent" name="addItemTask" event="submit">
     </task>
-    <task id="updateDeliTime" name="updateDeliTimeTask" event="addItem">
+    <task id="updateDeliTime" role="agent" name="updateDeliTimeTask" event="updateDeliTimeComplete">
     </task>
  </tasks>
  <state id="Initial">
   <transition target="Dining"></transition>
  </state>
  <state id="Dining" initial="in">
-  <transition event="requestCheck" cond="finishKOCount eq startKOCount" target="Paying">
-    <newbo src="GuestCheck"></newbo>
-  </transition>
   <state id="in">
    <transition target="Ordering"></transition>
   </state>
   <state id="Ordering">
    <onentry>
-    <call expr="addItemTask"></call>
-  </onentry>
+    <call name="addItemTask"></call>
+   </onentry>
    <transition event="submit" target="Active">
-     <newbo src="KitchenOrder"></newbo>
+     <newbo src="KitchenOrder.xml" instances="1"></newbo>
      <assign location="startKOCount" expr="startKOCount + 1"></assign>
    </transition>
   </state>
   <state id="Active">
    <transition event="addItem" target="Ordering"></transition>
-   <transition target="fin"></transition>
-   <transition event="KO.delivered">
-     <call expr="updateDeliTimeTask"></call>
+   
+   <transition event="KitchenOrder.delivered">
+     <call name="updateDeliTimeTask"></call>
    </transition>
-   <transition event="KO.finish">
+   <transition event="KitchenOrder.finish">
      <assign location="finishKOCount" expr="finishKOCount + 1"></assign>
+   </transition>
+   <transition event="requestCheck" cond="finishKOCount eq startKOCount" target="Paying">
+     <newbo src="GuestCheck.xml" instances="1"></newbo>
    </transition>
   </state>
   <final id="fin"></final>
  </state>
  <state id="Paying">
-  <transition event="CG.finish" target="Final"></transition>
+  <transition event="GuestCheck.finish" target="GOFinal"></transition>
  </state>
- <final id="Final"></final>
+ <final id="GOFinal"></final>
  <layout h="816" w="1186" x="0" y="0">
   <workflowNode h="75" id="Initial" w="75" x="70" y="300">
    <workflowEdge event="" source="Initial" target="Dining"></workflowEdge>

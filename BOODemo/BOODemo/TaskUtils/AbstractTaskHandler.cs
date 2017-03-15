@@ -53,7 +53,7 @@ namespace BOODemo.TaskUtils
         /// 获取该处理器绑定的状态机ID
         /// </summary>
         /// <returns>状态机的唯一编号</returns>
-        virtual public int GetBindingExecutorId()
+        virtual public string GetBindingExecutorId()
         {
             return this.bindingExecutorID;
         }
@@ -62,7 +62,7 @@ namespace BOODemo.TaskUtils
         /// 设置该处理器绑定的状态机ID
         /// </summary>
         /// <param name="execId">要绑定的状态机的ID</param>
-        virtual public void Binding(int execId)
+        virtual public void Binding(string execId)
         {
             this.bindingExecutorID = execId;
         }
@@ -84,7 +84,7 @@ namespace BOODemo.TaskUtils
         /// <summary>
         /// 获取或设置绑定的状态机处理器ID
         /// </summary>
-        protected int bindingExecutorID = 0;
+        protected string bindingExecutorID = "0";
 
         /// <summary>
         /// 任务是否已经被强制终止
