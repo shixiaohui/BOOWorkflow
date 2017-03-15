@@ -1,7 +1,6 @@
 
 package com.sysu.workflow;
 
-import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.SimpleContext;
 import com.sysu.workflow.model.*;
 import com.sysu.workflow.semantics.ErrorConstants;

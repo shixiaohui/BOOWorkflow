@@ -1,10 +1,10 @@
 <businessclass initial="Initial" name="GuestCheck" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
  <tasks>
-    <task id="calculate" name="calculateTask" event="calculated">
+    <task id="calculate" role="agent" name="calculateTask" event="calculated">
     </task>
-    <task id="Payment" name="PaymentTask" event="paid">
+    <task id="Payment" role="agent" name="PaymentTask" event="paid">
     </task>
-    <task id="archive" name="archiveTask" event="archived">
+    <task id="archive" role="agent" name="archiveTask" event="archived">
     </task>
  </tasks>
  <state id="Initial">
@@ -12,22 +12,22 @@
  </state>
  <state id="Preparing">
   <onentry>
-   <call expr="calculateTask"></call>
+   <call name="calculateTask"></call>
   </onentry>
   <transition event="calculated" target="Paying"></transition>
  </state>
  <state id="Paying">
   <onentry>
-   <call expr="PaymentTask"></call>
+   <call name="PaymentTask"></call>
   </onentry>
   <transition event="paid" target="Archiving"></transition>
  </state>
  <state id="Archiving">
   <onentry>
-   <call expr="archiveTask"></call>
+   <call name="archiveTask"></call>
   </onentry>
   <transition event="archived" target="Final">
-  	<send event="finish" target="GuestOrder"></send>
+  	<send event="finish" type="scxml" messageMode="TO_PARENT"></send>
   </transition>
  </state>
  <final id="Final"></final>

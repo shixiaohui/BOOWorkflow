@@ -1,7 +1,6 @@
 
 package com.sysu.workflow;
 
-import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.model.extend.MessageMode;
 
 import java.util.Map;
@@ -46,7 +45,6 @@ public interface EventDispatcher {
     /**
      * 在业务对象实例树上发送消息
      *
-     * @param scxmlInstanceTree 当前状态机持有的业务对象实例树
      * @param id                发送消息的 ID
      * @param target            需要送达的目的地
      * @param messageMode       消息模式
@@ -58,7 +56,7 @@ public interface EventDispatcher {
      * @param hints             一颗平台可用的信息
      * @param delay             延迟时间
      */
-    void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay);
+    void send(String currentSessionId, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay);
 
 }
 

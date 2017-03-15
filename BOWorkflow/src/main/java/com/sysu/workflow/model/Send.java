@@ -2,7 +2,6 @@
 package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
-import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleDispatcher;
 import com.sysu.workflow.model.extend.MessageMode;
@@ -469,17 +468,8 @@ public class Send extends NamelistHolder implements ContentContainer {
                     + "ms");
         }
         if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
-
-
-            //SCXMLInstanceTree scxmlInstanceTree;
-
-            //SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
-
-            //scxmlInstanceTree=currentExecutionContext.getInstanceTree();
-
             if (messageModeValue != null) {
-                //exctx.getEventDispatcher().send((String) ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), scxmlInstanceTree, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
-                exctx.getEventDispatcher().send(((SCXMLExecutionContext)exctx.getInternalIOProcessor()).Tid, null, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
+                exctx.getEventDispatcher().send(((SCXMLExecutionContext)exctx.getInternalIOProcessor()).Tid, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
             } else {
                 exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
                         payload, hintsValue, wait);

@@ -101,22 +101,6 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
                          final SCXMLSemantics semantics) {
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep);
-        SCXMLInstanceManager.setSCXMLInstance(this);
-        this.exctx.Tid = this.Tid;
-    }
-
-    /**
-     * 构造器
-     *
-     * @param expEvaluator The expression evaluator
-     * @param evtDisp      The event dispatcher
-     * @param errRep       The error reporter
-     */
-    public SCXMLExecutor(final Evaluator expEvaluator,
-                         final EventDispatcher evtDisp, final ErrorReporter errRep, final SCXMLSemantics semantics, final SCXMLInstanceTree instanceTree) {
-        this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
-        this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep, instanceTree);
-        SCXMLInstanceManager.setSCXMLInstance(this);
         this.exctx.Tid = this.Tid;
     }
 
@@ -638,14 +622,12 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         this.executorIndex = executorIndex;
     }
 
+    /**
+     * 获取执行器上下文
+     * @return
+     */
     public SCXMLExecutionContext getExctx() {
         return exctx;
     }
 
-    /**
-     * 得到当前状态机的实例树
-     */
-    public SCXMLInstanceTree getSCXMLInstanceTree(){
-        return exctx.getInstanceTree();
-    }
 }

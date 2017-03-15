@@ -2,8 +2,6 @@ package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
 import com.sysu.workflow.engine.InstanceManager;
-import com.sysu.workflow.engine.SCXMLInstanceManager;
-import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.engine.TimeTreeNode;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
@@ -125,8 +123,7 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
             TimeTreeNode curNode = InstanceManager.InstanceTree.GetNodeById(currentExecutionContext.Tid);
             for (int i = 0; i < getInstances(); i++) {
                 Evaluator evaluator = EvaluatorFactory.getEvaluator(scxml);
-                SCXMLInstanceTree instanceTree = currentExecutionContext.getInstanceTree();
-                SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null, instanceTree);
+                SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null);
                 executor.setStateMachine(scxml);
                 System.out.println("Create sub state machine from: " + url.getFile());
                 // init execution context

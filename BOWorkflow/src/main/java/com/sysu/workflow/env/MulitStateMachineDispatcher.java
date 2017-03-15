@@ -5,8 +5,6 @@ import com.sysu.workflow.SCXMLExecutor;
 import com.sysu.workflow.SCXMLIOProcessor;
 import com.sysu.workflow.TriggerEvent;
 import com.sysu.workflow.engine.InstanceManager;
-import com.sysu.workflow.engine.SCXMLInstanceManager;
-import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.engine.TimeTreeNode;
 import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.model.extend.MessageMode;
@@ -100,9 +98,8 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
     }
 
     @Override
-    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
+    public void send(String currentSessionId, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
 
-        //??????
         if (log.isInfoEnabled()) {
             StringBuilder buf = new StringBuilder();
             buf.append("send ( id: ").append(id);
@@ -119,20 +116,10 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             log.info(buf.toString());
         }
 
-        //????? type ="scxml" ????????
-
         if (type == null || type.equalsIgnoreCase(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR) ||
                 type.equals(SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR)) {
 
-
             boolean internal = false;
-
-
-            //SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
-
-            //SCXMLIOProcessor ioProcessor = SCXMLInstanceManager.getSCXMLInstanceExecutor(currentSessionId);
-
-            //TimeTreeNode currentNode = InstanceManager.InstanceTree.GetNodeById(currentSessionId);
             SCXMLIOProcessor ioProcessor = InstanceManager.GetExecutor(currentSessionId);
 
             if (event == null) {
@@ -154,9 +141,6 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             } else {
                 //ioProcessor.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
             }
-
-
-            //????????????
 
             switch (messageMode) {
                 case BROADCAST:

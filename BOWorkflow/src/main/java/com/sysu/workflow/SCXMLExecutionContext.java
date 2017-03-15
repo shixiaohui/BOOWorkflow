@@ -1,9 +1,6 @@
 
 package com.sysu.workflow;
 
-import com.sysu.workflow.engine.SCXMLInstanceManager;
-import com.sysu.workflow.engine.SCXMLInstanceTree;
-import com.sysu.workflow.entity.ProcessInstanceEntity;
 import com.sysu.workflow.env.SimpleDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.invoke.Invoker;
@@ -12,7 +9,6 @@ import com.sysu.workflow.invoke.SimpleSCXMLInvoker;
 import com.sysu.workflow.model.Invoke;
 import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.model.SCXML;
-import com.sysu.workflow.service.processservice.RuntimeService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -125,12 +121,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
 
     /**
-     * 实例树 的扩展
-     */
-    private SCXMLInstanceTree instanceTree;
-
-
-    /**
      * 构造器
      *
      * @param scxmlExecutor   The SCXMLExecutor of this SCXMLExecutionContext
@@ -160,47 +150,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         initializeIOProcessors();
         registerInvokerClass(SCXML_INVOKER_TYPE_URI, SimpleSCXMLInvoker.class);
         registerInvokerClass(SCXML_INVOKER_TYPE, SimpleSCXMLInvoker.class);
-
-        //当由用户创建的时候初始化业务对象实例树
-        this.InitInstanceTree();
-
-
     }
-
-
-    /**
-     * 构造器
-     *
-     * @param scxmlExecutor   The SCXMLExecutor of this SCXMLExecutionContext
-     * @param evaluator       The evaluator
-     * @param eventDispatcher The event dispatcher, if null a SimpleDispatcher instance will be used
-     * @param errorReporter   The error reporter, if null a SimpleErrorReporter instance will be used
-     */
-    protected SCXMLExecutionContext(SCXMLExecutor scxmlExecutor, Evaluator evaluator,
-                                    EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCXMLInstanceTree instanceTree) {
-        this.scxmlExecutor = scxmlExecutor;
-        this.externalIOProcessor = scxmlExecutor;
-        this.evaluator = evaluator;
-        this.eventdispatcher = eventDispatcher != null ? eventDispatcher : new SimpleDispatcher();
-        this.errorReporter = errorReporter != null ? errorReporter : new SimpleErrorReporter();
-        this.notificationRegistry = new NotificationRegistry();
-
-        this.scInstance = new SCInstance(this, this.evaluator, this.errorReporter);
-        this.actionExecutionContext = new ActionExecutionContext(this);
-
-
-        ioProcessors.put(SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR, getExternalIOProcessor());
-        ioProcessors.put(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR, getExternalIOProcessor());
-        ioProcessors.put(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR, getInternalIOProcessor());
-        if (scxmlExecutor.getParentSCXMLExecutor() != null) {
-            ioProcessors.put(SCXMLIOProcessor.PARENT_EVENT_PROCESSOR, scxmlExecutor.getParentSCXMLExecutor());
-        }
-        initializeIOProcessors();
-        registerInvokerClass(SCXML_INVOKER_TYPE_URI, SimpleSCXMLInvoker.class);
-        registerInvokerClass(SCXML_INVOKER_TYPE, SimpleSCXMLInvoker.class);
-        this.instanceTree = instanceTree;
-    }
-
 
     public SCXMLExecutor getSCXMLExecutor() {
         return scxmlExecutor;
@@ -258,7 +208,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * Initialize method which will cancel all current active Invokers, clear the internal event queue and mark the
      * state machine process as running (again).
      * 初始化方法
-     * 取消所有当前活跃的Invokers,请你内部事件队列，启动状态机过程
+     * 取消所有当前活跃的Invokers，清理内部事件队列，启动状态机过程
      *
      * @throws ModelException if the state machine instance failed to initialize.
      */
@@ -272,36 +222,9 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         scInstance.initialize();
         initializeIOProcessors();
         scInstance.setRunning(true);
-
         //saveProcessInstance();
-
-
     }
 
-    private void saveProcessInstance() {
-        try {
-            //保存过程实例到数据库
-            RuntimeService runtimeService = new RuntimeService();
-
-            ProcessInstanceEntity processInstanceEntity =runtimeService.newProcessInstance(getSessionId(), getScInstance().getStateMachine().getName(), new Date().toLocaleString());
-
-            boolean flag = runtimeService.saveProcessInstance(processInstanceEntity);
-
-            //如果保存到数据库里面了，将实例挂到树上，
-            if (flag) {
-                //只有在这里 sessionId 才会固定
-                //似乎只能在这里初始化实例树，如果是通过  外界用户自己产生的会话，
-                if (this.instanceTree == null) {
-                    this.instanceTree = new SCXMLInstanceTree(getSessionId(), getScInstance().getStateMachine().getName());
-                    //在这里将Executor 添加到管理器里面
-                    SCXMLInstanceManager.setSCXMLInstance(getSCXMLExecutor());
-                }
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * @return Returns the SCXML Execution Logger for the application
@@ -650,25 +573,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         return !internalEventQueue.isEmpty();
     }
 
-    public void InitInstanceTree() {
-        if (instanceTree == null) {
-            instanceTree = new SCXMLInstanceTree((String)this.getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), "");
-            //instanceTree = new SCXMLInstanceTree((String)this.getScInstance().getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), getScInstance().getStateMachine().getName());
-        }
-    }
-
-    /**
-     * 得到   实例树
-     *
-     * @return
-     */
-    public SCXMLInstanceTree getInstanceTree() {
-        return instanceTree;
-    }
-
-    public void setInstanceTree(SCXMLInstanceTree instanceTree) {
-        this.instanceTree = instanceTree;
-    }
 
     public String getSessionId() {
         return sessionId;

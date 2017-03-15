@@ -1,25 +1,34 @@
 package com.sysu.workflow.engine;
 
-import com.sysu.workflow.SCXMLExecutionContext;
-
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Stack;
-import java.util.concurrent.BlockingQueue;
 
 /**
+ * 实例树类：维护业务对象生命周期中的生成层次关系
  * Created by Rinkako on 2017/3/15.
  */
 public class TimeInstanceTree {
 
+    /**
+     * 构造器
+     */
     public TimeInstanceTree() {
         this.Root = null;
     }
 
+    /**
+     * 为实例树设置根，该方法应该在执行器第一次执行时，即创建根业务对象时被调用
+     * @param root 根节点的引用
+     */
     public void SetRoot(TimeTreeNode root) {
         this.Root = root;
     }
 
+    /**
+     * 通过节点的唯一编号取得实例树节点
+     * @param tid 唯一编号
+     * @return 实例树节点的引用
+     */
     public TimeTreeNode GetNodeById(String tid) {
         if (this.Root == null) {
             return null;
@@ -38,6 +47,11 @@ public class TimeInstanceTree {
         return null;
     }
 
+    /**
+     * 通过节点的描述文件名取得实例树节点集合并序列化成一个向量
+     * @param target 要取得的对象的文件名
+     * @return 深度优先搜索得到的序列化的树对应的节点向量
+     */
     public ArrayList<TimeTreeNode> GetNodeVectorByTarget(String target) {
         if (this.Root == null) {
             return null;
@@ -57,6 +71,10 @@ public class TimeInstanceTree {
         return rVec;
     }
 
+    /**
+     * 获取整棵树上的节点并序列化成一个向量
+     * @return 深度优先搜索得到的序列化的树对应的节点向量
+     */
     public ArrayList<TimeTreeNode> GetAllNodeVector() {
         ArrayList<TimeTreeNode> offs = new ArrayList<TimeTreeNode>();
         if (null != this.Root) {
@@ -66,6 +84,11 @@ public class TimeInstanceTree {
         return offs;
     }
 
+    /**
+     * 通过节点的唯一编号取得实例树上该节点和她的后代节点并序列化成一个向量
+     * @param tid 唯一编号
+     * @return 深度优先搜索得到的序列化的树对应的节点向量
+     */
     public ArrayList<TimeTreeNode> GetSelfAndOffspringsVector(String tid) {
         TimeTreeNode rNode = this.GetNodeById(tid);
         ArrayList<TimeTreeNode> offs = new ArrayList<TimeTreeNode>();
@@ -76,6 +99,11 @@ public class TimeInstanceTree {
         return offs;
     }
 
+    /**
+     * 通过节点的唯一编号取得实例树上对应节点的后代节点并序列化成一个向量
+     * @param tid 唯一编号
+     * @return 深度优先搜索得到的序列化的树对应的节点向量
+     */
     public ArrayList<TimeTreeNode> GetOffspringsVector(String tid) {
         TimeTreeNode tRoot = this.GetNodeById(tid);
         ArrayList<TimeTreeNode> offsprings = new ArrayList<TimeTreeNode>();
@@ -94,6 +122,12 @@ public class TimeInstanceTree {
         return offsprings;
     }
 
+    /**
+     * 通过节点的唯一编号取得实例树上对应节点的符合描述文件名的后代节点并序列化成一个向量
+     * @param tid 唯一编号
+     * @param target 要取得的对象的文件名
+     * @return 深度优先搜索得到的序列化的树对应的节点向量
+     */
     public ArrayList<TimeTreeNode> GetOffspringsVectorByTarget(String tid, String target) {
         TimeTreeNode tRoot = this.GetNodeById(tid);
         ArrayList<TimeTreeNode> offsprings = new ArrayList<TimeTreeNode>();
@@ -114,6 +148,12 @@ public class TimeInstanceTree {
         return offsprings;
     }
 
+    /**
+     * 通过节点的唯一编号取得实例树上对应节点的符合描述文件名的直接一代孩子节点并序列化成一个向量
+     * @param tid 唯一编号
+     * @param target 要取得的对象的文件名
+     * @return 深度优先搜索得到的序列化的树对应的节点向量
+     */
     public ArrayList<TimeTreeNode> GetChildrenVectorByTarget(String tid, String target) {
         TimeTreeNode nNode = this.GetNodeById(tid);
         ArrayList<TimeTreeNode> ret = new ArrayList<TimeTreeNode>();
@@ -127,7 +167,8 @@ public class TimeInstanceTree {
         return ret;
     }
 
+    /**
+     * 实例树的根节点
+     */
     public TimeTreeNode Root;
-
-
 }
