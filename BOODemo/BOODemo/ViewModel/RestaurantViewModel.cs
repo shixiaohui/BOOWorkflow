@@ -48,7 +48,7 @@ namespace BOODemo.ViewModel
                 Evaluator ev = new JexlEvaluator();
                 SCXMLExecutor executor = new SCXMLExecutor(ev, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
                 executor.setStateMachine(scxml);
-                RestaurantViewModel.engineBridge.SetExecutorReference(RestaurantViewModel.executorCounter, executor);
+                RestaurantViewModel.engineBridge.SetExecutorReference(RestaurantViewModel.executorCounter.ToString(), executor);
                 RestaurantViewModel.executorDict[RestaurantViewModel.executorCounter] = executor;
                 return RestaurantViewModel.executorCounter++;
             }
@@ -68,7 +68,7 @@ namespace BOODemo.ViewModel
         /// <param name="execId">状态机编号</param>
         /// <param name="eventName">事件名称</param>
         /// <param name="payload">事件附加值的包装</param>
-        public static void Send(int execId, string eventName, object payload = null)
+        public static void Send(string execId, string eventName, object payload = null)
         {
             RestaurantViewModel.engineBridge.SendEventAndTrigger(execId, eventName, payload);
         }

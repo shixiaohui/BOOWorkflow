@@ -469,7 +469,9 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
         if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
             if (messageModeValue != null) {
-                exctx.getEventDispatcher().send(((SCXMLExecutionContext)exctx.getInternalIOProcessor()).Tid, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
+                SCXMLExecutionContext execctx = (SCXMLExecutionContext)exctx.getInternalIOProcessor();
+
+                exctx.getEventDispatcher().send(execctx.RootTid, execctx.Tid, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
             } else {
                 exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
                         payload, hintsValue, wait);

@@ -8,6 +8,7 @@ using BOODemo.TaskUtils;
 
 namespace BOODemo.Core
 {
+    extern alias OpenJDKCore;
     /// <summary>
     /// 状态机消息处理类：接受来自状态机的消息并执行实际的业务逻辑
     /// </summary>
@@ -79,17 +80,19 @@ namespace BOODemo.Core
                     case "calculateTask":
                     case "paymentTask":
                     case "updateDeliTimeTask":
-                        paraDict["guestOrderId"] = dealingItem.BindingExecutorId;
+                        paraDict["guestOrderId"] = Convert.ToInt32(dealingItem.BindingExecutorId);
                         break;
                     case "deliverTask":
                     case "produceDishesTask":
                     case "testQualityTask":
-                        paraDict["guestOrderId"] = dealingItem.BindingExecutorId;
+                        paraDict["guestOrderId"] = Convert.ToInt32(dealingItem.BindingExecutorId);
                         paraDict["kitchenOrderId"] = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find(
-                            (t) => t.GuestOrderId == dealingItem.BindingExecutorId && t.IsFinish == false).Id;
+                            (t) => t.GuestOrderId.ToString() == dealingItem.BindingExecutorId && t.IsFinish == false).Id;
                         break;
                         
                 }
+                // 绑定处理器
+                ((AbstractTaskHandler)tHandler).Binding(dealingItem.BindingExecutorId);
                 // 初始化任务处理器
                 if (tHandler.Init(paraDict) == false)
                 {
@@ -106,21 +109,24 @@ namespace BOODemo.Core
                 {
                     throw new Exception(String.Format("Process {0} failed.", dealingItem.TaskName));
                 }
+                // 等待任务完成
+                while (tHandler.IsFinished() == false || tHandler.IsAbort())
+                {
+                    Thread.Sleep(TimeSpan.FromTicks(100));
+                }
                 // 获取解决的结果包装
                 object resultPackage;
                 if (tHandler.GetResult(out resultPackage) == false)
                 {
                     throw new Exception(String.Format("Get result package of {0} failed.", dealingItem.TaskName));
                 }
-                // 等待任务完成
-                while (tHandler.IsFinished() == false || tHandler.IsAbort())
-                {
-                    Thread.Sleep(TimeSpan.FromTicks(100));
-                }
                 // 反馈给状态机
                 if (tHandler.IsFinished())
                 {
-                    this.engineBridge.SendEventAndTrigger(tHandler.GetBindingExecutorId(),
+                    var sb = new OpenJDKCore.java.lang.StringBuilder();
+                    sb.append(tHandler.GetBindingExecutorId());
+                    
+                    this.engineBridge.SendEventAndTrigger(sb.toString(),
                         dealingItem.CallbackEvent, resultPackage);
                 }
                 // 从活跃处理器向量中移除

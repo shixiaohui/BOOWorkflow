@@ -44,7 +44,8 @@ public interface EventDispatcher {
 
     /**
      * 在业务对象实例树上发送消息
-     *
+     * @param treeId            实例树根id
+     * @param currentSessionId  当前的tid
      * @param id                发送消息的 ID
      * @param target            需要送达的目的地
      * @param messageMode       消息模式
@@ -56,7 +57,7 @@ public interface EventDispatcher {
      * @param hints             一颗平台可用的信息
      * @param delay             延迟时间
      */
-    void send(String currentSessionId, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay);
+    void send(String treeId, String currentSessionId, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay);
 
 }
 

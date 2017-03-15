@@ -8,6 +8,8 @@ import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.io.SCXMLReader;
 import com.sysu.workflow.model.*;
 
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -104,11 +106,13 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
             //final URL url = this.getClass().getClassLoader().getResource(getSrc());
 
             // RINKAKO: get file by passing URL
-            //URL url = new URL("file", "", getSrc());
-            //if (url == null)
-            //{
-                URL url = this.getClass().getClassLoader().getResource(getSrc());
-            //}
+            URL url = new URL("file", "", getSrc());
+            try {
+                InputStream in = url.openStream();
+            } catch (Exception e1) {
+                System.out.println("load file directly failed, try get resource");
+                url = this.getClass().getClassLoader().getResource(getSrc());
+            }
 
             SCXML scxml = null;
             // init sub state machine SCXML object
@@ -120,10 +124,10 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
             }
             // launch sub state machine of the number of instances
             SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
-            TimeTreeNode curNode = InstanceManager.InstanceTree.GetNodeById(currentExecutionContext.Tid);
+            TimeTreeNode curNode = InstanceManager.GetInstanceTree(currentExecutionContext.RootTid).GetNodeById(currentExecutionContext.Tid);
             for (int i = 0; i < getInstances(); i++) {
                 Evaluator evaluator = EvaluatorFactory.getEvaluator(scxml);
-                SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null);
+                SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null, currentExecutionContext.RootTid);
                 executor.setStateMachine(scxml);
                 System.out.println("Create sub state machine from: " + url.getFile());
                 // init execution context

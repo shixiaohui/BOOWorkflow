@@ -21,6 +21,7 @@ namespace BOODemo.TaskWarehouse
                 {
                     return false;
                 }
+                RestaurantViewModel.GuestCheckFormReference.RefreshCheckOrderList();
                 return true;
             }
             catch

@@ -16,8 +16,6 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static com.sysu.workflow.engine.InstanceManager.InstanceTree;
-
 /**
  * 执行SCXML文档的 SCXML 引擎
  * <p/>
@@ -58,9 +56,11 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * The index of this executor in application
      * 该状态机执行器在应用程序的索引
      */
-    private int executorIndex = 0;
+    private String executorIndex = "0";
 
     public String Tid = UUID.randomUUID().toString();
+
+    public String RootTid = "";
 
     /**
      * The external event queue
@@ -102,6 +102,28 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep);
         this.exctx.Tid = this.Tid;
+        this.exctx.RootTid = this.RootTid;
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param expEvaluator The expression evaluator
+     * @param evtDisp      The event dispatcher
+     * @param errRep       The error reporter
+     * @param semantics    The SCXML semantics
+     * @param rootTid      根状态机的Tid
+     */
+    public SCXMLExecutor(final Evaluator expEvaluator,
+                         final EventDispatcher evtDisp, final ErrorReporter errRep,
+                         final SCXMLSemantics semantics,
+                         final String rootTid) {
+        this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
+        this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep);
+        this.RootTid = rootTid;
+        this.exctx.Tid = this.Tid;
+        this.exctx.RootTid = this.RootTid;
     }
 
     /**
@@ -115,6 +137,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         this.exctx = new SCXMLExecutionContext(this, parentSCXMLExecutor.getEvaluator(),
                 parentSCXMLExecutor.getEventdispatcher(), parentSCXMLExecutor.getErrorReporter());
         this.exctx.Tid = this.Tid;
+        this.exctx.RootTid = this.RootTid;
     }
 
     /**
@@ -459,9 +482,14 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      *                        model problem.
      */
     public void go() throws ModelException {
-        if (InstanceTree.Root == null) {
+        // 不是子状态机就注册一颗新实例树
+        if (this.RootTid.equals("") || this.RootTid.equals(this.Tid)) {
+            TimeInstanceTree myTree = new TimeInstanceTree();
             TimeTreeNode nRoot = new TimeTreeNode(this.exctx.getStateMachine().getName(), this.Tid, this.exctx, null);
-            InstanceTree.SetRoot(nRoot);
+            myTree.SetRoot(nRoot);
+            InstanceManager.RegisterInstanceTree(myTree);
+            this.RootTid = this.Tid;
+            this.exctx.RootTid = this.RootTid;
         }
         // same as reset
         this.reset();
@@ -552,7 +580,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * @throws ModelException in case there is a fatal SCXML object model problem.
      */
     public void triggerEvents() throws ModelException {
-        ArrayList<TimeTreeNode> childrenList = InstanceManager.InstanceTree.GetNodeById(this.Tid).Children;
+        ArrayList<TimeTreeNode> childrenList = InstanceManager.GetInstanceTree(this.RootTid).GetNodeById(this.Tid).Children;
         ArrayList<TriggerEvent> childrenTriggerList = new ArrayList<TriggerEvent>();
         Object[] eqArr = this.externalEventQueue.toArray();
         for (Object te : eqArr) {
@@ -608,9 +636,9 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * 获取当前执行器在应用程序的索引
-     * @return 索引号
+     * @return 索引ID
      */
-    public int getExecutorIndex() {
+    public String getExecutorIndex() {
         return executorIndex;
     }
 
@@ -618,7 +646,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * 设置当前执行器在应用程序的索引
      * @param executorIndex 索引号
      */
-    public void setExecutorIndex(int executorIndex) {
+    public void setExecutorIndex(String executorIndex) {
         this.executorIndex = executorIndex;
     }
 

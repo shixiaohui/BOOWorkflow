@@ -4,9 +4,7 @@ import com.sysu.workflow.entity.BOMessage;
 import com.sysu.workflow.model.ModelException;
 import javassist.NotFoundException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -37,10 +35,9 @@ public class EngineBridge {
      * 为桥设置一个状态机处理器
      * @param executor 要绑定的状态机处理器
      */
-    public void SetExecutorReference(int executorId, SCXMLExecutor executor) {
-        Integer intPackage = Integer.valueOf(executorId);
+    public void SetExecutorReference(String executorId, SCXMLExecutor executor) {
         executor.setExecutorIndex(executorId);
-        this.executorMap.put(intPackage, executor);
+        this.executorMap.put(executorId, executor);
     }
 
     /**
@@ -67,14 +64,19 @@ public class EngineBridge {
      * @param payload 附加在事件上的包装
      * @throws ModelException
      */
-    public void SendEventAndTrigger(int executorId, String eventName, Object payload) throws ModelException {
+    public void SendEventAndTrigger(String executorId, String eventName, Object payload) throws ModelException {
         TriggerEvent tevt = new TriggerEvent(eventName, TriggerEvent.SIGNAL_EVENT, payload);
-        Integer intPackage = Integer.valueOf(executorId);
         try {
-            this.executorMap.get(intPackage).triggerEvent(tevt);
+            if (this.executorMap.containsKey(executorId)) {
+                this.executorMap.get(executorId).triggerEvent(tevt);
+            }
+            else {
+                System.out.println("Executor not found in bridge: " + executorId);
+            }
         }
         catch (Exception ex) {
-            throw new IllegalArgumentException();
+            ex.printStackTrace();
+            throw new IllegalArgumentException(ex.toString());
         }
     }
 
@@ -118,7 +120,7 @@ public class EngineBridge {
      * @param roleName 角色名称
      * @param callbackEv 处理完成的事件名
      */
-    public static void QuickEnqueueBOMessage(int execIdx, String taskName, String paramStr, String roleName, String callbackEv) {
+    public static void QuickEnqueueBOMessage(String execIdx, String taskName, String paramStr, String roleName, String callbackEv) {
         BOMessage boMsg = new BOMessage();
         boMsg.AddMessageItem(execIdx, taskName, paramStr, roleName, callbackEv);
         EngineBridge.GetInstance().EnqueueBOMessage(boMsg);
@@ -134,13 +136,13 @@ public class EngineBridge {
      */
     private EngineBridge() {
         this.stateMachieMessageQueue = new LinkedBlockingDeque<BOMessage>();
-        this.executorMap = new HashMap<Integer, SCXMLExecutor>();
+        this.executorMap = new Hashtable<String, SCXMLExecutor>();
     }
 
     /**
      * 引擎处理器的引用，她是整个状态机树上的根
      */
-    private Map<Integer, SCXMLExecutor> executorMap;
+    private Map<String, SCXMLExecutor> executorMap;
 
     /**
      * 应用程序消息处理器的引用
