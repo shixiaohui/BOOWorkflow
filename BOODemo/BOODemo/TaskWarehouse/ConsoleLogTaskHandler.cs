@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BOODemo.TaskWarehouse
 {
     /// <summary>
-    /// 控制台日志输出任务处理器
+    /// 任务解决器：[测试用]控制台日志输出任务处理器
     /// </summary>
     internal sealed class ConsoleLogTaskHandler : TaskUtils.AbstractTaskHandler
     {

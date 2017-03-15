@@ -37,11 +37,6 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 异步刷新委托
-        /// </summary>
-        private delegate void RefreshOrderCallBack();
-
-        /// <summary>
         /// 处理跨线程刷新
         /// </summary>
         private void RefreshHandler()
@@ -166,6 +161,10 @@ namespace BOODemo.View
                 RestaurantViewModel.WaiterFormReference.RefreshOrderList();
             }
         }
-        
+
+        /// <summary>
+        /// 异步刷新委托
+        /// </summary>
+        private delegate void RefreshOrderCallBack();
     }
 }

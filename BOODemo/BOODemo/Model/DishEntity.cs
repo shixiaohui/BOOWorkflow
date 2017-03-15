@@ -31,9 +31,11 @@ namespace BOODemo.Model
         /// </summary>
         public int KitchenOrderId
         {
-            get;
-            set;
+            get { return this.kitchenOrderId; }
+            set { this.kitchenOrderId = value; }
         }
+
+        private int kitchenOrderId = -1;
 
         /// <summary>
         /// 获取或设置餐品是否通过品测

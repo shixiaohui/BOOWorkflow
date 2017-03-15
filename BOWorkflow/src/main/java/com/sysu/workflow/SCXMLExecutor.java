@@ -56,7 +56,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * The index of this executor in application
      * 该状态机执行器在应用程序的索引
      */
-    private String executorIndex = "0";
+    private String executorIndex;
 
     public String Tid = UUID.randomUUID().toString();
 
@@ -483,13 +483,19 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      */
     public void go() throws ModelException {
         // 不是子状态机就注册一颗新实例树
-        if (this.RootTid.equals("") || this.RootTid.equals(this.Tid)) {
-            TimeInstanceTree myTree = new TimeInstanceTree();
-            TimeTreeNode nRoot = new TimeTreeNode(this.exctx.getStateMachine().getName(), this.Tid, this.exctx, null);
-            myTree.SetRoot(nRoot);
-            InstanceManager.RegisterInstanceTree(myTree);
-            this.RootTid = this.Tid;
-            this.exctx.RootTid = this.RootTid;
+        try {
+            if (this.RootTid.equals("") || this.RootTid.equals(this.Tid)) {
+                TimeInstanceTree myTree = new TimeInstanceTree();
+                TimeTreeNode nRoot = new TimeTreeNode(this.exctx.getStateMachine().getName(), this.Tid, this.exctx, null);
+                myTree.SetRoot(nRoot);
+                InstanceManager.RegisterInstanceTree(myTree);
+                this.RootTid = this.Tid;
+                this.exctx.RootTid = this.RootTid;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Executor error at go");
+            e.printStackTrace();
         }
         // same as reset
         this.reset();

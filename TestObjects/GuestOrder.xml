@@ -6,7 +6,7 @@
  <tasks>
     <task id="addItem" role="agent" name="addItemTask" event="submit">
     </task>
-    <task id="updateDeliTime" role="agent" name="updateDeliTimeTask" event="addItem">
+    <task id="updateDeliTime" role="agent" name="updateDeliTimeTask" event="updateDeliTimeComplete">
     </task>
  </tasks>
  <state id="Initial">
@@ -41,9 +41,9 @@
   <final id="fin"></final>
  </state>
  <state id="Paying">
-  <transition event="GuestCheck.finish" target="Final"></transition>
+  <transition event="GuestCheck.finish" target="GOFinal"></transition>
  </state>
- <final id="Final"></final>
+ <final id="GOFinal"></final>
  <layout h="816" w="1186" x="0" y="0">
   <workflowNode h="75" id="Initial" w="75" x="70" y="300">
    <workflowEdge event="" source="Initial" target="Dining"></workflowEdge>

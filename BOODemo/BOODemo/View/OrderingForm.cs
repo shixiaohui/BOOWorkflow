@@ -12,6 +12,10 @@ namespace BOODemo.View
         /// 点餐窗口所绑定的单号
         /// </summary>
         private int guestId;
+
+        /// <summary>
+        /// 该窗体绑定的用户订单
+        /// </summary>
         public int BindingGuestOrderId
         {
             get
@@ -25,10 +29,20 @@ namespace BOODemo.View
             }
         }
 
-        public OrderingForm()
+        /// <summary>
+        /// 构造器
+        /// </summary>
+        /// <param name="newGuest">是否为新客人创建订单</param>
+        public OrderingForm(bool newGuest)
         {
             InitializeComponent();
+            this.isNewGuest = newGuest;
         }
+
+        /// <summary>
+        /// 是否为新客人
+        /// </summary>
+        private bool isNewGuest;
 
         /// <summary>
         /// 按钮：Bean Milk

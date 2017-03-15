@@ -8,7 +8,6 @@ using BOODemo.TaskUtils;
 
 namespace BOODemo.Core
 {
-    extern alias OpenJDKCore;
     /// <summary>
     /// 状态机消息处理类：接受来自状态机的消息并执行实际的业务逻辑
     /// </summary>
@@ -123,10 +122,7 @@ namespace BOODemo.Core
                 // 反馈给状态机
                 if (tHandler.IsFinished())
                 {
-                    var sb = new OpenJDKCore.java.lang.StringBuilder();
-                    sb.append(tHandler.GetBindingExecutorId());
-                    
-                    this.engineBridge.SendEventAndTrigger(sb.toString(),
+                    this.engineBridge.SendEventAndTrigger(tHandler.GetBindingExecutorId(),
                         dealingItem.CallbackEvent, resultPackage);
                 }
                 // 从活跃处理器向量中移除

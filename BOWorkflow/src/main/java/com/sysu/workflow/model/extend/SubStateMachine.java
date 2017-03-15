@@ -2,6 +2,7 @@ package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
 import com.sysu.workflow.engine.InstanceManager;
+import com.sysu.workflow.engine.TimeInstanceTree;
 import com.sysu.workflow.engine.TimeTreeNode;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
@@ -124,7 +125,8 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
             }
             // launch sub state machine of the number of instances
             SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
-            TimeTreeNode curNode = InstanceManager.GetInstanceTree(currentExecutionContext.RootTid).GetNodeById(currentExecutionContext.Tid);
+            TimeInstanceTree iTree = InstanceManager.GetInstanceTree(currentExecutionContext.RootTid);
+            TimeTreeNode curNode = iTree.GetNodeById(currentExecutionContext.Tid);
             for (int i = 0; i < getInstances(); i++) {
                 Evaluator evaluator = EvaluatorFactory.getEvaluator(scxml);
                 SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter(), null, currentExecutionContext.RootTid);
@@ -136,6 +138,7 @@ public class SubStateMachine extends NamelistHolder implements PathResolverHolde
                     rootContext.set(entry.getKey(), entry.getValue());
                 }
                 executor.setRootContext(rootContext);
+                executor.setExecutorIndex(iTree.Root.getExect().getSCXMLExecutor().getExecutorIndex());
                 // start dash sub state machine
                 executor.go();
                 // maintain the relation of this sub state machine on the instance tree

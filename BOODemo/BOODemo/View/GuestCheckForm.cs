@@ -21,6 +21,15 @@ namespace BOODemo.View
         }
 
         /// <summary>
+        /// 刷新代付款订单列表
+        /// </summary>
+        public void RefreshCheckOrderList()
+        {
+            Thread t = new Thread(new ThreadStart(this.RefreshPayingOrderHandler));
+            t.Start();
+        }
+
+        /// <summary>
         /// 事件：列表选择改变
         /// </summary>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -48,22 +57,13 @@ namespace BOODemo.View
                 if (dr == DialogResult.Yes)
                 {
                     var phList = RestaurantViewModel.ActiveTaskHandlerList.FindAll((t) => t.GetType().ToString().Contains("PaymentTaskHandler"));
-                    var ph = phList.Find((t) => ((TaskWarehouse.PaymentTaskHandler)t).GuestOrder.OrderId == this.listBox1.SelectedIndex);
+                    var ph = phList.Find((t) => ((TaskWarehouse.PaymentTaskHandler)t).GuestOrder.OrderId == Convert.ToInt32(this.listBox1.SelectedItem.ToString()));
                     ((TaskWarehouse.PaymentTaskHandler)ph).MadePayment();
                     this.textBox1.Text = String.Empty;
                     this.RefreshCheckOrderList();
                     RestaurantViewModel.WaiterFormReference.RefreshOrderList();
                 }
             }
-        }
-
-        /// <summary>
-        /// 刷新代付款订单列表
-        /// </summary>
-        public void RefreshCheckOrderList()
-        {
-            Thread t = new Thread(new ThreadStart(this.RefreshPayingOrderHandler));
-            t.Start();
         }
 
         /// <summary>

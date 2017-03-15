@@ -2,7 +2,7 @@
  <tasks>
     <task id="calculate" role="agent" name="calculateTask" event="calculated">
     </task>
-    <task id="Payment" role="agent" name="PaymentTask" event="paid">
+    <task id="Payment" role="agent" name="paymentTask" event="paid">
     </task>
     <task id="archive" role="agent" name="archiveTask" event="archived">
     </task>
@@ -18,7 +18,7 @@
  </state>
  <state id="Paying">
   <onentry>
-   <call name="PaymentTask"></call>
+   <call name="paymentTask"></call>
   </onentry>
   <transition event="paid" target="Archiving"></transition>
  </state>
@@ -26,11 +26,11 @@
   <onentry>
    <call name="archiveTask"></call>
   </onentry>
-  <transition event="archived" target="Final">
+  <transition event="archived" target="GCFinal">
   	<send event="finish" type="scxml" messageMode="TO_PARENT"></send>
   </transition>
  </state>
- <final id="Final"></final>
+ <final id="GCFinal"></final>
  <layout h="640" w="570" x="0" y="0">
   <workflowNode h="75" id="Initial" w="75" x="20" y="220">
    <workflowEdge event="" source="Initial" target="Preparing"></workflowEdge>

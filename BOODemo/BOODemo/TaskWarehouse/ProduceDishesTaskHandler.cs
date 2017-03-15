@@ -37,9 +37,10 @@ namespace BOODemo.TaskWarehouse
             try
             {
                 var gOrderList = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((x) => x.OrderId == this.bindingGuestOrderId).GetOrderedList();
-                var gOrderListBelongThis = gOrderList.FindAll((x) => x.KitchenOrderId == this.KitchenOrderId);
+                var gOrderListUnhandle = gOrderList.FindAll((x) => x.KitchenOrderId == -1);
+                gOrderListUnhandle.ForEach((x) => x.KitchenOrderId = this.KitchenOrderId);
                 var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
-                var gOrderListExceptInKO = gOrderListBelongThis.FindAll(
+                var gOrderListExceptInKO = gOrderListUnhandle.FindAll(
                     (x) => kOrder.QTList.Contains(x) == false &&
                     kOrder.DeliveringList.Contains(x) == false &&
                     kOrder.ArrivedList.Contains(x) == false &&
