@@ -3,7 +3,6 @@ package com.sysu.workflow.engine;
 import com.sysu.workflow.SCXMLExecutionContext;
 import com.sysu.workflow.SCXMLExecutor;
 
-import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -66,6 +65,4 @@ public class InstanceManager {
      * 业务对象的实例树
      */
     private static Hashtable<String, TimeInstanceTree> InstanceTreeTable = new Hashtable<String, TimeInstanceTree>();
-
-    //public static TimeInstanceTree InstanceTree = new TimeInstanceTree();
 }
