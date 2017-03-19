@@ -1,12 +1,12 @@
 ﻿namespace BOODemo.Core
 {
     /// <summary>
-    /// 状态机消息类
+    /// State machine message class
     /// </summary>
     internal class StateMachineMessage
     {
         /// <summary>
-        /// 获取或设置任务名称
+        /// Gets or sets the task name
         /// </summary>
         public string TaskName
         {
@@ -15,7 +15,7 @@
         }
 
         /// <summary>
-        /// 获取或设置发出该消息的状态机执行器id
+        /// Gets or sets the id of the state machine executor that send the message
         /// </summary>
         public string BindingExecutorId
         {
@@ -24,7 +24,7 @@
         }
 
         /// <summary>
-        /// 获取或设置Agent名称
+        /// Gets or sets the name of the Agent
         /// </summary>
         public string AgentName
         {
@@ -33,7 +33,7 @@
         }
 
         /// <summary>
-        /// 获取或设置完成事件名
+        /// Gets or sets the name of the completed event
         /// </summary>
         public string CallbackEvent
         {
@@ -42,7 +42,7 @@
         }
 
         /// <summary>
-        /// 获取或设置参数字符串
+        /// Gets or sets the parameter string
         /// </summary>
         public string Paras
         {

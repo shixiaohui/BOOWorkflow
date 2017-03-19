@@ -3,13 +3,13 @@
 namespace BOODemo.Model
 {
     /// <summary>
-    /// 实体类：一种料理
+    /// Entity class: dish
     /// </summary>
     [Serializable]
     internal sealed class DishEntity
     {
         /// <summary>
-        /// 获取或设置料理的名称
+        /// Gets or sets the name of the dish
         /// </summary>
         public string Name
         {
@@ -18,7 +18,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取或设置料理的单价
+        /// Get or set the price of the dish
         /// </summary>
         public double Price
         {
@@ -27,7 +27,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取或设置该实体绑定的厨房餐单id
+        /// Gets or sets the id of the kitchen oder that bound by the entity
         /// </summary>
         public int KitchenOrderId
         {
@@ -38,7 +38,7 @@ namespace BOODemo.Model
         private int kitchenOrderId = -1;
 
         /// <summary>
-        /// 获取或设置餐品是否通过品测
+        /// Gets or sets whether the dish pass the test quality or not
         /// </summary>
         public bool PassedQT
         {
@@ -47,9 +47,9 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 克隆对象
+        /// Clone object
         /// </summary>
-        /// <returns>该实体的一份克隆</returns>
+        /// <returns>A clone of the entity</returns>
         public DishEntity Clone()
         {
             var DishClone = new DishEntity()

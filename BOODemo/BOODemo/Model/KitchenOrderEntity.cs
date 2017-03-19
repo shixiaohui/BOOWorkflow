@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace BOODemo.Model
 {
     /// <summary>
-    /// 实体类：厨房餐单
+    /// Entity class: kitchen order
     /// </summary>
     [Serializable]
     internal sealed class KitchenOrderEntity
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public KitchenOrderEntity(int bindingGuestOrderId)
         {
@@ -28,9 +28,9 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 将一道料理准备好并等待品测
+        /// Produced a dish and wait for testing quality
         /// </summary>
-        /// <param name="pendingIdx">该料理在待处理向量的位置</param>
+        /// <param name="pendingIdx">The location of the dish in the vector to be processed</param>
         public void ProducedDish(int pendingIdx)
         {
             var rObj = this.PendingList[pendingIdx];
@@ -38,9 +38,9 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 将一道品测未通过的料理返回待处理队列
+        /// Return the dish to the pending queue if it didn't passed the test quality
         /// </summary>
-        /// <param name="qtIdx">该料理在待品测向量的位置</param>
+        /// <param name="qtIdx">The location of the dish in the vector to be test</param>
         public void NotpassQTDish(int qtIdx)
         {
             var rObj = this.QTList[qtIdx];
@@ -48,19 +48,19 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 将一道品测通过的料理放入递送队列
+        /// Put the dish to the delivery queue if it passed the test quality
         /// </summary>
-        /// <param name="qtIdx">该料理在待品测向量的位置</param>
+        /// <param name="qtIdx">The location of the dish in the vector to be test</param>
         public void PassQTDish(int qtIdx)
         {
             var rObj = this.QTList[qtIdx];
             this.DeliveringList.Add(rObj);
         }
-        
+
         /// <summary>
-        /// 一道菜已经递送完毕
+        /// A dish has been delivered
         /// </summary>
-        /// <param name="dIdx">该料理在待到达向量的位置</param>
+        /// <param name="dIdx">The location of the dish in the vector to be reached</param>
         public void ArriveDish(int dIdx)
         {
             var rObj = this.DeliveringList[dIdx];
@@ -68,7 +68,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 完成本厨房餐单
+        /// Complete this kitchen order
         /// </summary>
         public void Finish()
         {
@@ -76,7 +76,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取该厨房餐单是否已经完成
+        /// Get wether the kitchen order has been completed or not
         /// </summary>
         public bool IsFinish
         {
@@ -87,7 +87,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取厨房餐单唯一编号
+        /// Get the unique id of the kitchen order
         /// </summary>
         public int Id
         {
@@ -96,7 +96,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取厨房餐单所绑定的客户订单ID
+        /// Get the customer order ID bound to the kitchen order
         /// </summary>
         public int GuestOrderId
         {
@@ -105,7 +105,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取厨房餐单被创建的时间戳
+        /// Get the timestamp when the kitchen order been created
         /// </summary>
         public DateTime CreateTimeStamp
         {
@@ -114,7 +114,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取厨房餐单完成的时间戳
+        /// Get the timestamp when the kitchen order been finished
         /// </summary>
         public DateTime? FinishedTimeStamp
         {
@@ -123,7 +123,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取待料理向量
+        /// Get the pending vector
         /// </summary>
         public List<DishEntity> PendingList
         {
@@ -132,16 +132,16 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取待品测向量
+        /// Get the vector that is pending to test quality
         /// </summary>
         public List<DishEntity> QTList
         {
             get;
             private set;
         }
-        
+
         /// <summary>
-        /// 获取递送途中向量
+        /// Get the vector on deliverying
         /// </summary>
         public List<DishEntity> DeliveringList
         {
@@ -150,7 +150,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取递送成功向量
+        /// Get the delivery success vector
         /// </summary>
         public List<DishEntity> ArrivedList
         {

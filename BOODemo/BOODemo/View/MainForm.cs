@@ -6,12 +6,12 @@ namespace BOODemo.View
 {
     extern alias OpenJDKCore;
     /// <summary>
-    /// 窗体：初始窗体，配置控制器对其余窗体的引用
+    /// Form: the initial form, configure the controller to reference the rest of the form
     /// </summary>
     public partial class MainForm : Form
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public MainForm()
         {
@@ -26,9 +26,9 @@ namespace BOODemo.View
             kf.Show();
             gcf.Show();
         }
-        
+
         /// <summary>
-        /// 事件：窗体载入后
+        /// Event: After the form is loaded
         /// </summary>
         private void MainForm_Load(object sender, EventArgs e)
         {

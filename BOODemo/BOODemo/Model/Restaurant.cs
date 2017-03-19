@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace BOODemo.Model
 {
     /// <summary>
-    /// 实体类：餐厅，为所有餐厅的活动实体提供容器
+    /// Entity class: restaurant, for all the activities of the restaurant to provide containers
     /// </summary>
     [Serializable]
     internal sealed class Restaurant
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public Restaurant()
         {
@@ -21,7 +21,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取收银台
+        /// Gets cashier
         /// </summary>
         public CasherEntity Casher
         {
@@ -30,7 +30,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取客户订单向量
+        /// Gets the guest order vector
         /// </summary>
         public List<GuestOrderEntity> GuestOrderList
         {
@@ -39,7 +39,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取厨房餐单向量
+        /// Gets the kitcher order vector
         /// </summary>
         public List<KitchenOrderEntity> KitchenOrderList
         {
@@ -48,7 +48,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取菜单
+        /// Gets menu
         /// </summary>
         public List<DishEntity> Menu
         {
@@ -57,7 +57,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 初始化菜单
+        /// Initialize the menu
         /// </summary>
         /// <remarks>For test only, data should be read from datasource</remarks>
         private void InitMenu()

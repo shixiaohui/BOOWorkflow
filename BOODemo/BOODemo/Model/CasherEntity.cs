@@ -5,13 +5,13 @@ using System.Linq;
 namespace BOODemo.Model
 {
     /// <summary>
-    /// 实体类：收银台
+    /// Entity class:cashier
     /// </summary>
     [Serializable]
     internal sealed class CasherEntity
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public CasherEntity(Restaurant rest)
         {
@@ -19,7 +19,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取待付款订单向量
+        /// Get the vector of pending order 
         /// </summary>
         public List<GuestOrderEntity> WaitForPaymentOrderList
         {
@@ -33,16 +33,16 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 支付订单
+        /// Pay orders
         /// </summary>
-        /// <param name="oe">要支付的订单的引用</param>
+        /// <param name="oe">The quote for the order to be paid</param>
         public void PayFor(GuestOrderEntity oe)
         {
             oe.FinishPayment();
         }
 
         /// <summary>
-        /// 餐厅实体的引用
+        /// Reference of restaurant entities
         /// </summary>
         private Restaurant restaurant;
     }

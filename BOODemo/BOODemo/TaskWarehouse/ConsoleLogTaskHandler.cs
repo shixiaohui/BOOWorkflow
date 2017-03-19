@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace BOODemo.TaskWarehouse
 {
     /// <summary>
-    /// 任务解决器：[测试用]控制台日志输出任务处理器
+    /// Task Solver: [Test] console log output task processor
     /// </summary>
     internal sealed class ConsoleLogTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
             try
@@ -29,9 +29,9 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否成功开始</returns>
+        /// <returns>Whether the task started successfully</returns>
         public override bool Begin()
         {
             lock (GlobalDataContext.ConsolePrintMutex)
@@ -42,28 +42,28 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 强制结束任务
+        /// Forced to end the task
         /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
+        /// <returns>Whether the task has been successfully forced to end</returns>
         public override bool Terminate()
         {
             return false;
         }
 
         /// <summary>
-        /// 查询任务是否已经完成
+        /// Query whether the task has been completed
         /// </summary>
-        /// <returns>任务是否已经完成</returns>
+        /// <returns>Whether the task finished successfully</returns>
         public override bool IsFinished()
         {
             return this.isFinished;
         }
 
         /// <summary>
-        /// 获取任务处理的返回结果
+        /// Gets the return result of the task
         /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
+        /// <param name="result">[out] Package of the result</param>
+        /// <returns>Whether to successfully get to the implementation of the results to be returned</returns>
         public override bool GetResult(out object result)
         {
             result = "1";
@@ -71,12 +71,12 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 获取或设置记录的标签
+        /// Gets or sets the label of the record
         /// </summary>
         private string label { get; set; }
 
         /// <summary>
-        /// 获取或设置记录的内容
+        /// Gets or sets the contents of the record
         /// </summary>
         private string message { get; set; }
     }
