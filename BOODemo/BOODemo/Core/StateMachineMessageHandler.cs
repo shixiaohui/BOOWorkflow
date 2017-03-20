@@ -9,12 +9,13 @@ using BOODemo.TaskUtils;
 namespace BOODemo.Core
 {
     /// <summary>
-    /// 状态机消息处理类：接受来自状态机的消息并执行实际的业务逻辑
+    /// State machine message processing class:
+    ///     Accepts messages from the state machine and executes the actual business logic
     /// </summary>
     internal class StateMachineMessageHandler : EngineBridgeAppHandler
     {
         /// <summary>
-        /// 通知函数：被状态机通知有新消息时
+        /// Notification function: when a state machine is notified of a new message
         /// </summary>
         public void WasNotified()
         {
@@ -24,11 +25,11 @@ namespace BOODemo.Core
         }
 
         /// <summary>
-        /// 异步将状态机发来的消息取出并处理
+        /// Asynchronously get and process the message that Sent by the state machine
         /// </summary>
         private void ConsumerHandler()
         {
-            // 取消息
+            // get the message
             var dealingQueue = new Queue<StateMachineMessage>();
             lock (engineBridge)
             {
@@ -55,24 +56,24 @@ namespace BOODemo.Core
                     }
                 }
             }
-            // 执行具体动作
+            // Perform specific actions
             while (dealingQueue.Count != 0)
             {
                 var dealingItem = dealingQueue.Dequeue();
                 var tHandler = TaskFactory.GetTaskHandlerByTaskName(dealingItem.TaskName);
                 Dictionary<string, object> paraDict = new Dictionary<string, object>();
-                // 来自状态机的参数
+                // Parameters from the state machine
                 if (dealingItem.Paras != String.Empty)
                 {
                     var paraItems = dealingItem.Paras.Split(',');
-                    // TODO: 参数列表转义
+                    // TODO: Parameter list escapes
                     foreach (var paraPairs in paraItems)
                     {
                         var pairItems = paraPairs.Split(':');
                         paraDict[pairItems[0]] = pairItems[1];
                     }
                 }
-                // 来自应用程序的参数
+                // Parameters from the application
                 switch (dealingItem.TaskName)
                 {
                     case "addItemTask":
@@ -90,42 +91,42 @@ namespace BOODemo.Core
                         break;
                         
                 }
-                // 绑定处理器
+                // Bind the processor
                 ((AbstractTaskHandler)tHandler).Binding(dealingItem.BindingExecutorId);
-                // 初始化任务处理器
+                // Initialize the task processor
                 if (tHandler.Init(paraDict) == false)
                 {
                     throw new Exception(String.Format("Init handler for {0} failed.", dealingItem.TaskName));
                 }
-                // 加入活跃处理器向量
+                // Join the active processor vector
                 lock (RestaurantViewModel.ActiveTaskHandlerList)
                 {
                     RestaurantViewModel.ActiveTaskHandlerList.Add(tHandler);
                 }
-                // 执行任务
-                // TODO: 异步执行
+                // Perform the task
+                // TODO: Asynchronous
                 if (tHandler.Begin() == false)
                 {
                     throw new Exception(String.Format("Process {0} failed.", dealingItem.TaskName));
                 }
-                // 等待任务完成
+                // Waiting for the task to complete
                 while (tHandler.IsFinished() == false || tHandler.IsAbort())
                 {
                     Thread.Sleep(TimeSpan.FromTicks(100));
                 }
-                // 获取解决的结果包装
+                // Get the solution to the results
                 object resultPackage;
                 if (tHandler.GetResult(out resultPackage) == false)
                 {
                     throw new Exception(String.Format("Get result package of {0} failed.", dealingItem.TaskName));
                 }
-                // 反馈给状态机
+                // Feedback to the state machine
                 if (tHandler.IsFinished())
                 {
                     this.engineBridge.SendEventAndTrigger(tHandler.GetBindingExecutorId(),
                         dealingItem.CallbackEvent, resultPackage);
                 }
-                // 从活跃处理器向量中移除
+                // Remove from active processor vector
                 lock (RestaurantViewModel.ActiveTaskHandlerList)
                 {
                     RestaurantViewModel.ActiveTaskHandlerList.Remove(tHandler);
@@ -134,7 +135,7 @@ namespace BOODemo.Core
         }
 
         /// <summary>
-        /// 桥接器的引用
+        /// reference of engineBridge
         /// </summary>
         private EngineBridge engineBridge = EngineBridge.GetInstance();
     }

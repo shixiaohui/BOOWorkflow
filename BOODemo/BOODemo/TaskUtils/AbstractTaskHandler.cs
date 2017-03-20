@@ -3,46 +3,46 @@
 namespace BOODemo.TaskUtils
 {
     /// <summary>
-    /// 抽象任务解决器类：为任务解决器提供公共字段包装
+    /// Abstract Task Solver Class: Provides a common field wrapper for task solvers
     /// </summary>
     internal abstract class AbstractTaskHandler : ITaskHandler
     {
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否成功开始</returns>
+        /// <returns>Whether the task started successfully</returns>
         abstract public bool Begin();
 
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         abstract public bool Init(Dictionary<string, object> paraDict);
 
         /// <summary>
-        /// 强制结束任务
+        /// Forced to end the task
         /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
+        /// <returns>Whether the task has been successfully forced to end</returns>
         virtual public bool Terminate()
         {
             return this.isAborted = true;
         }
 
         /// <summary>
-        /// 查询任务是否已经完成
+        /// Query whether the task has been completed
         /// </summary>
-        /// <returns>任务是否已经完成</returns>
+        /// <returns>Whether the task finished successfully</returns>
         virtual public bool IsFinished()
         {
             return this.isFinished;
         }
 
         /// <summary>
-        /// 获取任务处理的返回结果
+        /// Gets the return result of the task
         /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
+        /// <param name="result">[out] Package of the result</param>
+        /// <returns>Whether to successfully get to the implementation of the results to be returned</returns>
         virtual public bool GetResult(out object result)
         {
             result = null;
@@ -50,16 +50,16 @@ namespace BOODemo.TaskUtils
         }
 
         /// <summary>
-        /// 获取该处理器绑定的状态机ID
+        /// Gets the state machine ID of the processor binding
         /// </summary>
-        /// <returns>状态机的唯一编号</returns>
+        /// <returns>State machine ID</returns>
         virtual public string GetBindingExecutorId()
         {
             return this.bindingExecutorID;
         }
 
         /// <summary>
-        /// 设置该处理器绑定的状态机ID
+        /// Sets the state machine ID of the processor binding
         /// </summary>
         /// <param name="execId">要绑定的状态机的ID</param>
         virtual public void Binding(string execId)
@@ -68,26 +68,26 @@ namespace BOODemo.TaskUtils
         }
 
         /// <summary>
-        /// 获取该处理器是否已经被强制终止
+        /// Gets whether the processor has been forcibly aborted
         /// </summary>
-        /// <returns>处理器是否停机</returns>
+        /// <returns>whether the processor has been forcibly aborted</returns>
         virtual public bool IsAbort()
         {
             return this.isAborted;
         }
 
         /// <summary>
-        /// 任务是否已经结束的标记
+        /// Whether the task is finished
         /// </summary>
         protected bool isFinished = false;
 
         /// <summary>
-        /// 获取或设置绑定的状态机处理器ID
+        /// Gets or sets the bound state machine processor ID
         /// </summary>
         protected string bindingExecutorID = "0";
 
         /// <summary>
-        /// 任务是否已经被强制终止
+        /// Whether the task has been forcibly aborted
         /// </summary>
         protected bool isAborted = false;
     }

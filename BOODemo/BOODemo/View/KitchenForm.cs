@@ -7,12 +7,12 @@ using BOODemo.TaskWarehouse;
 namespace BOODemo.View
 {
     /// <summary>
-    /// 窗体：厨房
+    /// Form: Kitchen
     /// </summary>
     public partial class KitchenForm : Form
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public KitchenForm()
         {
@@ -20,16 +20,16 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 刷新餐单列表
+        /// Refresh the list of menus
         /// </summary>
         public void RefreshKitchenOrder()
         {
             Thread t = new Thread(new ThreadStart(this.RefreshKitchenOrderHandler));
             t.Start();
         }
-        
+
         /// <summary>
-        /// 处理异步刷新
+        /// Handle asynchronous refresh
         /// </summary>
         private void RefreshKitchenOrderHandler()
         {
@@ -37,7 +37,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 处理跨线程刷新
+        /// Handle cross-thread refresh
         /// </summary>
         private void RefreshHandler()
         {
@@ -58,7 +58,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 事件：餐单列表点击
+        /// Event: Click on the menu list
         /// </summary>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -90,7 +90,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Produced
+        /// Button：Produced
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
@@ -109,7 +109,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：NotPass
+        /// Button：NotPass
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
@@ -128,7 +128,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Pass
+        /// Button：Pass
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
@@ -147,7 +147,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Deliver
+        /// Button：Deliver
         /// </summary>
         private void button4_Click(object sender, EventArgs e)
         {
@@ -163,7 +163,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 异步刷新委托
+        /// Asynchronous refresh delegate
         /// </summary>
         private delegate void RefreshOrderCallBack();
     }

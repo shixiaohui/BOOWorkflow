@@ -5,15 +5,15 @@ using BOODemo.View;
 namespace BOODemo.TaskWarehouse
 {
     /// <summary>
-    /// 任务解决器：添加客户订单
+    /// Task Solver: Add guest orders
     /// </summary>
     internal sealed class AddItemTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
             try
@@ -28,16 +28,16 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否成功开始</returns>
+        /// <returns>Whether the task started successfully</returns>
         public override bool Begin()
         {
             return true;
         }
-        
+
         /// <summary>
-        /// 完成点餐
+        /// Finish the order
         /// </summary>
         public void Submit()
         {
@@ -45,7 +45,7 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 客户订单号
+        /// Guest Order ID
         /// </summary>
         public int GuestOrderId;
     }

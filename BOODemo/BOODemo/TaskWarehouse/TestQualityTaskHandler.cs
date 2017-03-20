@@ -5,15 +5,15 @@ using BOODemo.ViewModel;
 namespace BOODemo.TaskWarehouse
 {
     /// <summary>
-    /// 任务解决器：厨房餐单品测
+    /// Task Solver:dish test quality
     /// </summary>
     internal sealed class TestQualityTaskHandler : TaskUtils.AbstractTaskHandler  
     {
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
             try
@@ -29,9 +29,9 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否成功开始</returns>
+        /// <returns>Whether the task started successfully</returns>
         public override bool Begin()
         {
             var kOrder = RestaurantViewModel.RestaurantEntity.KitchenOrderList.Find((x) => x.Id == this.KitchenOrderId);
@@ -44,10 +44,10 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 获取任务处理的返回结果
+        /// Gets the return result of the task
         /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
+        /// <param name="result">[out] Package of the result</param>
+        /// <returns>Whether to successfully get to the implementation of the results to be returned</returns>
         public override bool GetResult(out object result)
         {
             if (this.isPass == null)
@@ -62,7 +62,7 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 设置是否品测通过
+        /// Set whether the test quality is passed
         /// </summary>
         public bool IsQualityTestPass
         {
@@ -98,29 +98,29 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 厨房餐单id
+        /// Kitchen Order Id
         /// </summary>
         public int KitchenOrderId = -1;
 
         /// <summary>
-        /// 绑定的客户订单id
+        /// Binding Guest Order Id
         /// </summary>
         private int bindingGuestOrderId = -1;
 
         /// <summary>
-        /// 品测是否通过标记位
+        /// Whether the test quality passed
         /// </summary>
         private bool? isPass = null;
 
     }
 
     /// <summary>
-    /// 品测结果包装
+    /// Test quality results package
     /// </summary>
     public class TestQualityTaskResultPackage
     {
         /// <summary>
-        /// 品测是否通过标记，0为失败，1为成功
+        /// The mark about whether the test quality passes, 0 for failure, 1 for success
         /// </summary>
         public string passed;
     }

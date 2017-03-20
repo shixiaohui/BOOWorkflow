@@ -6,15 +6,15 @@ using System.Text;
 namespace BOODemo.Model
 {
     /// <summary>
-    /// 实体类：用户订单
+    /// Entity Class: Guest Order
     /// </summary>
     [Serializable]
     internal sealed class GuestOrderEntity
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
-        /// <param name="id">订单id</param>
+        /// <param name="id">Order id</param>
         public GuestOrderEntity(int id)
         {
             this.OrderId = id;
@@ -25,34 +25,34 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 为订单添加一个料理
+        /// Add a dish for the order
         /// </summary>
-        /// <param name="dish">料理实体</param>
+        /// <param name="dish">Dish entity</param>
         public void AddDish(DishEntity dish)
         {
             this.orderedList.Add(dish);
         }
 
         /// <summary>
-        /// 为订单移除一个料理
+        /// Remove a dish for the order
         /// </summary>
-        /// <param name="index">要移除的料理在订单向量的下标</param>
+        /// <param name="index">The index on the order vector of the dish that will be remove</param>
         public void RemoveDish(int index)
         {
             this.orderedList.RemoveAt(index);
         }
 
         /// <summary>
-        /// 获取客户订单中所有已点餐品
+        /// Get all the already ordered items in the guest order
         /// </summary>
-        /// <returns>已点餐品向量</returns>
+        /// <returns>The vector of dish that was odered</returns>
         public List<DishEntity> GetOrderedList()
         {
             return this.orderedList;
         }
 
         /// <summary>
-        /// 订单已完成支付
+        /// The order has been paid
         /// </summary>
         public void FinishPayment()
         {
@@ -60,9 +60,9 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 将订单转化为描述文本
+        /// Convert an order into a description text
         /// </summary>
-        /// <returns>订单详情</returns>
+        /// <returns>Order details</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -77,7 +77,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取订单的唯一编号
+        /// Get the unique id of the order
         /// </summary>
         public int OrderId
         {
@@ -86,7 +86,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取订单被创建的时间戳
+        /// Get the timestamp when the order was created
         /// </summary>
         public DateTime CreateTimeStamp
         {
@@ -95,7 +95,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取订单被支付的时间戳
+        /// Get the timestamp when the order was paid
         /// </summary>
         public DateTime? PaidTimeStamp
         {
@@ -104,7 +104,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取或设置订单是否要求付款
+        /// Get or set whether the order request to pay or not
         /// </summary>
         public bool IsRequestPayment
         {
@@ -113,7 +113,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取订单的总价值
+        /// Gets the total price of the order
         /// </summary>
         public double TotalPrice
         {
@@ -124,7 +124,7 @@ namespace BOODemo.Model
         }
 
         /// <summary>
-        /// 获取订单是否已经支付
+        /// Get whether the order has been paid or not
         /// </summary>
         public bool IsPaid
         {
@@ -135,9 +135,12 @@ namespace BOODemo.Model
         }
         
         /// <summary>
-        /// 客户已点餐品
+        /// The dish that has been ordered by guest
         /// </summary>
-        /// <remarks>同一餐品点多份按照多次点一份算</remarks>
+        /// <remarks>
+        /// If the same dish has been ordered more than one time, 
+        /// that was equal that the guest orders one dish many times
+        /// </remarks>
         private List<DishEntity> orderedList;
     }
 }

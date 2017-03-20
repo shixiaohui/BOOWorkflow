@@ -7,12 +7,12 @@ using BOODemo.ViewModel;
 namespace BOODemo.View
 {
     /// <summary>
-    /// 窗体：服务员窗体
+    /// Form: Servant form
     /// </summary>
     public partial class WaiterForm : Form
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public WaiterForm()
         {
@@ -22,7 +22,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 刷新客户未完成订单
+        /// Refresh customer does not complete order
         /// </summary>
         public void RefreshOrderList()
         {
@@ -31,7 +31,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Exit System
+        /// Button：Exit System
         /// </summary>
         private void button4_Click(object sender, EventArgs e)
         {
@@ -39,7 +39,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Add Item
+        /// Button：Add Item
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
@@ -53,7 +53,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Make Payment
+        /// Button：Make Payment
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
@@ -69,7 +69,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Create Order
+        /// Button：Create Order
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
@@ -83,7 +83,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 事件：列表点选项目改变
+        /// Event: List Click item to change
         /// </summary>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -108,9 +108,9 @@ namespace BOODemo.View
                 }
             }
         }
-        
+
         /// <summary>
-        /// 处理跨线程刷新
+        /// Handle cross-thread refresh
         /// </summary>
         private void RefreshHandler()
         {
@@ -133,7 +133,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 处理异步刷新
+        /// Handle asynchronous refresh
         /// </summary>
         private void RefreshActiveOrderHandler()
         {
@@ -141,12 +141,12 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 异步刷新委托
+        /// Asynchronous refresh delegate
         /// </summary>
         private delegate void RefreshCallBack();
 
         /// <summary>
-        /// 按钮提示语
+        /// Button prompt
         /// </summary>
         private ToolTip buttonTip = new ToolTip();
     }

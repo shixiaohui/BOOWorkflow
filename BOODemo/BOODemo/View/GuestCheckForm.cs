@@ -8,12 +8,12 @@ using BOODemo.ViewModel;
 namespace BOODemo.View
 {
     /// <summary>
-    /// 窗体：收银台
+    /// Form: Cashier
     /// </summary>
     public partial class GuestCheckForm : Form
     {
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         public GuestCheckForm()
         {
@@ -21,7 +21,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 刷新代付款订单列表
+        /// Refresh the payment order list
         /// </summary>
         public void RefreshCheckOrderList()
         {
@@ -30,7 +30,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 事件：列表选择改变
+        /// Event: List selection changes
         /// </summary>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -47,7 +47,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Paid
+        /// Butten：Paid
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
@@ -67,7 +67,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 处理跨线程刷新
+        /// Handle cross-thread refresh
         /// </summary>
         private void RefreshHandler()
         {
@@ -90,7 +90,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 处理异步刷新
+        /// Handle asynchronous refresh
         /// </summary>
         private void RefreshPayingOrderHandler()
         {
@@ -98,7 +98,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 异步刷新委托
+        /// Asynchronous refresh delegate
         /// </summary>
         private delegate void RefreshCallBack();
     }

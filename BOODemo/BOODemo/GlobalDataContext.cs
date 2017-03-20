@@ -3,37 +3,37 @@
 namespace BOODemo
 {
     /// <summary>
-    /// 为应用程序提供全局上下文的访问
+    /// Provides access to the global context for the application
     /// </summary>
     internal static class GlobalDataContext
     {
         /// <summary>
-        /// 全局控制台显示互斥量
+        /// The global console displays mutexes
         /// </summary>
         public static Mutex ConsolePrintMutex = new Mutex();
-        
+
         /// <summary>
-        /// 厨房餐单计数器互斥量
+        /// Kitchen bill counter mutex
         /// </summary>
         public static Mutex KitchenOrderCounterMutex = new Mutex();
 
         /// <summary>
-        /// 厨房餐单ID计数器
+        /// Kitchen menu ID counter
         /// </summary>
         public static int KitchenOrderIdCounter = 0;
 
         /// <summary>
-        /// 任务解决器命名空间
+        /// Task Solver Namespace
         /// </summary>
         public static readonly string TaskHandlerWarehouseNamespace = "BOODemo.TaskWarehouse.";
 
         /// <summary>
-        /// 入口XML描述文件获取URL的协议名
+        /// The entry XML descriptor gets the protocol name of the URL
         /// </summary>
         public static readonly string EntryPointXMLDescriptorURLProtocol = "file";
 
         /// <summary>
-        /// 入口XML描述文件的文件名
+        /// The name of the entry XML description file
         /// </summary>
         public static readonly string EntryPointXMLDescriptorFileName = "GuestOrder.xml";
     }

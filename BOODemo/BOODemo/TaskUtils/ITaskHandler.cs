@@ -3,53 +3,53 @@
 namespace BOODemo.TaskUtils
 {
     /// <summary>
-    /// 任务处理器接口类：为任务处理器提供公共的方法接口
-    /// 所有的任务处理器的实现都要实现该接口
+    /// Task Processor Interface Class: Provides a common method interface for the task processor
+    /// All of the task processor need to implement this interface
     /// </summary>
     internal interface ITaskHandler
     {
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         bool Init(Dictionary<string, object> paraDict);
 
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否启动成功</returns>
+        /// <returns>Whether the task started successfully</returns>
         bool Begin();
 
         /// <summary>
-        /// 强制结束任务
+        /// Forced to end the task
         /// </summary>
-        /// <returns>是否已经成功强制结束了任务</returns>
+        /// <returns>Whether the task has been successfully forced to end</returns>
         bool Terminate();
 
         /// <summary>
-        /// 查询任务是否已经完成
+        /// Query whether the task has been completed
         /// </summary>
-        /// <returns>任务是否已经完成</returns>
+        /// <returns>Whether the task finished successfully</returns>
         bool IsFinished();
 
         /// <summary>
-        /// 获取任务处理的返回结果
+        /// Gets the return result of the task
         /// </summary>
-        /// <param name="result">[out] 返回结果的包装</param>
-        /// <returns>是否成功获取到了要返回的执行结果</returns>
+        /// <param name="result">[out] Package of the result</param>
+        /// <returns>Whether to successfully get to the implementation of the results to be returned</returns>
         bool GetResult(out object result);
 
         /// <summary>
-        /// 获取该处理器绑定的状态机ID
+        /// Gets the state machine ID of the processor binding
         /// </summary>
-        /// <returns>状态机的唯一编号</returns>
+        /// <returns>State machine ID</returns>
         string GetBindingExecutorId();
 
         /// <summary>
-        /// 获取该处理器是否已经被强制终止
+        /// Gets whether the processor has been forcibly aborted
         /// </summary>
-        /// <returns>处理器是否停机</returns>
+        /// <returns>whether the processor has been forcibly aborted</returns>
         bool IsAbort();
     }
 }
