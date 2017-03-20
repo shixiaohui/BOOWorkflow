@@ -9,12 +9,12 @@ namespace BOODemo.View
     public partial class OrderingForm : Form
     {
         /// <summary>
-        /// 点餐窗口所绑定的单号
+        /// The single date of the order window
         /// </summary>
         private int guestId;
 
         /// <summary>
-        /// 该窗体绑定的用户订单
+        /// The form binds the user order
         /// </summary>
         public int BindingGuestOrderId
         {
@@ -30,7 +30,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 构造器
+        /// Constructor
         /// </summary>
         /// <param name="newGuest">是否为新客人创建订单</param>
         public OrderingForm(bool newGuest)
@@ -40,12 +40,12 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 是否为新客人
+        /// Whether he is a new guest
         /// </summary>
         private bool isNewGuest;
 
         /// <summary>
-        /// 按钮：Bean Milk
+        /// Button：Bean Milk
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
@@ -53,7 +53,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Bum
+        /// Button：Bum
         /// </summary>
         private void button4_Click(object sender, EventArgs e)
         {
@@ -61,7 +61,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Layer Cake
+        /// Button：Layer Cake
         /// </summary>
         private void button5_Click(object sender, EventArgs e)
         {
@@ -69,7 +69,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Fried Rice
+        /// Button：Fried Rice
         /// </summary>
         private void button6_Click(object sender, EventArgs e)
         {
@@ -77,7 +77,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Noodles
+        /// Button：Noodles
         /// </summary>
         private void button7_Click(object sender, EventArgs e)
         {
@@ -85,7 +85,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Tart
+        /// Button：Tart
         /// </summary>
         private void button8_Click(object sender, EventArgs e)
         {
@@ -93,7 +93,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Pie
+        /// Button：Pie
         /// </summary>
         private void button9_Click(object sender, EventArgs e)
         {
@@ -101,7 +101,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Pasta
+        /// Button：Pasta
         /// </summary>
         private void button10_Click(object sender, EventArgs e)
         {
@@ -109,7 +109,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Ice Cream
+        /// Button：Ice Cream
         /// </summary>
         private void button11_Click(object sender, EventArgs e)
         {
@@ -117,7 +117,7 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Remove
+        /// Button：Remove
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
@@ -129,11 +129,11 @@ namespace BOODemo.View
         }
 
         /// <summary>
-        /// 按钮：Submit
+        /// Button：Submit
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
-            // 将菜品加入客户订单
+            // Add the dish to the guest order
             GuestOrderEntity gOrder = RestaurantViewModel.RestaurantEntity.GuestOrderList.Find((t) => t.OrderId == this.BindingGuestOrderId);
             for (int i = 0; i < this.listBox1.Items.Count; i++)
             {
@@ -141,14 +141,14 @@ namespace BOODemo.View
                     (t) => String.Compare(t.Name, this.listBox1.Items[i].ToString(), true) == 0);
                 gOrder.AddDish(cDish.Clone());
             }
-            // 生成餐单
+            // Generate a Kitchen Order
             KitchenOrderEntity kOrder = new KitchenOrderEntity(this.BindingGuestOrderId);
             RestaurantViewModel.RestaurantEntity.KitchenOrderList.Add(kOrder);
-            // 状态转移
+            // State transition
             var handler = RestaurantViewModel.ActiveTaskHandlerList.Find(
                 (x) => ((x is AddItemTaskHandler) && ((AddItemTaskHandler)x).GuestOrderId == gOrder.OrderId)) as AddItemTaskHandler;
             handler.Submit();
-            // 刷新前端
+            // Refresh the front end
             RestaurantViewModel.WaiterFormReference.RefreshOrderList();
             this.Close();
         }

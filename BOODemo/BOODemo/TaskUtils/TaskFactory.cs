@@ -6,20 +6,20 @@ using System.Collections.Generic;
 namespace BOODemo.TaskUtils
 {
     /// <summary>
-    /// 任务工厂类：为应用程序提供产生任务相应的处理器的方法
+    /// Task Factory Class: Provides a way for the application to generate the corresponding processor for the task
     /// </summary>
     internal static class TaskFactory
     {
         /// <summary>
-        /// 通过任务名字获取任务处理器对象
+        /// Get the task object through the task name
         /// </summary>
-        /// <param name="taskName">任务的名字</param>
-        /// <returns>该任务名字所对应的处理器对象</returns>
+        /// <param name="taskName">task name</param>
+        /// <returns>The processor object that task name corresponds to</returns>
         public static ITaskHandler GetTaskHandlerByTaskName(string taskName)
         {
             var findHandlerName = String.Format("{0}Handler", taskName);
             var findType = TaskFactory.TypeVector.Find((x) => String.Compare(x.Name, findHandlerName, true) == 0);
-            // 反射创建任务处理器
+            // Reflects the creation of a task processor
             if (findType != null)
             {
                 return (ITaskHandler)Activator.CreateInstance(findType);
@@ -31,7 +31,7 @@ namespace BOODemo.TaskUtils
         }
 
         /// <summary>
-        /// 静态构造函数
+        /// Static constructor
         /// </summary>
         static TaskFactory()
         {
@@ -43,19 +43,19 @@ namespace BOODemo.TaskUtils
         }
 
         /// <summary>
-        /// 任务处理器类型向量
+        /// Task Processor Type Vector
         /// </summary>
         private static List<Type> TypeVector;
 
         /// <summary>
-        /// 任务处理器不存在错误
+        /// The task processor does not have an error
         /// </summary>
         private class TaskHandlerNotExistException : Exception
         {
             /// <summary>
-            /// 构造函数
+            /// Constructor
             /// </summary>
-            /// <param name="taskName">被调用任务名</param>
+            /// <param name="taskName">Task name be called</param>
             public TaskHandlerNotExistException(string taskName)
                 : base(String.Format("BOOWorkflow called task: [{0}], but its handler does not exist.", taskName))
             { }

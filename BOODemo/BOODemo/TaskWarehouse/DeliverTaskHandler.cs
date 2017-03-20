@@ -4,15 +4,15 @@ using BOODemo.ViewModel;
 namespace BOODemo.TaskWarehouse
 {
     /// <summary>
-    /// 任务解决器：厨房餐单递送
+    /// Task solver: kitchen dish delivery
     /// </summary>
     internal sealed class DeliverTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
             try
@@ -28,9 +28,9 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否成功开始</returns>
+        /// <returns>Whether the task started successfully</returns>
         public override bool Begin()
         {
             try
@@ -53,7 +53,7 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 标记已经送达
+        /// The tag has been delivered
         /// </summary>
         public void Arrived()
         {
@@ -69,12 +69,12 @@ namespace BOODemo.TaskWarehouse
         }
 
         /// <summary>
-        /// 厨房餐单id
+        /// Kitchen Order Id
         /// </summary>
         public int KitchenOrderId = -1;
 
         /// <summary>
-        /// 绑定的客户订单id
+        /// Binding Guest OrderId
         /// </summary>
         private int bindingGuestOrderId = -1;
     }

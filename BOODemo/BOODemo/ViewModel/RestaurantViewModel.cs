@@ -14,12 +14,12 @@ namespace BOODemo.ViewModel
 {
     extern alias OpenJDKCore;
     /// <summary>
-    /// ViewModel类：提供前端与后台的交互逻辑
+    /// ViewModel class: Provide interaction logic between front-end and back-end
     /// </summary>
     internal static class RestaurantViewModel
     {
         /// <summary>
-        /// 静态构造函数
+        /// Static constructor
         /// </summary>
         static RestaurantViewModel()
         {
@@ -33,9 +33,9 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 开始一个新的业务对象实例
+        /// Start a new business object instance
         /// </summary>
-        /// <returns>改业务对象的索引id</returns>
+        /// <returns>Change the index id of the business object</returns>
         public static int CreateBussinessObjectInstance()
         {
             try
@@ -59,20 +59,20 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 向指定状态机发送事件
+        /// Send an event to the specified state machine
         /// </summary>
-        /// <param name="execId">状态机编号</param>
-        /// <param name="eventName">事件名称</param>
-        /// <param name="payload">事件附加值的包装</param>
+        /// <param name="execId">state machine id</param>
+        /// <param name="eventName">event name</param>
+        /// <param name="payload">package of event added value</param>
         public static void Send(string execId, string eventName, object payload = null)
         {
             RestaurantViewModel.engineBridge.SendEventAndTrigger(execId, eventName, payload);
         }
 
         /// <summary>
-        /// 获取入口SCXML对象，如果从未载入过就载入她
+        /// Gets the entry SCXML object and loads it if it has never been loaded
         /// </summary>
-        /// <returns>SCXML对象的引用</returns>
+        /// <returns>A reference of a SCXML object</returns>
         private static SCXML GetEntryPointSCXML()
         {
             if (RestaurantViewModel.EntryPointSCXML == null)
@@ -92,9 +92,9 @@ namespace BOODemo.ViewModel
             }
             return RestaurantViewModel.EntryPointSCXML;
         }
-        
+
         /// <summary>
-        /// 获取点餐窗体引用字典
+        /// Get the order form reference dictionary
         /// </summary>
         public static Dictionary<int, OrderingForm> OrderingFormDict
         {
@@ -103,7 +103,7 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 获取或设置服务员窗体引用
+        /// Gets or sets the waiter form reference
         /// </summary>
         public static WaiterForm WaiterFormReference
         {
@@ -112,7 +112,7 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 获取或设置厨房窗体引用
+        /// Get or set the kitchen form reference
         /// </summary>
         public static KitchenForm KitchenFormReference
         {
@@ -121,7 +121,7 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 获取或设置收银台窗体引用
+        /// Gets or sets the checkbox form reference
         /// </summary>
         public static GuestCheckForm GuestCheckFormReference
         {
@@ -130,16 +130,16 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 获取或设置餐厅实体
+        /// Get or set restaurant entities
         /// </summary>
         public static Restaurant RestaurantEntity
         {
             get;
             set;
         }
-        
+
         /// <summary>
-        /// 获取当前活跃的任务处理器向量
+        /// Gets the currently active task handler vector
         /// </summary>
         public static List<ITaskHandler> ActiveTaskHandlerList
         {
@@ -148,7 +148,7 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 获取状态机执行器字典
+        /// Get the state machine actuator dictionary
         /// </summary>
         public static Dictionary<int, SCXMLExecutor> executorDict
         {
@@ -157,22 +157,22 @@ namespace BOODemo.ViewModel
         }
 
         /// <summary>
-        /// 入口SCXML对象的引用
+        /// The reference to the entry SCXML object
         /// </summary>
         private static SCXML EntryPointSCXML = null;
 
         /// <summary>
-        /// 状态机执行器计数
+        /// State machine actuator count
         /// </summary>
         private static int executorCounter = 0;
-        
+
         /// <summary>
-        /// 桥接器
+        /// Engine Bridge
         /// </summary>
         private static EngineBridge engineBridge;
 
         /// <summary>
-        /// 消息处理器
+        /// Message handler
         /// </summary>
         private static StateMachineMessageHandler messageHandler;
     }

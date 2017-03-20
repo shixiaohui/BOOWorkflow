@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace BOODemo.TaskWarehouse
 {
     /// <summary>
-    /// 任务解决器：归档
+    /// Task Solver: Archiving
     /// </summary>
     internal sealed class ArchiveTaskHandler : TaskUtils.AbstractTaskHandler
     {
         /// <summary>
-        /// 开始处理任务
+        /// Start processing tasks
         /// </summary>
-        /// <returns>任务是否成功开始</returns>
+        /// <returns>Whether the task started successfully</returns>
         public override bool Begin()
         {
             // simulate archived, in producing environment this handler always saves data to DB
@@ -21,12 +21,12 @@ namespace BOODemo.TaskWarehouse
             }
             return this.isFinished = true;
         }
-        
+
         /// <summary>
-        /// 初始化任务处理器
+        /// Initialize the task processor
         /// </summary>
-        /// <param name="paraDict">参数字典，键是形参，键值是实参对象</param>
-        /// <returns>初始化任务是否成功</returns>
+        /// <param name="paraDict">Parameter dictionary, key is a parameter, value is a real object</param>
+        /// <returns>Whether the task initialized successfully</returns>
         public override bool Init(Dictionary<string, object> paraDict)
         {
             return true;
