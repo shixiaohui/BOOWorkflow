@@ -61,7 +61,7 @@ namespace BOODemo.TaskUtils
         /// <summary>
         /// Sets the state machine ID of the processor binding
         /// </summary>
-        /// <param name="execId">要绑定的状态机的ID</param>
+        /// <param name="execId">id of state machine to binding</param>
         virtual public void Binding(string execId)
         {
             this.bindingExecutorID = execId;
