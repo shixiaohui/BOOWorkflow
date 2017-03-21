@@ -19,7 +19,7 @@ namespace BOODemo.TaskUtils
         {
             var findHandlerName = String.Format("{0}Handler", taskName);
             var findType = TaskFactory.TypeVector.Find((x) => String.Compare(x.Name, findHandlerName, true) == 0);
-            // Reflects the creation of a task processor
+            // Creation a task processor by reflection
             if (findType != null)
             {
                 return (ITaskHandler)Activator.CreateInstance(findType);
@@ -48,7 +48,7 @@ namespace BOODemo.TaskUtils
         private static List<Type> TypeVector;
 
         /// <summary>
-        /// The task processor does not have an error
+        /// The task processor does not have exception
         /// </summary>
         private class TaskHandlerNotExistException : Exception
         {
