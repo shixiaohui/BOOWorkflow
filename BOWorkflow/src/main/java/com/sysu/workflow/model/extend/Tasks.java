@@ -21,14 +21,22 @@ public class Tasks implements Serializable {
     private List<Task> tasklist;
 
     /**
+     * The set of &lt;subProcess&gt; elements, parsed as Elements, that are
+     * children of this &lt;tasks&gt; element.
+     */
+    private List<SubProcess> processList;
+
+    /**
      * Constructor.
      */
     public Tasks() {
+
         this.tasklist = new ArrayList<Task>();
+        this.processList = new ArrayList<SubProcess>();
     }
 
     /**
-     * Get all the data children of this task container.
+     * Get all the task children of this tasks container.
      *
      * @return Returns the task.
      */
@@ -45,5 +53,18 @@ public class Tasks implements Serializable {
         if (taskObj != null) {
             this.tasklist.add(taskObj);
         }
+    }
+
+    /**
+     * Get all the process children of this tasks container.
+     * @return return the process list
+     */
+    public final List<SubProcess> getProcessList(){
+        return this.processList;
+    }
+
+    public final void addProcess(final SubProcess process){
+        if(process != null)
+            this.processList.add(process);
     }
 }

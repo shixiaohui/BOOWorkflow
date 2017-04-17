@@ -70,23 +70,37 @@ public class Call extends Action implements Serializable {
         SCXMLExecutionContext scxmlExecContext = (SCXMLExecutionContext)exctx.getInternalIOProcessor();
         Tasks tasks = scxmlExecContext.getSCXMLExecutor().getStateMachine().getTasks();
         if (tasks != null) {
-            List<Task> tLists = tasks.getTaskList();
+            List<Task> taskList = tasks.getTaskList();
+            List<SubProcess> processList = tasks.getProcessList();
             boolean successFlag = false;
-            for (Task t : tLists) {
-                if (t.getName().equals(this.name)) {
-                    // Send Message to APP
-                    String dasher = "";
-                    if (t.getRole() != null) {
-                        dasher = t.getRole();
-                    } else if (t.getAssignee() != null) {
-                        dasher = t.getAssignee();
+            if(!taskList.isEmpty()){
+                for (Task t : taskList) {
+                    //判断一个task的名字与当前call标签的name是否相同
+                    if (t.getName().equals(this.name)) {
+                        // Send Message to APP
+                        String dasher = "";
+                        if (t.getRole() != null) {
+                            dasher = t.getRole();
+                        } else if (t.getAssignee() != null) {
+                            dasher = t.getAssignee();
+                        }
+                        EngineBridge.QuickEnqueueBOMessage(scxmlExecContext.getSCXMLExecutor().getExecutorIndex(),
+                                this.name, this.params, dasher, t.getEvent());
+                        successFlag = true;
+                        break;
                     }
-                    EngineBridge.QuickEnqueueBOMessage(scxmlExecContext.getSCXMLExecutor().getExecutorIndex(),
-                            this.name, this.params, dasher, t.getEvent());
+                }
+            } else if(!processList.isEmpty()){
+                for(SubProcess sp : processList){
+                    //判断一个subprocess的名字与当前call标签的name是否相同
+                    if(sp.getName().equals(this.name)){
+                        System.out.println("invoke a sub process!!!!");
+                    }
                     successFlag = true;
                     break;
                 }
             }
+
             if (successFlag == false) {
                 throw new ModelException();
             }

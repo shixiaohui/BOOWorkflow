@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<businessclass
+        xmlns="http://www.w3.org/2005/07/scxml"
+        version="1.0"
+        name="GuestCheck"
+        initial="Pending">
+
+    <!-- “客户账单”业务对象类型的业务操作-->
+    <tasks>
+    <subprocess id="payment" name="paymentTask" event="paid" src=""></subprocess>
+    <task id="deliver" name="deliverTask" role="waiter" event="delivered"></task>
+    <task id="archive" name="archiveTask" role="agent" event="archived"></task>
+    </tasks>
+
+    <!-- “客户账单”业务对象类型的状态机模型-->
+    <state id="Pending">
+        <transition target="Paying">
+            <log label="start subprocess" expr="starting"></log>
+            <call name="paymentTask"></call>
+            <log label="end subprocess" expr="ending"></log>
+        </transition>
+    </state>
+
+    <state id="Paying">
+        <onentry>
+        <log label="enter paying" expr="starting Paying"></log>
+        </onentry>
+        <transition target="Archiving"></transition>
+    </state>
+
+    <state id="Archiving">
+        <onentry>
+            <log label="enter Archiving" expr="starting Archiving"></log>
+        </onentry>
+        <transition target="GCFinal">
+        </transition>
+    </state>
+    <final id="GCFinal">
+        <onentry>
+            <log label="enter GCFinal" expr="starting GCFinal"></log>
+        </onentry>
+    </final>
+</businessclass>
