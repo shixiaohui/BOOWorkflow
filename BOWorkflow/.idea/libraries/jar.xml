@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../yawl-4.1/build/jar/YawlControlPanel-4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../yawl-4.1/build/jar/YAWL_Standalone_4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../yawl-4.1/build/jar/procletEditor.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../yawl-4.1/build/jar/YResourceServiceClient.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../yawl-4.1/build/jar/yawl-lib-4.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

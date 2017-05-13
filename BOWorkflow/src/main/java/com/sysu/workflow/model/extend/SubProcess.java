@@ -1,15 +1,28 @@
 package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.ActionExecutionContext;
+import com.sysu.workflow.PathResolver;
 import com.sysu.workflow.SCXMLExpressionException;
 import com.sysu.workflow.model.Action;
 import com.sysu.workflow.model.ModelException;
+import com.sysu.workflow.model.NamelistHolder;
+import com.sysu.workflow.model.PathResolverHolder;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 子过程类，状态转移或进入动作调用一个子过程
+ * 子过程类，状态转移或进入动作时调用一个子过程
  * Created by LittleHuiHui on 2017/4/15.
  */
-public class SubProcess extends Action {
+public class SubProcess extends Action implements Serializable {
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 1L;
     /**
      * 子过程的ID
      */
@@ -19,68 +32,53 @@ public class SubProcess extends Action {
      */
     private String name;
     /**
-     * 过程绑定的事件
+     * 过程绑定的事件列表
      */
-    private String event;
+    private List<String> events;
     /**
-     * 子过程的xml描述文件
+     * yawl流程定义文件的路径
      */
     private String src;
     /**
-     * 过程调用开始时间，不需要用户定义的，调用过程时自动保存在数据库
+     * yawl流程文件的输入参数
      */
-    private String startTime;
-    /**
-     * 过程调用结束时间，不需要用户定义的，调用完成时自动保存在数据库
-     */
-    private String endTime;
+    Map<String, Object> payloadDataMap;
+
+
+    public SubProcess() {
+
+        this.events = new ArrayList<String>();
+        payloadDataMap = new LinkedHashMap<String, Object>();
+    }
+
+    public List<String> getEvents() {
+        return events;
+    }
 
     /**
-     *
-     * @return
+     *一个顺序流程对应一组可能的反馈事件
+     * @param events
      */
+    public void setEvent(String events) {
+        String[] possibleEvents = events.split(",");
+        for(String event : possibleEvents){
+            this.events.add(event);
+        }
+    }
     public String getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     */
     public void setId(String id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @param name
-     */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getEvent() {
-        return event;
-    }
-
-    /**
-     *
-     * @param event
-     */
-    public void setEvent(String event) {
-        this.event = event;
     }
 
     public String getSrc() {
@@ -91,24 +89,12 @@ public class SubProcess extends Action {
         this.src = src;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public Map<String, Object> getPayloadDataMap() {
+        return payloadDataMap;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    /**
-     *
-     * @param endTime
-     */
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setPayloadDataMap(Map<String, Object> payloadDataMap) {
+        this.payloadDataMap = payloadDataMap;
     }
 
     /**
