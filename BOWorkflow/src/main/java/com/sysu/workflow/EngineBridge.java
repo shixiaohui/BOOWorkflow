@@ -4,12 +4,13 @@ import com.sysu.workflow.entity.BOMessage;
 import com.sysu.workflow.model.ModelException;
 import javassist.NotFoundException;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
- * 桥类：为应用程序和引擎建立通讯接口
+ * 桥类：为状态机工作流引擎和YAWL引擎建立通讯接口
  * Created by Rinkako on 2017/3/7 0007.
  */
 public class EngineBridge {
@@ -116,14 +117,29 @@ public class EngineBridge {
      * 将一个任务作为消息放入发送到应用程序的队列中
      * @param execIdx 触发消息的执行器id
      * @param taskName 任务名称
-     * @param paramStr 参数字符串
+     * @param params 任务的输入参数
      * @param roleName 角色名称
      * @param callbackEv 处理完成的事件名
      */
-    public static void QuickEnqueueBOMessage(String execIdx, String taskName, String paramStr, String roleName, String callbackEv) {
+    public static void QuickEnqueueBOMessage(String execIdx, String taskName, Map<String, Object> params, String roleName, String callbackEv) {
         BOMessage boMsg = new BOMessage();
-        boMsg.AddMessageItem(execIdx, taskName, paramStr, roleName, callbackEv);
+        boMsg.AddMessageItem(execIdx, taskName, params, roleName, callbackEv);
         EngineBridge.GetInstance().EnqueueBOMessage(boMsg);
+    }
+
+    /**
+     *将一个子流程作为消息放入发送到YAWL引擎的队列中
+     * @param execIdx 触发这个消息的执行器在应用程序里的索引号（业务对象实例ID）
+     * @param processName 子流程名称
+     * @param processSrc 流程定义文件的绝对路径
+     * @param params 传入子流程的输入参数
+     * @param callbackEventList 子流程处理完可能返回的事件列表
+     */
+    public static void QuickEnqueueBOMessage(String execIdx, String processName, String processSrc, Map<String, Object> params, List<String> callbackEventList){
+        File file = new File(processSrc);
+        BOMessage boMessage = new BOMessage();
+        boMessage.addProcessMessageItem(execIdx, processName, processSrc,file, params, callbackEventList);
+        EngineBridge.GetInstance().EnqueueBOMessage(boMessage);
     }
 
     /**
