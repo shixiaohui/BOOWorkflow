@@ -351,7 +351,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * @param eventdispatcher The event dispatcher to set, if null a SimpleDispatcher instance will be used instead
      */
     protected void setEventdispatcher(EventDispatcher eventdispatcher) {
-        this.eventdispatcher = eventdispatcher != null ? eventdispatcher : new SimpleDispatcher();
+            this.eventdispatcher = eventdispatcher != null ? eventdispatcher : new SimpleDispatcher();
     }
 
     /**

@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import javax.security.auth.login.Configuration;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.*;
@@ -236,6 +237,7 @@ public final class SCXMLReader {
     private static final String ELEM_BOO_TASK = "task";
     private static final String ELEM_BOO_CALL = "call";
     private static final String ELEM_BOO_NEWBO = "newbo";
+    private static final String ELEM_BOO_SUBPROCESS = "subprocess";
 
 
 
@@ -1082,7 +1084,7 @@ public final class SCXMLReader {
     private static void readTasks(final XMLStreamReader reader, final Configuration configuration,
                                       final SCXML scxml, final TransitionalState parent)
             throws XMLStreamException, ModelException {
-        Tasks tks = new Tasks();
+        Tasks tasks = new Tasks();
         loop:
         while (reader.hasNext()) {
             String name, nsURI;
@@ -1093,7 +1095,9 @@ public final class SCXMLReader {
                     name = reader.getLocalName();
                     if (XMLNS_SCXML.equals(nsURI)) {
                         if (ELEM_BOO_TASK.equals(name)) {
-                            readTask(reader, configuration, tks);
+                            readTask(reader, configuration, tasks);
+                        } else if(ELEM_BOO_SUBPROCESS.equals(name)) {
+                            readSubProcess(reader, configuration, tasks);
                         } else {
                             reportIgnoredElement(reader, configuration, ELEM_BOO_TASKS, nsURI, name);
                         }
@@ -1107,7 +1111,7 @@ public final class SCXMLReader {
                 default:
             }
         }
-        scxml.setTasks(tks);
+        scxml.setTasks(tasks);
     }
 
     /**
@@ -1161,6 +1165,20 @@ public final class SCXMLReader {
         tk.setEvent(readRequiredAV(reader, ELEM_BOO_TASK, ATTR_EVENT));
         readNamespaces(configuration, tk);
         tasks.addTask(tk);
+        skipToEndElement(reader);
+    }
+
+    private static void readSubProcess(final XMLStreamReader reader, final Configuration configuration, final Tasks tasks)
+        throws XMLStreamException, ModelException {
+        SubProcess subprocess = new SubProcess();
+
+        subprocess.setId(readRequiredAV(reader, ELEM_BOO_SUBPROCESS, ATTR_ID));
+        subprocess.setName(readAV(reader, ATTR_NAME));
+        subprocess.setEvent(readRequiredAV(reader, ELEM_BOO_TASK, ATTR_EVENT));
+        subprocess.setSrc(readAV(reader, ATTR_SRC));
+
+        readNamespaces(configuration, subprocess);
+        tasks.addProcess(subprocess);
         skipToEndElement(reader);
     }
 

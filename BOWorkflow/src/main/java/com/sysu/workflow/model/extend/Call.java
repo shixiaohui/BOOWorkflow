@@ -1,31 +1,27 @@
 package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
-import com.sysu.workflow.model.Action;
-import com.sysu.workflow.model.ModelException;
+import com.sysu.workflow.model.*;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Call标签类
  * Created by Rinkako on 2017/3/8.
  */
-public class Call extends Action implements Serializable {
+public class Call extends ParamsContainer implements Serializable {
     /**
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     * The name of task to call
+     * The name of the task or the sub process to call
      */
     private String name;
-
-    /**
-     * The parameter string
-     */
-    private String params;
 
     /**
      * Get the value of name
@@ -43,21 +39,6 @@ public class Call extends Action implements Serializable {
         this.name = name;
     }
 
-    /**
-     * Get the value of params
-     * @return the task parameter string
-     */
-    public String getParams() {
-        return params;
-    }
-
-    /**
-     * Set the value of params
-     * @param params the task patameter
-     */
-    public void setParams(String params) {
-        this.params = params;
-    }
 
     /**
      * Execute RPC
@@ -68,25 +49,48 @@ public class Call extends Action implements Serializable {
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
         SCXMLExecutionContext scxmlExecContext = (SCXMLExecutionContext)exctx.getInternalIOProcessor();
+        EnterableState parentState = getParentEnterableState();
+        Context ctx = exctx.getContext(parentState);
+        ctx.setLocal(getNamespacesKey(), getNamespaces());
+        Map<String, Object> payloadDataMap = new LinkedHashMap<String,Object>();
+        addParamsToPayload(exctx, payloadDataMap);
+
+
         Tasks tasks = scxmlExecContext.getSCXMLExecutor().getStateMachine().getTasks();
         if (tasks != null) {
-            List<Task> tLists = tasks.getTaskList();
+            List<Task> taskList = tasks.getTaskList();
+            List<SubProcess> processList = tasks.getProcessList();
             boolean successFlag = false;
-            for (Task t : tLists) {
-                if (t.getName().equals(this.name)) {
-                    // Send Message to APP
-                    String dasher = "";
-                    if (t.getRole() != null) {
-                        dasher = t.getRole();
-                    } else if (t.getAssignee() != null) {
-                        dasher = t.getAssignee();
+            if(!taskList.isEmpty()){
+                for (Task t : taskList) {
+                    //判断一个task的名字与当前call标签的name是否相同
+                    if (t.getName().equals(this.name)) {
+                        // Send Message to APP
+                        String dasher = "";
+                        if (t.getRole() != null) {
+                            dasher = t.getRole();
+                        } else if (t.getAssignee() != null) {
+                            dasher = t.getAssignee();
+                        }
+                        EngineBridge.QuickEnqueueBOMessage(scxmlExecContext.getSCXMLExecutor().getExecutorIndex(),
+                                this.name, payloadDataMap, dasher, t.getEvent());
+                        successFlag = true;
+                        break;
                     }
-                    EngineBridge.QuickEnqueueBOMessage(scxmlExecContext.getSCXMLExecutor().getExecutorIndex(),
-                            this.name, this.params, dasher, t.getEvent());
-                    successFlag = true;
-                    break;
+                }
+            } else if(!processList.isEmpty()){
+                for(SubProcess subProcess : processList){
+                    //判断一个subprocess的名字与当前call标签的subprocess的name是否相同
+                    if(subProcess.getName().equals(this.name)){
+                        EngineBridge.QuickEnqueueBOMessage(scxmlExecContext.getSCXMLExecutor().getExecutorIndex(),
+                                this.name, subProcess.getSrc(),payloadDataMap, subProcess.getEvents());
+                        System.out.println("test : begin invoking a sub process!!!!");
+                        successFlag = true;
+                        break;
+                    }
                 }
             }
+
             if (successFlag == false) {
                 throw new ModelException();
             }

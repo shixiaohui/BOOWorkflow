@@ -10,18 +10,6 @@ import com.sysu.workflow.model.ModelException;
  */
 public class ServiceTask extends Action {
 
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
 
