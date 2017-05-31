@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/BOWorkflow/BOWorkflow.iml" filepath="$PROJECT_DIR$/BOWorkflow/BOWorkflow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModelChecker/ModelChecker.iml" filepath="$PROJECT_DIR$/ModelChecker/ModelChecker.iml" />
       <module fileurl="file://$PROJECT_DIR$/BOWorkflow/src/main/main.iml" filepath="$PROJECT_DIR$/BOWorkflow/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BOWorkflow/src/main/main1.iml" filepath="$PROJECT_DIR$/BOWorkflow/src/main/main1.iml" />
       <module fileurl="file://$PROJECT_DIR$/BOWorkflow/src/test/test.iml" filepath="$PROJECT_DIR$/BOWorkflow/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BOWorkflow/src/test/test1.iml" filepath="$PROJECT_DIR$/BOWorkflow/src/test/test1.iml" />
     </modules>
   </component>
 </project>

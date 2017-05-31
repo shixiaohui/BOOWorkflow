@@ -5,16 +5,21 @@
         name="GuestCheck"
         initial="Pending">
 
+    <!-- “客户账单”业务对象类型的业务数据-->
+    <datamodel>
+        <data id="total" expr="0"></data>
+        <data id="cash" expr="0"></data>
+        <data id="change" expr="0"></data>
+    </datamodel>
     <!-- “客户账单”业务对象类型的业务操作-->
     <tasks>
-    <subprocess id="payment" name="paymentTask" event="paid" src=""></subprocess>
-    <task id="deliver" name="deliverTask" role="waiter" event="delivered"></task>
-    <task id="archive" name="archiveTask" role="agent" event="archived"></task>
+        <subprocess id="payment" name="paymentTask" event="paid" src=""></subprocess>
+        <task id="deliver" name="deliverTask" role="waiter" event="delivered"></task>
+        <task id="archive" name="archiveTask" role="agent" event="archived"></task>
     </tasks>
-
     <!-- “客户账单”业务对象类型的状态机模型-->
     <state id="Pending">
-        <transition target="Paying">
+        <transition event="pick" target="Paying">
             <log label="start subprocess" expr="starting"></log>
             <call name="paymentTask"></call>
             <log label="end subprocess" expr="ending"></log>
@@ -22,22 +27,20 @@
     </state>
 
     <state id="Paying">
-        <onentry>
-        <log label="enter paying" expr="starting Paying"></log>
-        </onentry>
-        <transition target="Archiving"></transition>
+        <transition event="paid" target="Archiving">
+            <assign location="total" expr="_event.data.total"></assign>
+            <assign location="cash" expr="_event.data.cash"></assign>
+            <assign location="change" expr="_event.data.change"></assign>
+        </transition>
     </state>
 
     <state id="Archiving">
         <onentry>
-            <log label="enter Archiving" expr="starting Archiving"></log>
+            <call name="archiveTask"></call>
         </onentry>
-        <transition target="GCFinal">
+        <transition event="archived" target="GCFinal">
+            <send event="finish" type="scxml" messageMode="TO_PARENT"></send>
         </transition>
     </state>
-    <final id="GCFinal">
-        <onentry>
-            <log label="enter GCFinal" expr="starting GCFinal"></log>
-        </onentry>
-    </final>
+    <final id="GCFinal"></final>
 </businessclass>
