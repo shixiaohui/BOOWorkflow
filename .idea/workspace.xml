@@ -20,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RouterAdapter.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/RouterAdapter.java">
+      <file leaf-file-name="IRouterAdapter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/IRouterAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="194" column="28" lean-forward="true" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+            <state relative-caret-position="-105">
+              <caret line="76" column="7" lean-forward="true" selection-start-line="76" selection-start-column="7" selection-end-line="76" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -33,18 +33,8 @@
       <file leaf-file-name="WorkQueueGatewayClientAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGatewayClientAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="391" column="48" lean-forward="false" selection-start-line="391" selection-start-column="48" selection-end-line="391" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ResourceMarshaller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/ResourceMarshaller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="112" column="30" lean-forward="false" selection-start-line="112" selection-start-column="30" selection-end-line="112" selection-end-column="30" />
+            <state relative-caret-position="328">
+              <caret line="506" column="32" lean-forward="false" selection-start-line="506" selection-start-column="32" selection-end-line="506" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -53,48 +43,78 @@
       <file leaf-file-name="WorkQueueGatewayClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGatewayClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="380" column="18" lean-forward="false" selection-start-line="380" selection-start-column="18" selection-end-line="380" selection-end-column="18" />
+            <state relative-caret-position="349">
+              <caret line="544" column="32" lean-forward="false" selection-start-line="544" selection-start-column="32" selection-end-line="544" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkQueueGateway.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGateway.java">
+      <file leaf-file-name="YSpecificationID.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/YSpecificationID.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="463" column="8" lean-forward="true" selection-start-line="463" selection-start-column="8" selection-end-line="463" selection-end-column="8" />
+            <state relative-caret-position="212">
+              <caret line="51" column="29" lean-forward="false" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Participant.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/resource/Participant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="442" column="18" lean-forward="false" selection-start-line="442" selection-start-column="18" selection-end-line="442" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QueueSet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/QueueSet.java">
+      <file leaf-file-name="AbstractEngineClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/util/AbstractEngineClient.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="338">
-              <caret line="141" column="28" lean-forward="false" selection-start-line="141" selection-start-column="28" selection-end-line="141" selection-end-column="28" />
+              <caret line="317" column="49" lean-forward="false" selection-start-line="317" selection-start-column="49" selection-end-line="317" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkQueue.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/WorkQueue.java">
+      <file leaf-file-name="InterfaceA_EnvironmentBasedClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/interfaceA/InterfaceA_EnvironmentBasedClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="47" column="28" lean-forward="false" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
+            <state relative-caret-position="233">
+              <caret line="59" column="35" lean-forward="false" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InterfaceA_EngineBasedServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/interfaceA/InterfaceA_EngineBasedServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="123" column="51" lean-forward="false" selection-start-line="123" selection-start-column="51" selection-end-line="123" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EngineGateway.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/EngineGateway.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="163" column="11" lean-forward="false" selection-start-line="163" selection-start-column="11" selection-end-line="163" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EngineGatewayImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/EngineGatewayImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="725">
+              <caret line="1038" column="19" lean-forward="true" selection-start-line="1038" selection-start-column="19" selection-end-line="1038" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Interface_Client.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/Interface_Client.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -116,9 +136,11 @@
       <find>Participant</find>
       <find>getParticipantFromUserID</find>
       <find>getparticipant</find>
-      <find>Accept</find>
       <find>acceptOffer</find>
       <find>allocate</find>
+      <find>uploadSpecification</find>
+      <find>launchCase</find>
+      <find>Accept</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -138,6 +160,7 @@
         <option value="$PROJECT_DIR$/BOWorkflow/src/test/java/com/sysu/workflow/io/SCXMLReaderTest.java" />
         <option value="$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/WorkflowAdapter.java" />
         <option value="$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/RouterAdapter.java" />
+        <option value="$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/IRouterAdapter.java" />
       </list>
     </option>
   </component>
@@ -157,7 +180,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1924" />
+    <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -380,6 +403,84 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="rsInterface" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BOOWorkflow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yawl-4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yawl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BOOWorkflow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yawl-4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yawl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interfce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BOOWorkflow" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yawl-4.1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yawl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interfce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interfaceA" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -964,7 +1065,7 @@
       <updated>1496239968174</updated>
       <workItem from="1496239970875" duration="363000" />
       <workItem from="1496240414578" duration="7134000" />
-      <workItem from="1496281445077" duration="15809000" />
+      <workItem from="1496281445077" duration="18720000" />
     </task>
     <servers />
   </component>
@@ -980,10 +1081,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23306000" />
+    <option name="totallyTimeSpent" value="26217000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1924" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1007,7 +1108,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12526205" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12447917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1344,34 +1445,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGatewayClient.java">
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGateway.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="380" column="18" lean-forward="false" selection-start-line="380" selection-start-column="18" selection-end-line="380" selection-end-column="18" />
+        <state relative-caret-position="349">
+          <caret line="326" column="58" lean-forward="true" selection-start-line="326" selection-start-column="58" selection-end-line="326" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/util/AbstractEngineClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="317" column="49" lean-forward="false" selection-start-line="317" selection-start-column="49" selection-end-line="317" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/Interface_Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/interfaceA/InterfaceA_EnvironmentBasedClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="59" column="35" lean-forward="false" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/interfaceA/InterfaceA_EngineBasedServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="123" column="51" lean-forward="false" selection-start-line="123" selection-start-column="51" selection-end-line="123" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/EngineGateway.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="163" column="11" lean-forward="false" selection-start-line="163" selection-start-column="11" selection-end-line="163" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/interfce/EngineGatewayImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="725">
+          <caret line="1038" column="19" lean-forward="true" selection-start-line="1038" selection-start-column="19" selection-end-line="1038" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGatewayClientAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="391" column="48" lean-forward="false" selection-start-line="391" selection-start-column="48" selection-end-line="391" selection-end-column="48" />
+        <state relative-caret-position="328">
+          <caret line="506" column="32" lean-forward="false" selection-start-line="506" selection-start-column="32" selection-end-line="506" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGateway.java">
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/resourcing/rsInterface/WorkQueueGatewayClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="463" column="8" lean-forward="true" selection-start-line="463" selection-start-column="8" selection-end-line="463" selection-end-column="8" />
+        <state relative-caret-position="349">
+          <caret line="544" column="32" lean-forward="false" selection-start-line="544" selection-start-column="32" selection-end-line="544" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/RouterAdapter.java">
+    <entry file="file://$PROJECT_DIR$/yawl-4.1/src/org/yawlfoundation/yawl/engine/YSpecificationID.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="194" column="28" lean-forward="true" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+        <state relative-caret-position="212">
+          <caret line="51" column="29" lean-forward="false" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BOWorkflow/src/main/java/com/sysu/workflow/IRouterAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-105">
+          <caret line="76" column="7" lean-forward="true" selection-start-line="76" selection-start-column="7" selection-end-line="76" selection-end-column="7" />
           <folding />
         </state>
       </provider>
