@@ -9,20 +9,51 @@ import com.sysu.workflow.model.SCXML;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Unit tests
  */
 public class SCXMLReaderTest {
 
+    public static synchronized String encrypt(String text)
+            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        md.update(text.getBytes("UTF-8"));
+        byte raw[] = md.digest();
+        return new Base64(-1).encodeToString(raw);            // -1 means no line breaks
+    }
+
+
+    public static synchronized String encrypt(String text, String defText) {
+        if (defText == null) defText = text;
+        try {
+            return encrypt(text);
+        }
+        catch (Exception e) {
+            return defText;
+        }
+    }
+
+
+
+
+
 
 
     @Test
     public void testSCXMLReader() throws Exception {
+
+        String str = "YAWL";
+        String tt = encrypt(str);
+
         //URL url = SCXMLTestHelper.getResource("helloworld.xml");
         URL url = new URL("file", "", "D:\\Documents\\GitProject\\BOOWorkflow\\BOWorkflow\\target\\classes\\GuestOrder.xml");
         SCXML scxml = new SCXMLReader().read(url);
