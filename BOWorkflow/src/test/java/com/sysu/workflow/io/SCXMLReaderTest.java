@@ -51,6 +51,14 @@ public class SCXMLReaderTest {
     @Test
     public void testSCXMLReader() throws Exception {
 
+        EngineClient ec = new EngineClient();
+        Map<String, String> args = new HashMap<String, String>();
+        args.put("action", "connect");
+        args.put("userid", "admin");
+        args.put("password", "2333333");
+        ec.executeGet("http://localhost:8827/gateway", args);
+
+
         String str = "YAWL";
         String tt = encrypt(str);
 
