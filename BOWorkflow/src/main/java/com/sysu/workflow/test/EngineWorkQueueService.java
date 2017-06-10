@@ -1,6 +1,6 @@
 //package com.sysu.workflow.test;
 //
-//import com.sysu.workflow.EngineBridge;
+//import com.sysu.workflow.bridge.EngineBridge;
 //import org.yawlfoundation.yawl.resourcing.rsInterface.WorkQueueGatewayClientAdapter;
 //
 ///**

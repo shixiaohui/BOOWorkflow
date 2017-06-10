@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.bridge;
 
 /**
  * 为应用程序获取状态机的状态变化提供接口

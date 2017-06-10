@@ -1,12 +1,12 @@
-package com.sysu.workflow;
+package com.sysu.workflow.bridge;
 
+import com.sysu.workflow.SCXMLExecutor;
+import com.sysu.workflow.TriggerEvent;
 import com.sysu.workflow.entity.BOMessage;
 import com.sysu.workflow.model.ModelException;
-import javassist.NotFoundException;
 
 import java.io.File;
 import java.util.*;
-import java.util.concurrent.Exchanger;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
