@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.bridge;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 

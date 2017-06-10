@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOORoutering.cs" />
     <Compile Include="BOORouterServer.cs" />
     <Compile Include="BOORouterClient.cs" />
     <Compile Include="BOORouterTable.cs" />

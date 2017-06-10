@@ -2,6 +2,8 @@
 package com.sysu.workflow.io;
 
 import com.sysu.workflow.*;
+import com.sysu.workflow.bridge.EngineClient;
+import com.sysu.workflow.bridge.EngineServer;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.env.jexl.JexlEvaluator;
@@ -13,10 +15,21 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * Unit tests
@@ -56,9 +69,15 @@ public class SCXMLReaderTest {
         args.put("action", "connect");
         args.put("userid", "admin");
         args.put("password", "2333333");
-        ec.executeGet("http://localhost:8827/gateway", args);
+        //ec.executeGet("http://localhost:8827/gateway", args);
+        EngineServer.AsyncBeginAccept();
 
 
+        while (true){
+            Thread.sleep(10);
+        }
+
+/*
         String str = "YAWL";
         String tt = encrypt(str);
 
@@ -100,6 +119,7 @@ public class SCXMLReaderTest {
         executor.triggerEvent(tEvt);
 
         Assert.assertNotNull(scxml);
+        */
     }
 
     public class EventDataPackage {

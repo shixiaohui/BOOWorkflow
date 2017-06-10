@@ -166,14 +166,14 @@ namespace BOORouter
                 {
                     StreamReader sr = new StreamReader(request.Request.InputStream);
                     var argsItem = sr.ReadToEnd().Split('&');
-                    HttpListenerPostValueList.AddRange(from argKVP in argsItem
-                        select argKVP.Split('=')
-                        into kvp
-                        where kvp.Length == 2
+                    HttpListenerPostValueList.AddRange(
+                        from argKVP in argsItem
+                        let argSplitIdx = argKVP.IndexOf('=')
+                        where argSplitIdx != -1 && argKVP.Length > argSplitIdx
                         select new HttpListenerPostValue()
                         {
-                            Key = kvp[0],
-                            PureString = kvp[1]
+                            Key = argKVP.Substring(0, argSplitIdx),
+                            PureString = argKVP.Substring(argSplitIdx + 1, argKVP.Length - argSplitIdx - 1)
                         });
                 }
                 else if (request.Request.ContentType.Length > 20 && string.Compare(request.Request.ContentType.Substring(0, 20), "multipart/form-data;", true) == 0)

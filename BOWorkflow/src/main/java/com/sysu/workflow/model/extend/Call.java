@@ -1,6 +1,7 @@
 package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
+import com.sysu.workflow.bridge.EngineBridge;
 import com.sysu.workflow.model.*;
 
 import java.io.Serializable;

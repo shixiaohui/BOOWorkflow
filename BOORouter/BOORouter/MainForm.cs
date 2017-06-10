@@ -17,10 +17,21 @@ namespace BOORouter
         {
             InitializeComponent();
             BOORouterServer server = new BOORouterServer();
-            Thread t = new Thread(new ThreadStart(server.BeginAsyncAccept)) {IsBackground = true};
+            var t = new Thread(new ThreadStart(server.BeginAsyncAccept)) {IsBackground = true};
             t.Start();
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //http://localhost:8080/resourceService/gateway?action=connect&userid=admin&password=Se4tMaQCi9gr0Q2usp7P56Sk5vM=
+            var args = new Dictionary<string, string>
+            {
+                {"action", "connect"},
+                {"userid", "admin"},
+                {"password", "Se4tMaQCi9gr0Q2usp7P56Sk5vM="}
+            };
+            BOORouterClient.PostAndFetch("http://localhost:8080/resourceService/gateway", args, out string res);
+            Console.WriteLine(res);
+        }
     }
 }

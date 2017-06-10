@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.bridge;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -24,7 +24,6 @@ public class EngineClient {
      */
     public String executePost(String urlStr, Map<String, String> paramsMap)
             throws IOException {
-
         return send(urlStr, paramsMap, true);
     }
 
@@ -39,7 +38,6 @@ public class EngineClient {
      */
     public String executeGet(String urlStr, Map<String, String> paramsMap)
             throws IOException {
-
         return send(urlStr, paramsMap, false);
     }
 
