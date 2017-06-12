@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.bridge;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
@@ -6,7 +6,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
  * 为状态机引擎提供与消息处理路由的接口
  * Created by Rinkako on 2017/5/24.
  */
-public interface RouterAdapter {
+public interface IRouterAdapter {
     /* Methods of Connection */
     /**
      * 连接SCXML引擎到消息处理路由
@@ -42,6 +42,97 @@ public interface RouterAdapter {
      * @return 操作是否成功
      */
     Boolean GetParticipantFromUserID(String handle, String username, StringBuilder outResult);
+
+    /* Methods of Case */
+    /**
+     * 上传一个过程描述文件
+     * @param handle 连接句柄
+     * @param filePath 过程描述文件在本地的绝对路径（含文件名）
+     * @param fileName 过程描述文件的文件名
+     * @param outResult [out] 执行结果
+     * @return 操作是否成功
+     */
+    Boolean UploadSpecificationFile(String handle, String filePath, String fileName, StringBuilder outResult);
+
+    /**
+     * 卸载一个过程
+     * 关于第2到第4个参数的意义，请参考YSpecificationID的toMap方法
+     * @param handle 连接句柄
+     * @param specidentifier a system generated UUID string
+     * @param specversion verion
+     * @param specuri the user-defined name
+     * @param outResult [out] 执行结果
+     * @return 操作是否成功
+     */
+    Boolean UnloadSpecification(String handle, String specidentifier, String specversion, String specuri, StringBuilder outResult);
+
+    /**
+     * 获取当前加载的过程
+     * @param handle 连接句柄
+     * @param outResult [out] 当前加载的过程集合的串表达
+     * @return 操作是否成功
+     */
+    Boolean GetLoadedSpecificationList(String handle, StringBuilder outResult);
+
+    /**
+     * 获取一个过程的数据
+     * 关于第2到第4个参数的意义，请参考YSpecificationID的toMap方法
+     * @param handle 连接句柄
+     * @param specidentifier a system generated UUID string
+     * @param specversion verion
+     * @param specuri the user-defined name
+     * @param outResult [out] 数据的XML格式串
+     * @return 操作是否成功
+     */
+    Boolean GetSpecificationData(String handle, String specidentifier, String specversion, String specuri, StringBuilder outResult);
+
+    /**
+     * 获取一个过程的名称
+     * 关于第2到第4个参数的意义，请参考YSpecificationID的toMap方法
+     * @param handle 连接句柄
+     * @param specidentifier a system generated UUID string
+     * @param specversion verion
+     * @param specuri the user-defined name
+     * @param outResult [out] 过程名称
+     * @return 操作是否成功
+     */
+    Boolean GetSpecificationName(String handle, String specidentifier, String specversion, String specuri, StringBuilder outResult);
+
+
+    /**
+     * 启动一个已经上传的过程描述文件
+     * 关于第2到第4个参数的意义，请参考YSpecificationID的toMap方法
+     * @param handle 连接句柄
+     * @param specidentifier a system generated UUID string
+     * @param specversion verion
+     * @param specuri the user-defined name
+     * @param outResult [out] 执行结果
+     * @return 操作是否成功
+     */
+    Boolean launchCase(String handle, String specidentifier, String specversion, String specuri, StringBuilder outResult);
+
+    /**
+     * 获取指定流程的所有运行中的案例
+     * 关于第2到第4个参数的意义，请参考YSpecificationID的toMap方法
+     * @param handle 连接句柄
+     * @param specidentifier a system generated UUID string
+     * @param specversion verion
+     * @param specuri the user-defined name
+     * @param outResult [out] 执行结果
+     * @return 操作是否成功
+     */
+    Boolean GetRunningCases(String handle, String specidentifier, String specversion, String specuri, StringBuilder outResult);
+
+    /**
+     * 取消一个Case
+     * @param handle 连接句柄
+     * @param caseId Case的Id
+     * @param outResult [out] 执行结果
+     * @return 操作是否成功
+     */
+    Boolean CancelCase(String handle,  String caseId, StringBuilder outResult);
+
+
 
     /* Methods of WorkQueue */
     /**
@@ -199,4 +290,6 @@ public interface RouterAdapter {
      * @return 操作是否成功
      */
     Boolean GetWorkItemDataSchemaByIid(String handle, String itemId, StringBuilder outResult);
+
+
 }
